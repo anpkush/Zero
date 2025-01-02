@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="nav">#878484</color>
+    <color name="white">#FFFFFFFF</color>
+
+
+    <color name="splashColor">#73C7A2</color>
+    <color name="strokeColor">#C2F697</color>
+    <color name="titleColor">#6CB1DB</color>
+    <color name="status_Color">#F4FAFD</color>
+    <color name="searchText">#AEB0B1</color>
+    <color name="gray">#A2A0A0</color>
+    <color name="nav_color">#004572</color>
+    <color name="green">#3B9E34</color>
+
+
+    <color name="pink">#B9DB72BD</color>
+    <color name="royal_blue">#4169E1</color>
+    <color name="orcid">#DA70D6</color>
+    <color name="red_orange">#FF5349</color>
+    <color name="plum">#DDA0DD</color>
+    <color name="wild_strawberry">#ff43a4 </color>
+    <color name="peach">#FFE5B4</color>
+    <color name="sea_green">#80EF80</color>
+    <color name="dark_see_green">#8FBC8B </color>
+    <color name="cadet_blue">#8FBC8B </color>
+    <color name="new_cadet_blue">#43a047 </color>
+    <color name="light_steel_blue">#B0C4DE </color>
+    <color name="thistle">#d8bfd8 </color>
+    <color name="purple">#800080 </color>
+    <color name="purple_monester">#461B7E </color>
+    <color name="memory">#de6262  </color>
+    <color name="cherry">#eb3349  </color>
+    <color name="pinky">#dd5e89</color>
+    <color name="kashmir">#614385 </color>
+    <color name="tranquil">#ef629f </color>
+    <color name="green_beach">#02aab0  </color>
+    <color name="sha_la">#d66d75   </color>
+    <color name="virgin_america">#7b4397</color>
+    <color name="endless_river">#185a9d</color>
+    <color name="purple_white">#ba5370</color>
+    <color name="bloody_marry">#dd2476</color>
+    <color name="bournbon">#ec6f66 </color>
+    <color name="dusk">#19547b </color>
+    <color name="decent">#4ca1af  </color>
+    <color name="celestial">#c33764</color>
+    <color name="sea_blue">#2b5876</color>
+    <color name="scooter">#5b86e5</color>
+    <color name="relay">#d76d77</color>
+    <color name="chestnuts">#FF5733</color>
+    <color name="push">#A95C68</color>
+    <color name="wine">#722F37</color>
+    <color name="color_dialogbox">#6680cbc4</color>
+</resources>

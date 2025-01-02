@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+
+    <application
+        android:name=".MyApplication"
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@drawable/iconscreen"
+        android:label="@string/app_name"
+        android:roundIcon="@drawable/iconscreen"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.ZeroBrokage"
+        tools:targetApi="31">
+        <activity
+            android:name=".ui.activity.InternetActivity"
+            android:exported="false"
+            android:theme="@style/Base.Theme.ZeroBrokage"/>
+        <activity
+            android:name=".ui.activity.UpdateAddressActivity"
+            android:exported="false"
+            android:theme="@style/Base.Theme.ZeroBrokage"/>
+        <activity
+            android:name=".ui.activity.CartActivity"
+            android:exported="false"
+            android:theme="@style/Base.Theme.ZeroBrokage" />
+        <activity
+            android:name=".ui.activity.AddAddressActivity"
+            android:exported="false"
+            android:theme="@style/Base.Theme.ZeroBrokage" />
+        <activity
+            android:name=".ui.activity.AddressActivity"
+            android:exported="false"
+            android:theme="@style/Base.Theme.ZeroBrokage" />
+        <activity
+            android:name=".ui.activity.EditProfileActivity"
+            android:exported="false"
+            android:theme="@style/Base.Theme.ZeroBrokage" />
+        <activity
+            android:name=".ui.activity.FAQsActivity"
+            android:exported="false"
+            android:theme="@style/Base.Theme.ZeroBrokage" />
+        <activity
+            android:name=".ui.activity.BookingActivity"
+            android:exported="false"
+            android:theme="@style/Base.Theme.ZeroBrokage"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".ui.activity.SubMenuActivity"
+            android:exported="false"
+            android:theme="@style/Base.Theme.ZeroBrokage" />
+        <activity
+            android:name=".ui.activity.OtpActivity"
+            android:exported="false"
+            android:theme="@style/Base.Theme.ZeroBrokage" />
+        <activity
+            android:name=".ui.activity.LoginActivity"
+            android:exported="false"
+            android:theme="@style/Base.Theme.ZeroBrokage" />
+        <activity
+            android:name=".ui.activity.HomeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.activity.SplashScreenActivity"
+            android:exported="true"
+            android:theme="@style/Base.Theme.ZeroBrokage">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>

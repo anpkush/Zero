@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "555899271039",
+    "project_id": "zero-brokage",
+    "storage_bucket": "zero-brokage.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:555899271039:android:3a032b32370fd233cd8c4a",
+        "android_client_info": {
+          "package_name": "com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCgoCY_QDbqHX3QATsTpyuW1_O27TMDwnc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

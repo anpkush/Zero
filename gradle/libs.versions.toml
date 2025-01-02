@@ -1,0 +1,71 @@
+[versions]
+agp = "8.5.2"
+androidPluginAnnotationV9 = "1.0.0"
+androidSdk = "10.0.2"
+androidSdkVersion = "9.5.0"
+ccp = "2.6.0’"
+ccpVersion = "2.1.2"
+glide = "4.15.1"
+hbb20Ccp = "2.6.1"
+imageslideshow = "0.1.2"
+kotlin = "1.9.0"
+coreKtx = "1.13.1"
+junit = "4.13.2"
+junitVersion = "1.2.1"
+espressoCore = "3.6.1"
+appcompat = "1.7.0"
+lib = "1.0.2"
+libVersion = "1.0.3"
+loggingInterceptor = "4.12.0"
+material = "1.12.0"
+activity = "1.9.2"
+constraintlayout = "2.1.4"
+materialVersion = "1.9.0"
+navigationFragmentKtx = "2.8.0"
+navigationUiKtx = "2.8.0"
+pinview = "1.4.4"
+pinviewVersion = "1.4.4"
+playServicesLocation = "21.3.0"
+playServicesLocationVersion = "21.0.1"
+pluginAnnotationV9 = "0.11.0"
+pluginMarkerviewV9 = "0.6.0"
+retrofit = "2.9.0"
+
+[libraries]
+android-plugin-annotation-v9 = { module = "org.maplibre.gl:android-plugin-annotation-v9", version.ref = "androidPluginAnnotationV9" }
+android-plugin-markerview-v9 = { module = "org.maplibre.gl:android-plugin-markerview-v9", version.ref = "androidPluginAnnotationV9" }
+android-sdk = { module = "org.maplibre.gl:android-sdk", version.ref = "androidSdk" }
+android-sdk-v950 = { module = "org.maplibre.gl:android-sdk", version.ref = "androidSdkVersion" }
+androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+ccp = { module = "‘com.hbb20:ccp", version.ref = "ccp" }
+ccp-v261 = { module = "com.hbb20:ccp", version.ref = "hbb20Ccp" }
+compiler = { module = "com.github.bumptech.glide:compiler", version.ref = "glide" }
+converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "retrofit" }
+glide = { module = "com.github.bumptech.glide:glide", version.ref = "glide" }
+hbb20-ccp = { module = "com.hbb20:ccp", version.ref = "ccpVersion" }
+imageslideshow = { module = "com.github.denzcoskun:ImageSlideshow", version.ref = "imageslideshow" }
+junit = { group = "junit", name = "junit", version.ref = "junit" }
+androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
+androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
+androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+lib = { module = "com.cepheuen.elegant-number-button:lib", version.ref = "lib" }
+lib-v103 = { module = "com.cepheuen.elegant-number-button:lib", version.ref = "libVersion" }
+logging-interceptor = { module = "com.squareup.okhttp3:logging-interceptor", version.ref = "loggingInterceptor" }
+material = { group = "com.google.android.material", name = "material", version.ref = "material" }
+androidx-activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
+androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
+androidx-navigation-fragment-ktx = { group = "androidx.navigation", name = "navigation-fragment-ktx", version.ref = "navigationFragmentKtx" }
+androidx-navigation-ui-ktx = { group = "androidx.navigation", name = "navigation-ui-ktx", version.ref = "navigationUiKtx" }
+material-v190 = { module = "com.google.android.material:material", version.ref = "materialVersion" }
+pinview = { module = "io.github.chaosleung:pinview", version.ref = "pinview" }
+play-services-location = { module = "com.google.android.gms:play-services-location", version.ref = "playServicesLocation" }
+play-services-location-v2101 = { module = "com.google.android.gms:play-services-location", version.ref = "playServicesLocationVersion" }
+plugin-annotation-v9 = { module = "org.maplibre.gl:plugin-annotation-v9", version.ref = "pluginAnnotationV9" }
+plugin-markerview-v9 = { module = "org.maplibre.gl:plugin-markerview-v9", version.ref = "pluginMarkerviewV9" }
+retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
+view-pinview = { module = "com.chaos.view:pinview", version.ref = "pinviewVersion" }
+
+[plugins]
+android-application = { id = "com.android.application", version.ref = "agp" }
+jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+
