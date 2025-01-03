@@ -4,6 +4,9 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.databinding.ActivityCartBinding
+import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.modelClass.GetCartAPI
+import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.retrofitClient.RetrofitInstance
+import okhttp3.Callback
 
 class CartActivity : AppCompatActivity() {
     private lateinit var binding: ActivityCartBinding
@@ -17,10 +20,10 @@ class CartActivity : AppCompatActivity() {
         }
         binding.toolbar.tvTitle.text = "Cart"
 
-        binding.btPlace.setOnClickListener {
-            val intent = Intent(this, BookingActivity::class.java)
-            startActivity(intent)
-        }
+        getCartItem()
+    }
+
+    private fun getCartItem() {
 
     }
 }

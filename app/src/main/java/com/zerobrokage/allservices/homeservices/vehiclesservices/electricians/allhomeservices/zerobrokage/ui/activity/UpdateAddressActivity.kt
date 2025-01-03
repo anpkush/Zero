@@ -1,6 +1,7 @@
 package com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.ui.activity
 
 import android.Manifest
+import android.R.attr.id
 import android.content.pm.PackageManager
 import android.location.Geocoder
 import android.os.Bundle
@@ -67,7 +68,7 @@ class UpdateAddressActivity : AppCompatActivity() {
             )
 
             // Call editAddress API
-            editAddress(2, editedAddress)
+            editAddress(id, editedAddress)
         }
     }
 

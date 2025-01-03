@@ -1,5 +1,6 @@
 package com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.ui.activity
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
@@ -26,9 +27,14 @@ class SubMenuActivity : AppCompatActivity(), ItemClickListener {
         val name = intent.getStringExtra("name") ?: "Unknown Service"
 
         binding.toolbar.ivBack.setOnClickListener {
-            onBackPressed()
+            onBackPressedDispatcher.onBackPressed()
         }
         binding.toolbar.ivCart.visibility = View.VISIBLE
+
+        binding.toolbar.ivCart.setOnClickListener{
+            val intent  = Intent(this, CartActivity::class.java)
+            startActivity(intent)
+        }
 
         getSubMenuApi(id, name)
     }

@@ -20,7 +20,8 @@ class FAQsActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.toolbar.ivBack.setOnClickListener {
-            onBackPressed()
+            onBackPressedDispatcher.onBackPressed()
+
         }
         binding.toolbar.tvTitle.text = "FAQs"
 

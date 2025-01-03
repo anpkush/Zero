@@ -8,6 +8,7 @@ import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.al
 import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.modelClass.EditAddresses
 import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.modelClass.EditProfile
 import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.modelClass.FAQsData
+import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.modelClass.GetCartAPI
 import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.modelClass.LoginRequest
 import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.modelClass.LoginResponse
 import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.modelClass.OtpRequest
@@ -69,8 +70,11 @@ interface ServicesInterface {
     @PUT("update-address/{id}")
     fun editAddress(@Path("id") id: Int, @Body editAddresses: EditAddresses): Call<EditAddresses>
 
-    @POST("cart/add")
-    fun addToCart(@Body cartApi: CartApi): Call<CartApi>
+    @POST("cart/add/{id}")
+    fun addToCart(@Path("id") id: Int, @Body cartApi: CartApi): Call<CartApi>
+
+    @GET("api/cart/{id}")
+    fun getCartItem():Call<GetCartAPI>
 
 
 }

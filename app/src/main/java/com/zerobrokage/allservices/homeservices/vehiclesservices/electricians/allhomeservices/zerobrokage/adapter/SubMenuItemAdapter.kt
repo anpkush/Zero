@@ -1,5 +1,6 @@
 package com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.adapter
 
+import android.R.attr.id
 import android.content.Context
 import android.os.Build
 import android.text.Html
@@ -82,7 +83,7 @@ class SubMenuItemAdapter(
             }
 
             binding.buttonMinus.setOnClickListener {
-                if (number > 0) {
+                if (number > 1) {
                     number--
                     updateUI()
                 }
@@ -91,18 +92,16 @@ class SubMenuItemAdapter(
             binding.btAddCart.setOnClickListener {
                 if (number > 0) {
                     val cartApi = CartApi(
-                        enquiries_id = data.id,
                         sub_menu_id = data.menu_id,
                         qty = number
                     )
-                    addCartApi(cartApi)
+                    addCartApi(id,cartApi)
                     adapter.addToCart(data.id, number)
                     Toast.makeText(context, "Added to cart: ${data.name}", Toast.LENGTH_SHORT).show()
                 } else {
                     Toast.makeText(context, "Quantity must be greater than 0!", Toast.LENGTH_SHORT).show()
                 }
             }
-
 
         }
 
@@ -111,10 +110,10 @@ class SubMenuItemAdapter(
             binding.btAddCart.isEnabled = number > 0
         }
 
-        private fun addCartApi(data: CartApi) {
-            val cartApi = CartApi(enquiries_id = data.enquiries_id, sub_menu_id = data.sub_menu_id, qty = number)
+        private fun addCartApi(id:Int,data: CartApi) {
+            val cartApi = CartApi(sub_menu_id = data.sub_menu_id, qty = number)
 
-            RetrofitInstance.apiService.addToCart(cartApi).enqueue(object : retrofit2.Callback<CartApi> {
+            RetrofitInstance.apiService.addToCart(id,cartApi).enqueue(object : retrofit2.Callback<CartApi> {
                 override fun onResponse(call: Call<CartApi>, response: retrofit2.Response<CartApi>) {
                     if (response.isSuccessful) {
                         Toast.makeText(context, "Item added to cart successfully!", Toast.LENGTH_SHORT).show()
