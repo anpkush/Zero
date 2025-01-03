@@ -24,34 +24,23 @@ class AllServicesAdapter(
 
         fun bind(currentItem: SubCatItemData, isSelected: Boolean) {
             binding.tvServicesName.text = currentItem.name
-            Glide.with(binding.ivServiceCategory.context)
-                .load(currentItem.icon)
-                .into(binding.ivServiceCategory)
-
+            Glide.with(binding.ivServiceCategory.context).load(currentItem.icon).into(binding.ivServiceCategory)
             if (isSelected) {
-                binding.root.setBackgroundColor(
-                    ContextCompat.getColor(binding.root.context, R.color.cadet_blue)
-                )
+                binding.root.setBackgroundColor(ContextCompat.getColor(binding.root.context, R.color.cadet_blue))
             } else {
-                binding.root.setBackgroundColor(
-                    ContextCompat.getColor(binding.root.context, android.R.color.transparent)
-                )
+                binding.root.setBackgroundColor(ContextCompat.getColor(binding.root.context, android.R.color.transparent))
             }
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyAllServicesViewHolder {
-        val binding =
-            ServicesItemviewBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding = ServicesItemviewBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return MyAllServicesViewHolder(binding)
     }
 
     override fun getItemCount(): Int = subCatList.size
 
-    override fun onBindViewHolder(
-        holder: MyAllServicesViewHolder,
-        @SuppressLint("RecyclerView") position: Int
-    ) {
+    override fun onBindViewHolder(holder: MyAllServicesViewHolder, @SuppressLint("RecyclerView") position: Int) {
         val currentItem = subCatList[position]
 
         holder.bind(currentItem, position == selectedPosition)

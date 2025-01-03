@@ -8,12 +8,10 @@ import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.al
 import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.modelClass.SubCatItemData
 
 class ServicesAdapter(
-    private val subCatArrayList: List<SubCatItemData>, private val mListener: ItemClickListener
-) : RecyclerView.Adapter<ServicesAdapter.ServicesViewHolder>() {
+    private val subCatArrayList: List<SubCatItemData>, private val mListener: ItemClickListener) : RecyclerView.Adapter<ServicesAdapter.ServicesViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ServicesViewHolder {
-        val binding =
-            ServicesItemviewBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding = ServicesItemviewBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ServicesViewHolder(binding)
     }
 

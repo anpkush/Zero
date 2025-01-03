@@ -14,8 +14,7 @@ class BottomMenuAdapter(
 ) : RecyclerView.Adapter<BottomMenuAdapter.MenuViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MenuViewHolder {
-        val binding =
-            MenuCardItemviewBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding = MenuCardItemviewBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return MenuViewHolder(binding)
     }
 
