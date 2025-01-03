@@ -8,14 +8,12 @@ import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.al
 import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.databinding.MenuCardItemviewBinding
 
 class TrendingAdapter(
-    private val subCatArrayList: List<SubCatItemData>, private val mListener: ItemClickListener
-) : RecyclerView.Adapter<TrendingAdapter.TrendingViewHolder>() {
+    private val subCatArrayList: List<SubCatItemData>, private val mListener: ItemClickListener) : RecyclerView.Adapter<TrendingAdapter.TrendingViewHolder>() {
 
     private val trendingItems = subCatArrayList.filter { it.trending == 1 }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TrendingViewHolder {
-        val binding =
-            MenuCardItemviewBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding = MenuCardItemviewBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return TrendingViewHolder(binding)
     }
 

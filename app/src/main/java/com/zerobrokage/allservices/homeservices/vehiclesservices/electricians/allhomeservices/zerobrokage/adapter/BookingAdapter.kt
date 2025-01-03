@@ -6,20 +6,15 @@ import androidx.recyclerview.widget.RecyclerView
 import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.databinding.BookingStatusCardviewBinding
 import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.modelClass.SubCatItemData
 
-class BookingAdapter(private val subCatList: List<SubCatItemData>) :
-    RecyclerView.Adapter<BookingAdapter.MyViewHolder>() {
-
-    class MyViewHolder(private val binding: BookingStatusCardviewBinding) :
-        RecyclerView.ViewHolder(binding.root) {
-
+class BookingAdapter(private val subCatList: List<SubCatItemData>) : RecyclerView.Adapter<BookingAdapter.MyViewHolder>() {
+    class MyViewHolder(private val binding: BookingStatusCardviewBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(currentItem: SubCatItemData) {
 
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-        val binding =
-            BookingStatusCardviewBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding = BookingStatusCardviewBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return MyViewHolder(binding)
     }
 

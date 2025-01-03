@@ -23,9 +23,7 @@ class SavedAddressesAdapter(
             binding.tvUserName.text = data.name
             binding.tvUserMobileNo.text = data.mobile_number
             binding.workLabel.text = data.type
-            binding.tvUserAddresses.text =
-                "${data.house_number}, ${data.road_name}, ${data.city}, ${data.state}, ${data.pincode}"
-
+            binding.tvUserAddresses.text = "${data.house_number}, ${data.road_name}, ${data.city}, ${data.state}, ${data.pincode}"
 
 
             binding.ivEdit.setOnClickListener {

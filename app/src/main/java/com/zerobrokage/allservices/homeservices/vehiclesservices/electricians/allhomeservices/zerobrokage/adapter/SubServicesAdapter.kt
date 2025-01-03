@@ -28,8 +28,7 @@ class SubServicesAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-        val binding =
-            ServicesAllItemviewBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding = ServicesAllItemviewBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return MyViewHolder(binding)
     }
 
