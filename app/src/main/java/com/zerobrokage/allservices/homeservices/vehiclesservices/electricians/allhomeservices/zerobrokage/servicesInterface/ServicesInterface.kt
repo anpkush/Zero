@@ -1,7 +1,7 @@
 package com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.servicesInterface
 
 import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.modelClass.AddAddressApi
-import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.modelClass.Cart_Api
+import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.modelClass.CartApi
 import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.modelClass.CustomerReview
 import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.modelClass.DeleteApi
 import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.modelClass.DeviceID
@@ -63,15 +63,14 @@ interface ServicesInterface {
     @POST("device-id")
     fun deviceId(@Body deviceID: DeviceID): Call<DeviceID>
 
-
     @PUT("profile/{id}")
     fun updateProfile(@Path("id") id: Int, @Body editProfile: EditProfile): Call<EditProfile>
 
     @PUT("update-address/{id}")
     fun editAddress(@Path("id") id: Int, @Body editAddresses: EditAddresses): Call<EditAddresses>
 
-    @POST("/cart/add")
-    fun addToCart(@Body cartApi: Cart_Api): Call<Cart_Api>
+    @POST("cart/add")
+    fun addToCart(@Body cartApi: CartApi): Call<CartApi>
 
 
 }

@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.databinding.BookingItemviewBinding
 import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.databinding.CustomDialogboxBinding
-import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.modelClass.Cart_Api
+import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.modelClass.CartApi
 import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.modelClass.SubmenusData
 import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.retrofitClient.RetrofitInstance
 import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.ui.fragment.ItemClickListener
@@ -90,10 +90,10 @@ class SubMenuItemAdapter(
 
             binding.btAddCart.setOnClickListener {
                 if (number > 0) {
-                    val cartApi = Cart_Api(
-                        enquiries_id = 2,
-                        sub_menu_id = "30",
-                        qty = 8
+                    val cartApi = CartApi(
+                        enquiries_id = data.id,
+                        sub_menu_id = data.menu_id,
+                        qty = number
                     )
                     addCartApi(cartApi)
                     adapter.addToCart(data.id, number)
@@ -111,39 +111,22 @@ class SubMenuItemAdapter(
             binding.btAddCart.isEnabled = number > 0
         }
 
-        private fun addCartApi(data: Cart_Api) {
-            val cartApi = Cart_Api(
-                enquiries_id = 2,
-                sub_menu_id = "30",
-                qty = 8,
+        private fun addCartApi(data: CartApi) {
+            val cartApi = CartApi(enquiries_id = data.enquiries_id, sub_menu_id = data.sub_menu_id, qty = number)
 
-            )
-
-            RetrofitInstance.apiService.addToCart(cartApi)
-                .enqueue(object : retrofit2.Callback<Cart_Api> {
-                    override fun onResponse(
-                        call: Call<Cart_Api>,
-                        response: retrofit2.Response<Cart_Api>
-                    ) {
-                        if (response.isSuccessful) {
-                            Toast.makeText(
-                                context,
-                                "Item added to cart successfully!",
-                                Toast.LENGTH_SHORT
-                            ).show()
-                        } else {
-                            Toast.makeText(
-                                context,
-                                "Failed to add item to cart: ${response.message()}",
-                                Toast.LENGTH_SHORT
-                            ).show()
-                        }
+            RetrofitInstance.apiService.addToCart(cartApi).enqueue(object : retrofit2.Callback<CartApi> {
+                override fun onResponse(call: Call<CartApi>, response: retrofit2.Response<CartApi>) {
+                    if (response.isSuccessful) {
+                        Toast.makeText(context, "Item added to cart successfully!", Toast.LENGTH_SHORT).show()
+                    } else {
+                        Toast.makeText(context, "Failed to add item to cart: ${response.message()}", Toast.LENGTH_SHORT).show()
                     }
+                }
 
-                    override fun onFailure(call: Call<Cart_Api>, t: Throwable) {
-                        Toast.makeText(context, "Error: ${t.message}", Toast.LENGTH_SHORT).show()
-                    }
-                })
+                override fun onFailure(call: Call<CartApi>, t: Throwable) {
+                    Toast.makeText(context, "Error: ${t.message}", Toast.LENGTH_SHORT).show()
+                }
+            })
         }
 
 
@@ -154,11 +137,8 @@ class SubMenuItemAdapter(
 
             val alertDialog = builder.create()
 
-            binding.tvAllDetails.text = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            binding.tvAllDetails.text =
                 Html.fromHtml(data.details, Html.FROM_HTML_MODE_COMPACT)
-            } else {
-                Html.fromHtml(data.details)
-            }
 
             binding.ivClose.setOnClickListener {
                 alertDialog.dismiss()
