@@ -30,8 +30,7 @@ class SubMenuItemAdapter(
     private val cartItems = mutableMapOf<Int, Int>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MySubMenuViewHolder {
-        val binding =
-            BookingItemviewBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding = BookingItemviewBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return MySubMenuViewHolder(binding, context, this)
     }
 
@@ -62,9 +61,7 @@ class SubMenuItemAdapter(
             binding.tvLocationName.text = data.city
             binding.tvTrendingDetails.text = data.description
 
-            Glide.with(binding.ivTrendingCategory.context)
-                .load(data.image)
-                .into(binding.ivTrendingCategory)
+            Glide.with(binding.ivTrendingCategory.context).load(data.image).into(binding.ivTrendingCategory)
 
             binding.tvViewDetails.setOnClickListener {
                 alertDialog(data)

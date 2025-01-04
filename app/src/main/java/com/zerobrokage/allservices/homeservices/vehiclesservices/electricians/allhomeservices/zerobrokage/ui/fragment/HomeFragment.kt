@@ -60,10 +60,7 @@ class HomeFragment : Fragment(), ItemClickListener {
             }
         }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val view = binding.root
 
@@ -106,22 +103,12 @@ class HomeFragment : Fragment(), ItemClickListener {
     @SuppressLint("SetTextI18n")
     private fun fetchCurrentLocation() {
         if (isLocationEnabled()) {
-            if (ActivityCompat.checkSelfPermission(
-                    requireContext(),
-                    Manifest.permission.ACCESS_FINE_LOCATION
-                ) != PackageManager.PERMISSION_GRANTED &&
-                ActivityCompat.checkSelfPermission(
-                    requireContext(),
-                    Manifest.permission.ACCESS_COARSE_LOCATION
-                ) != PackageManager.PERMISSION_GRANTED
-            ) {
+            if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 return
             }
 
-            fusedLocationClient.getCurrentLocation(
-                Priority.PRIORITY_BALANCED_POWER_ACCURACY,
-                CancellationTokenSource().token
-            ).addOnCompleteListener { task ->
+            fusedLocationClient.getCurrentLocation(Priority.PRIORITY_BALANCED_POWER_ACCURACY, CancellationTokenSource().token).addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     val location = task.result
                     if (location != null) {
@@ -146,11 +133,7 @@ class HomeFragment : Fragment(), ItemClickListener {
                         Toast.makeText(context, "Unable to get location", Toast.LENGTH_SHORT).show()
                     }
                 } else {
-                    Toast.makeText(
-                        context,
-                        "Failed to get location: ${task.exception?.message}",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    Toast.makeText(context, "Failed to get location: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
                 }
             }
         } else {
@@ -159,8 +142,7 @@ class HomeFragment : Fragment(), ItemClickListener {
     }
 
     private fun isLocationEnabled(): Boolean {
-        val locationManager =
-            requireContext().getSystemService(Application.LOCATION_SERVICE) as LocationManager
+        val locationManager = requireContext().getSystemService(Application.LOCATION_SERVICE) as LocationManager
         return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) ||
                 locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
     }
@@ -181,16 +163,14 @@ class HomeFragment : Fragment(), ItemClickListener {
                 if (_binding != null) {
                     val subCatList = response.body()?.data ?: emptyList()
                     val myAdapter = ServicesAdapter(subCatList, this@HomeFragment)
-                    binding?.rvServices?.apply {
+                    binding.rvServices.apply {
                         layoutManager = GridLayoutManager(context, 3)
                         adapter = myAdapter
                     }
-                    val myTrendingAdapter =
-                        fragmentManager?.let { TrendingAdapter(subCatList, this@HomeFragment) }
-                    binding?.rvTrendingCat?.apply {
+                    val myTrendingAdapter = fragmentManager?.let { TrendingAdapter(subCatList, this@HomeFragment) }
+                    binding.rvTrendingCat.apply {
                         adapter = myTrendingAdapter
-                        layoutManager =
-                            LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+                        layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
                     }
                 } else {
                     Toast.makeText(context, "Server Issue", Toast.LENGTH_SHORT).show()
