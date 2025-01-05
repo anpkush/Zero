@@ -4,7 +4,7 @@ import android.app.DatePickerDialog
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.widget.Toast
-import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.BaseActivity
+import androidx.appcompat.app.AppCompatActivity
 import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.databinding.ActivityEditProfileBinding
 import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.modelClass.EditProfile
 import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.retrofitClient.RetrofitInstance
@@ -13,7 +13,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.util.Calendar
 
-class EditProfileActivity : BaseActivity() {
+class EditProfileActivity : AppCompatActivity() {
     private lateinit var binding: ActivityEditProfileBinding
     private lateinit var sharedPref: SharedPreferences
 

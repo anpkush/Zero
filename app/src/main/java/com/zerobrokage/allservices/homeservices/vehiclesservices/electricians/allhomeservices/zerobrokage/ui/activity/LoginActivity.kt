@@ -16,11 +16,7 @@ import retrofit2.Response
 class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
     private lateinit var sharedPref: SharedPreferences
-    private val preferenceListener = SharedPreferences.OnSharedPreferenceChangeListener { _, key ->
-        if (key == "name" || key == "mobile_number") {
-            updateUIWithUserData()
-        }
-    }
+
 
     private fun updateUIWithUserData() {
         retrieveUserData()
@@ -32,7 +28,7 @@ class LoginActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         sharedPref = getSharedPreferences("MyPrefs", MODE_PRIVATE)
-        val id = sharedPref.getInt("id", 0)
+        val userId = sharedPref.getInt("id", 0)
 
         retrieveUserData()
 
@@ -43,10 +39,11 @@ class LoginActivity : AppCompatActivity() {
             val countryCode = binding.countryPeaker.selectedCountryCodeWithPlus
 
             if (validateInputs(name, mobileNo, countryCode)) {
-                getOtp(countryCode, mobileNo, name, id)
+                getOtp(countryCode, mobileNo, name, userId)
                 sharedPref.edit().apply {
                     putString("name", name)
                     putString("mobile_number", mobileNo)
+                    putInt("userId",userId)
                     apply()
                 }
             }

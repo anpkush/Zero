@@ -71,7 +71,7 @@ interface ServicesInterface {
     fun editAddress(@Path("id") id: Int, @Body editAddresses: EditAddresses): Call<EditAddresses>
 
     @POST("cart/add/{id}")
-    fun addToCart(@Path("id") id: Int, @Body cartApi: CartApi): Call<CartApi>
+    fun addToCart(@Path("id") userId: Int, @Body cartApi: CartApi): Call<CartApi>
 
     @GET("api/cart/{id}")
     fun getCartItem():Call<GetCartAPI>
