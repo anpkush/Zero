@@ -27,18 +27,9 @@ class SubMenuActivity : AppCompatActivity(), ItemClickListener {
 
         sharedPref = getSharedPreferences("MyPrefs", MODE_PRIVATE)
 
-        val userId = intent.getIntExtra("userId", 0).takeIf { it != 0 }
-            ?: sharedPref.getInt("userId", 0)
 
-        if (userId == 0) {
-            Toast.makeText(this, "Invalid user session. Please log in again.", Toast.LENGTH_SHORT).show()
-            val intent = Intent(this, LoginActivity::class.java)
-            startActivity(intent)
-            finish()
-            return
-        }
-
-        val id = intent.getIntExtra("id", 0)
+        val userId = sharedPref.getInt("userId", 0)
+        val menuID = intent.getIntExtra("id", 0)
         val name = intent.getStringExtra("name") ?: "Unknown Service"
 
         binding.toolbar.ivBack.setOnClickListener {
@@ -51,7 +42,7 @@ class SubMenuActivity : AppCompatActivity(), ItemClickListener {
             startActivity(intent)
         }
 
-        getSubMenuApi(id, name, userId)
+        getSubMenuApi(menuID, name, userId)
     }
 
     private fun getSubMenuApi(id: Int, name: String, userId: Int) {
@@ -82,8 +73,7 @@ class SubMenuActivity : AppCompatActivity(), ItemClickListener {
                     } else {
                         Toast.makeText(
                             this@SubMenuActivity,
-                            "Failed to retrieve services",
-                            Toast.LENGTH_SHORT
+                            "Failed to retrieve services", Toast.LENGTH_SHORT
                         ).show()
                     }
                 }
