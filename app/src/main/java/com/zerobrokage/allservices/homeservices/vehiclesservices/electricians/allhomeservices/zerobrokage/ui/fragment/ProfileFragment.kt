@@ -36,7 +36,7 @@ class ProfileFragment : Fragment() {
 
         val name = sharedPref?.getString("name", "")
         val mobileNo = sharedPref?.getString("mobile_number", "")
-        val id = sharedPref?.getInt("id", 0)
+        val userId = sharedPref?.getInt("userId", 0)
 
 
 
@@ -46,7 +46,7 @@ class ProfileFragment : Fragment() {
             val intent = Intent(requireContext(), EditProfileActivity::class.java).apply {
                 putExtra("name", name)
                 putExtra("mobileNo", mobileNo)
-                putExtra("id", id)
+                putExtra("userId", userId)
             }
             startActivity(intent)
 
@@ -54,7 +54,7 @@ class ProfileFragment : Fragment() {
 
         binding.tvSaveAddress.setOnClickListener {
             val intent = Intent(requireContext(), AddressActivity::class.java).apply {
-                putExtra("id", id)
+                putExtra("userId", userId)
             }
             startActivity(intent)
         }

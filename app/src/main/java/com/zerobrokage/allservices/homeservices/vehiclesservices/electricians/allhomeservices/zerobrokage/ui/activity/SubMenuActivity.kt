@@ -1,6 +1,7 @@
 package com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.ui.activity
 
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
@@ -17,11 +18,25 @@ import retrofit2.Response
 
 class SubMenuActivity : AppCompatActivity(), ItemClickListener {
     private lateinit var binding: ActivitySubMenuBinding
+    private lateinit var sharedPref: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySubMenuBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        sharedPref = getSharedPreferences("MyPrefs", MODE_PRIVATE)
+
+        val userId = intent.getIntExtra("userId", 0).takeIf { it != 0 }
+            ?: sharedPref.getInt("userId", 0)
+
+        if (userId == 0) {
+            Toast.makeText(this, "Invalid user session. Please log in again.", Toast.LENGTH_SHORT).show()
+            val intent = Intent(this, LoginActivity::class.java)
+            startActivity(intent)
+            finish()
+            return
+        }
 
         val id = intent.getIntExtra("id", 0)
         val name = intent.getStringExtra("name") ?: "Unknown Service"
@@ -31,15 +46,15 @@ class SubMenuActivity : AppCompatActivity(), ItemClickListener {
         }
         binding.toolbar.ivCart.visibility = View.VISIBLE
 
-        binding.toolbar.ivCart.setOnClickListener{
-            val intent  = Intent(this, CartActivity::class.java)
+        binding.toolbar.ivCart.setOnClickListener {
+            val intent = Intent(this, CartActivity::class.java)
             startActivity(intent)
         }
 
-        getSubMenuApi(id, name)
+        getSubMenuApi(id, name, userId)
     }
 
-    private fun getSubMenuApi(id: Int, name: String) {
+    private fun getSubMenuApi(id: Int, name: String, userId: Int) {
         RetrofitInstance.apiService.getSubMenuListData(id)
             .enqueue(object : Callback<SubMenuListData?> {
                 override fun onResponse(
@@ -49,7 +64,7 @@ class SubMenuActivity : AppCompatActivity(), ItemClickListener {
                     if (response.isSuccessful && response.body() != null) {
                         val subMenuList = response.body()?.submenus_data ?: emptyList()
                         val myAdapter = SubMenuItemAdapter(
-                            subMenuList, this@SubMenuActivity, this@SubMenuActivity
+                            subMenuList, this@SubMenuActivity, this@SubMenuActivity, userId
                         )
                         if (subMenuList.isNotEmpty()) {
                             binding.toolbar.tvTitle.text = name
@@ -84,10 +99,5 @@ class SubMenuActivity : AppCompatActivity(), ItemClickListener {
     }
 
     override fun onItemClick(id: Int, name: String, icon: String) {
-
     }
-
-
 }
-
-
