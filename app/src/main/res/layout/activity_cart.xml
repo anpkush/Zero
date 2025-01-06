@@ -27,6 +27,7 @@
         tools:listitem="@layout/cart_item_view" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/rvCartItem"
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize"
         app:layout_constraintBottom_toBottomOf="parent"

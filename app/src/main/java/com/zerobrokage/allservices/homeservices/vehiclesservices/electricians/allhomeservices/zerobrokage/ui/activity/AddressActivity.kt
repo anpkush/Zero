@@ -23,7 +23,6 @@ class AddressActivity : AppCompatActivity(), ItemClickListener {
         setContentView(binding.root)
 
         val id = intent.getIntExtra("id", 0)
-
         binding.toolbar.ivBack.setOnClickListener {
             finish()
         }
@@ -40,9 +39,9 @@ class AddressActivity : AppCompatActivity(), ItemClickListener {
     }
 
     private fun getSavedAddressesApi() {
-        val id = getSharedPreferences("MyPrefs", MODE_PRIVATE).getInt("id", 0)
+        val userId = getSharedPreferences("MyPrefs", MODE_PRIVATE).getInt("id", 0)
 
-        RetrofitInstance.apiService.savedAddresses(id)
+        RetrofitInstance.apiService.savedAddresses(userId)
             .enqueue(object : Callback<SavedAddressesApi?> {
                 override fun onResponse(
                     call: Call<SavedAddressesApi?>,

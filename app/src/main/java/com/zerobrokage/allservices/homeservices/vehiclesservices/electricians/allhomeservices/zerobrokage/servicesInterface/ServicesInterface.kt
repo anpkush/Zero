@@ -2,6 +2,7 @@ package com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.a
 
 import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.modelClass.AddAddressApi
 import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.modelClass.CartApi
+import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.modelClass.CartViewApi
 import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.modelClass.CustomerReview
 import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.modelClass.DeleteApi
 import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.modelClass.DeviceID
@@ -75,6 +76,9 @@ interface ServicesInterface {
 
     @GET("api/cart/{id}")
     fun getCartItem():Call<GetCartAPI>
+
+    @GET("cart/{id}")
+    fun cartViewApi(@Path("id") id: Int): Call<CartViewApi>
 
 
 }

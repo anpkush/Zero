@@ -27,8 +27,9 @@ class SubMenuActivity : AppCompatActivity(), ItemClickListener {
 
         sharedPref = getSharedPreferences("MyPrefs", MODE_PRIVATE)
 
+        val userId = getSharedPreferences("MyPrefs", MODE_PRIVATE).getInt("id", 0)
 
-        val userId = sharedPref.getInt("userId", 0)
+
         val menuID = intent.getIntExtra("id", 0)
         val name = intent.getStringExtra("name") ?: "Unknown Service"
 
