@@ -1,13 +1,14 @@
 package com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.adapter
 
-import android.R.attr.id
 import android.content.Context
 import android.os.Build
 import android.text.Html
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.databinding.BookingItemviewBinding
@@ -16,6 +17,8 @@ import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.al
 import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.modelClass.SubmenusData
 import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.retrofitClient.RetrofitInstance
 import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.ui.fragment.ItemClickListener
+import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.ui.fragment.ViewCartBottomFragment
+import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.R
 import retrofit2.Call
 
 
@@ -27,7 +30,6 @@ class SubMenuItemAdapter(
 ) : RecyclerView.Adapter<SubMenuItemAdapter.MySubMenuViewHolder>() {
 
     private val cartItems = mutableMapOf<Int, Int>()
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MySubMenuViewHolder {
         val binding = BookingItemviewBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return MySubMenuViewHolder(binding, context, this, userId)
@@ -45,7 +47,6 @@ class SubMenuItemAdapter(
 
     fun addToCart(id: Int, number: Int) {
         cartItems[id] = number
-
     }
 
     class MySubMenuViewHolder(
@@ -56,6 +57,8 @@ class SubMenuItemAdapter(
     ) : RecyclerView.ViewHolder(binding.root) {
 
         private var number = 1
+        private var isAddedToCart = false
+
 
         fun bind(data: SubmenusData) {
             binding.tvTrendingService.text = data.name
@@ -65,7 +68,7 @@ class SubMenuItemAdapter(
             Glide.with(binding.ivTrendingCategory.context).load(data.image).into(binding.ivTrendingCategory)
 
             binding.tvViewDetails.setOnClickListener {
-                showDetailsDialog(data)
+                alertDialog(data)
             }
 
             updateUI()
@@ -86,22 +89,48 @@ class SubMenuItemAdapter(
                 }
             }
 
+
+
             binding.btAddCart.setOnClickListener {
-                if (number > 0) {
+                if (!isAddedToCart && number > 0) {
                     val cartApi = CartApi(sub_menu_id = data.id.toString(), qty = number)
                     addCartApi(userId, cartApi)
                     adapter.addToCart(data.id, number)
-                    Toast.makeText(context, "Added to cart: ${data.name}", Toast.LENGTH_SHORT).show()
+                    showViewCartBottomFragment()
+                    isAddedToCart = true
+                    updateUI()
+                } else if (isAddedToCart) {
+                    Toast.makeText(context, "Item already added to cart", Toast.LENGTH_SHORT).show()
                 } else {
                     Toast.makeText(context, "Quantity must be greater than 0!", Toast.LENGTH_SHORT).show()
                 }
             }
+
         }
+
+        private fun showViewCartBottomFragment() {
+            val fragment = ViewCartBottomFragment.newInstance(adapter.cartItems)
+            (context as? FragmentActivity)?.supportFragmentManager?.let {
+                fragment.show(it, "ViewCartBottomFragment")
+            }
+        }
+
 
         private fun updateUI() {
             binding.textViewNumber.text = number.toString()
-            binding.btAddCart.isEnabled = number > 0
+
+            if (isAddedToCart) {
+                binding.buttonPlus.isEnabled = false
+                binding.buttonMinus.isEnabled= false
+                binding.buttonPlus.visibility = View.GONE
+                binding.buttonMinus.visibility = View.GONE
+                binding.btAddCart.isEnabled = false
+                binding.btAddCart.text = "Done"
+            } else {
+                binding.btAddCart.isEnabled = true
+            }
         }
+
 
         private fun addCartApi(userId: Int, cartApi: CartApi) {
             RetrofitInstance.apiService.addToCart(userId, cartApi)
@@ -120,24 +149,27 @@ class SubMenuItemAdapter(
                 })
         }
 
-        private fun showDetailsDialog(data: SubmenusData) {
+        private fun alertDialog(data: SubmenusData) {
             val builder = AlertDialog.Builder(context)
-            val dialogBinding = CustomDialogboxBinding.inflate(LayoutInflater.from(context))
-            builder.setView(dialogBinding.root)
+            val binding = CustomDialogboxBinding.inflate(LayoutInflater.from(context))
+            builder.setView(binding.root)
 
             val alertDialog = builder.create()
 
-            dialogBinding.tvAllDetails.text =
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                    Html.fromHtml(data.details, Html.FROM_HTML_MODE_COMPACT)
-                } else {
-                    Html.fromHtml(data.details)
-                }
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                binding.tvAllDetails.text = Html.fromHtml(data.details, Html.FROM_HTML_MODE_COMPACT)
+            } else {
+                binding.tvAllDetails.text = Html.fromHtml(data.details)
+            }
 
-            dialogBinding.ivClose.setOnClickListener {
+            binding.ivClose.setOnClickListener {
                 alertDialog.dismiss()
             }
+
             alertDialog.show()
         }
+
     }
 }
+
+

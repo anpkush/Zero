@@ -9,15 +9,18 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.databinding.FragmentViewCartBottomBinding
 import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.ui.activity.CartActivity
 
+
 class ViewCartBottomFragment : BottomSheetDialogFragment() {
 
     private var _binding: FragmentViewCartBottomBinding? = null
     private val binding get() = _binding
+    private var cartItems: Map<Int, Int>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-
+            @Suppress("UNCHECKED_CAST")
+            cartItems = it.getSerializable("cartItems") as? Map<Int, Int>
         }
     }
 
@@ -26,6 +29,10 @@ class ViewCartBottomFragment : BottomSheetDialogFragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentViewCartBottomBinding.inflate(inflater, container, false)
+
+        // Count the number of unique items in the cart
+        val uniqueItemsCount = cartItems?.keys?.size ?: 0
+        binding?.tvCartItemCount?.text = "$uniqueItemsCount"
 
         binding?.btViewCart?.setOnClickListener {
             val intent = Intent(context, CartActivity::class.java)
@@ -44,6 +51,5 @@ class ViewCartBottomFragment : BottomSheetDialogFragment() {
             return fragment
         }
     }
-
-    val cartItems = arguments?.getSerializable("cartItems") as? Map<Int, Int>
 }
+

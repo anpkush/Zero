@@ -1,5 +1,6 @@
 package com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.ui.activity
 
+import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.widget.Toast
@@ -16,6 +17,7 @@ import retrofit2.Response
 class CartActivity : AppCompatActivity() {
     private lateinit var binding: ActivityCartBinding
     private lateinit var sharedPref: SharedPreferences
+    private lateinit var cartAdapter: CartItemViewAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,6 +29,17 @@ class CartActivity : AppCompatActivity() {
         }
         binding.toolbar.tvTitle.text = "Cart"
 
+        cartAdapter = CartItemViewAdapter(emptyList(), this)
+        binding.rvCartItem.apply {
+            //adapter = cartAdapter
+            //layoutManager = LinearLayoutManager(this@CartActivity)
+        }
+
+        binding.btPlace.setOnClickListener {
+            val intent = Intent(this, BookingActivity::class.java)
+            startActivity(intent)
+        }
+
         getCartItem()
     }
 
@@ -37,21 +50,10 @@ class CartActivity : AppCompatActivity() {
         RetrofitInstance.apiService.cartViewApi(userId).enqueue(object : Callback<CartViewApi> {
             override fun onResponse(call: Call<CartViewApi>, response: Response<CartViewApi>) {
                 if (response.isSuccessful && response.body()?.data != null) {
-                    val cartData = response.body()
-                    if (cartData != null) {
-                        binding.rvCartItem.apply {
-                           // adapter = CartItemViewAdapter(cartData,this@CartActivity)
-                           // layoutManager = LinearLayoutManager(this@CartActivity)
-                        }
-                    } else {
-                        Toast.makeText(this@CartActivity, "Cart is empty", Toast.LENGTH_SHORT).show()
-                    }
+                    val cartData = response.body()!!.data
+                    cartAdapter.updateData(cartData)
                 } else {
-                    Toast.makeText(
-                        this@CartActivity,
-                        "Failed to fetch cart items: ${response.message()}",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    Toast.makeText(this@CartActivity, "Cart is empty", Toast.LENGTH_SHORT).show()
                 }
             }
 

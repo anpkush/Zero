@@ -10,7 +10,7 @@ data class CartViewApi(
         val id: Int,
         val image: String,
         val name: String,
-        val qty: Int,
+        var qty: Int,
         val sub_menu_id: Int
     )
 }
