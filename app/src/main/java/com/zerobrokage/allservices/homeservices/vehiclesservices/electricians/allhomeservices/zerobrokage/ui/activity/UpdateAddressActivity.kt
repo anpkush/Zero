@@ -1,7 +1,7 @@
 package com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.ui.activity
 
 import android.Manifest
-import android.R.attr.id
+import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.location.Geocoder
 import android.os.Bundle
@@ -23,6 +23,7 @@ import java.util.Locale
 
 class UpdateAddressActivity : AppCompatActivity() {
     private lateinit var binding: ActivityUpdateAddressBinding
+    private lateinit var sharedPref: SharedPreferences
     private lateinit var fusedLocationClient: FusedLocationProviderClient
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,23 +31,33 @@ class UpdateAddressActivity : AppCompatActivity() {
         binding = ActivityUpdateAddressBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        sharedPref = getSharedPreferences("MyPrefs", MODE_PRIVATE)
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
         binding.toolbar.tvTitle.text = "Update Address"
         binding.toolbar.ivBack.setOnClickListener { onBackPressed() }
 
-        binding.tvMyLocation.setOnClickListener {
-            getCurrentLocation()
-        }
-        intent.getIntExtra("id", 0)
-        binding.etFullName.setText(intent.getStringExtra("name"))
-        binding.etMobileNumber.setText(intent.getStringExtra("mobileNo"))
+        val userId = sharedPref.getInt("id", 0)
+        val storedName = sharedPref.getString("name", "")
+        val storedMobile = sharedPref.getString("mobile", "")
+        val storedEmail = sharedPref.getString("email", "")
+
+        val intentName = intent.getStringExtra("name") ?: storedName
+        val intentMobile = intent.getStringExtra("mobileNo") ?: storedMobile
+        val intentEmail = intent.getStringExtra("email") ?: storedEmail
+
+        binding.etFullName.setText(intentName)
+        binding.etMobileNumber.setText(intentMobile)
+        binding.etEmailId.setText(intentEmail)
         binding.etHouseNo.setText(intent.getStringExtra("house_number"))
         binding.etRoadArea.setText(intent.getStringExtra("road_name"))
         binding.etCity.setText(intent.getStringExtra("city"))
         binding.etState.setText(intent.getStringExtra("state"))
         binding.etPincode.setText(intent.getStringExtra("pincode"))
-        binding.etEmailId.setText(intent.getStringExtra("email"))
+
+        binding.tvMyLocation.setOnClickListener {
+            getCurrentLocation()
+        }
 
         binding.btUpdateAddress.setOnClickListener {
             val updatedType = when (binding.rdAddressType.checkedRadioButtonId) {
@@ -67,8 +78,7 @@ class UpdateAddressActivity : AppCompatActivity() {
                 email = binding.etEmailId.text.toString()
             )
 
-            // Call editAddress API
-            editAddress(id, editedAddress)
+            editAddress(userId, editedAddress)
         }
     }
 
@@ -87,11 +97,8 @@ class UpdateAddressActivity : AppCompatActivity() {
                 if (task.isSuccessful) {
                     val location = task.result
                     if (location != null) {
-                        val latitude = location.latitude
-                        val longitude = location.longitude
                         val geoCoder = Geocoder(this, Locale.getDefault())
-                        val addresses = geoCoder.getFromLocation(latitude, longitude, 1)
-
+                        val addresses = geoCoder.getFromLocation(location.latitude, location.longitude, 1)
                         if (!addresses.isNullOrEmpty()) {
                             val address = addresses[0]
                             binding.etState.setText(address.adminArea ?: "")
@@ -111,26 +118,21 @@ class UpdateAddressActivity : AppCompatActivity() {
             }
     }
 
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<String>,
-        grantResults: IntArray
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode == 1001 && grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            getCurrentLocation()
-        }
-    }
-
-    private fun editAddress(id: Int, editAddress: EditAddresses) {
-        RetrofitInstance.apiService.editAddress(id, editAddress)
+    private fun editAddress(userId: Int, editAddress: EditAddresses) {
+        RetrofitInstance.apiService.editAddress(userId, editAddress)
             .enqueue(object : Callback<EditAddresses?> {
                 override fun onResponse(
                     call: Call<EditAddresses?>,
                     response: Response<EditAddresses?>
                 ) {
-                    if (response.isSuccessful && response.body() != null) {
+                    if (response.isSuccessful) {
                         showToast("Updated Successfully")
+                        with(sharedPref.edit()) {
+                            putString("name", editAddress.name)
+                            putString("mobile", editAddress.mobile_number)
+                            putString("email", editAddress.email)
+                            apply()
+                        }
                         finish()
                     } else {
                         showToast("Edit Failed: ${response.message()}")

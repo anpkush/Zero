@@ -18,9 +18,10 @@ import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.al
 import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.retrofitClient.RetrofitInstance
 import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.ui.fragment.ItemClickListener
 import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.ui.fragment.ViewCartBottomFragment
-import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.R
 import retrofit2.Call
-
+import android.content.SharedPreferences
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 
 class SubMenuItemAdapter(
     private var submenus: List<SubmenusData>,
@@ -29,7 +30,14 @@ class SubMenuItemAdapter(
     private val userId: Int
 ) : RecyclerView.Adapter<SubMenuItemAdapter.MySubMenuViewHolder>() {
 
-    private val cartItems = mutableMapOf<Int, Int>()
+    private val cartItems: MutableMap<Int, Int> = mutableMapOf()
+    private val sharedPreferences: SharedPreferences =
+        context.getSharedPreferences("CartPrefs", Context.MODE_PRIVATE)
+
+    init {
+        loadCartDataFromSharedPreferences()
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MySubMenuViewHolder {
         val binding = BookingItemviewBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return MySubMenuViewHolder(binding, context, this, userId)
@@ -47,6 +55,25 @@ class SubMenuItemAdapter(
 
     fun addToCart(id: Int, number: Int) {
         cartItems[id] = number
+        saveCartDataToSharedPreferences()
+    }
+
+    private fun saveCartDataToSharedPreferences() {
+        val editor = sharedPreferences.edit()
+        val gson = Gson()
+        val cartJson = gson.toJson(cartItems)
+        editor.putString("cartItems", cartJson)
+        editor.apply()
+    }
+
+    private fun loadCartDataFromSharedPreferences() {
+        val gson = Gson()
+        val cartJson = sharedPreferences.getString("cartItems", null)
+        if (cartJson != null) {
+            val type = object : TypeToken<MutableMap<Int, Int>>() {}.type
+            val savedCartItems: MutableMap<Int, Int> = gson.fromJson(cartJson, type)
+            cartItems.putAll(savedCartItems)
+        }
     }
 
     class MySubMenuViewHolder(
@@ -58,7 +85,6 @@ class SubMenuItemAdapter(
 
         private var number = 1
         private var isAddedToCart = false
-
 
         fun bind(data: SubmenusData) {
             binding.tvTrendingService.text = data.name
@@ -89,8 +115,6 @@ class SubMenuItemAdapter(
                 }
             }
 
-
-
             binding.btAddCart.setOnClickListener {
                 if (!isAddedToCart && number > 0) {
                     val cartApi = CartApi(sub_menu_id = data.id.toString(), qty = number)
@@ -105,7 +129,6 @@ class SubMenuItemAdapter(
                     Toast.makeText(context, "Quantity must be greater than 0!", Toast.LENGTH_SHORT).show()
                 }
             }
-
         }
 
         private fun showViewCartBottomFragment() {
@@ -115,22 +138,18 @@ class SubMenuItemAdapter(
             }
         }
 
-
         private fun updateUI() {
             binding.textViewNumber.text = number.toString()
 
             if (isAddedToCart) {
                 binding.buttonPlus.isEnabled = false
-                binding.buttonMinus.isEnabled= false
-                binding.buttonPlus.visibility = View.GONE
-                binding.buttonMinus.visibility = View.GONE
+                binding.buttonMinus.isEnabled = false
                 binding.btAddCart.isEnabled = false
-                binding.btAddCart.text = "Done"
+                binding.btAddCart.text = "Remove"
             } else {
                 binding.btAddCart.isEnabled = true
             }
         }
-
 
         private fun addCartApi(userId: Int, cartApi: CartApi) {
             RetrofitInstance.apiService.addToCart(userId, cartApi)
@@ -168,8 +187,5 @@ class SubMenuItemAdapter(
 
             alertDialog.show()
         }
-
     }
 }
-
-

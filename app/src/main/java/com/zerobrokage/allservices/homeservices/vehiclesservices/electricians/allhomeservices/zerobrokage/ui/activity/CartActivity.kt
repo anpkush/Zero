@@ -24,15 +24,13 @@ class CartActivity : AppCompatActivity() {
         binding = ActivityCartBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.toolbar.ivBack.setOnClickListener {
-            finish()
-        }
+        binding.toolbar.ivBack.setOnClickListener { finish() }
         binding.toolbar.tvTitle.text = "Cart"
 
-        cartAdapter = CartItemViewAdapter(emptyList(), this)
-        binding.rvCartItem.apply {
-            //adapter = cartAdapter
-            //layoutManager = LinearLayoutManager(this@CartActivity)
+        cartAdapter = CartItemViewAdapter(mutableListOf(), this)
+        binding.rvGetItem.apply {
+            adapter = cartAdapter
+            layoutManager = LinearLayoutManager(this@CartActivity)
         }
 
         binding.btPlace.setOnClickListener {
@@ -50,8 +48,8 @@ class CartActivity : AppCompatActivity() {
         RetrofitInstance.apiService.cartViewApi(userId).enqueue(object : Callback<CartViewApi> {
             override fun onResponse(call: Call<CartViewApi>, response: Response<CartViewApi>) {
                 if (response.isSuccessful && response.body()?.data != null) {
-                    val cartData = response.body()!!.data
-                    cartAdapter.updateData(cartData)
+                    val cartItems = response.body()?.data ?: emptyList()
+                    cartAdapter.updateData(cartItems)
                 } else {
                     Toast.makeText(this@CartActivity, "Cart is empty", Toast.LENGTH_SHORT).show()
                 }

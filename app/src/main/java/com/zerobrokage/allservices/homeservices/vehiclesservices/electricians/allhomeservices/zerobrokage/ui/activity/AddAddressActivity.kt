@@ -33,38 +33,27 @@ class AddAddressActivity : AppCompatActivity() {
         val sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE)
 
         val userId = sharedPreferences.getInt("id", 0)
+        val userName = sharedPreferences.getString("name", "") ?: ""
+        val userMobile = sharedPreferences.getString("mobile", "") ?: ""
+        val userEmail = sharedPreferences.getString("email", "") ?: ""
 
-
-        saveAddress(userId)
-
+        binding.etFullName.setText(userName)
+        binding.etMobileNumber.setText(userMobile)
+        binding.etEmailId.setText(userEmail)
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
-        binding.toolbar.tvTitle.text = "Add Service Addresses"
+        binding.toolbar.tvTitle.text = "Add Service Address"
         binding.toolbar.ivBack.setOnClickListener {
-            onBackPressed()
+            onBackPressedDispatcher.onBackPressed()
         }
+
         binding.tvMyLocation.setOnClickListener {
             getCurrentLocation()
         }
 
         binding.btSaveAddress.setOnClickListener {
-
             saveAddress(userId)
-        }
-
-        val name = intent.getStringExtra("name")
-        val address = intent.getStringExtra("address")
-        val type = intent.getStringExtra("type")
-        val mobileNo = intent.getStringExtra("mobileNo")
-
-        if (name != null && address != null && type != null && mobileNo != null) {
-            binding.etFullName.setText(name)
-            binding.etHouseNo.setText(address)
-            binding.etMobileNumber.setText(mobileNo)
-            binding.rdAddressType.checkedRadioButtonId
-            binding.rbHome.isChecked = true
-            binding.rbWork.isChecked = true
         }
     }
 
@@ -113,7 +102,7 @@ class AddAddressActivity : AppCompatActivity() {
                         binding.etCity.setText(city)
                         binding.etPincode.setText(pincode)
                         binding.etHouseNo.setText("$buildingName, $local")
-                        binding.etRoadArea.setText("$local, $city,$roadName")
+                        binding.etRoadArea.setText("$local, $city, $roadName")
                     } else {
                         Toast.makeText(this, "Unable to get address", Toast.LENGTH_SHORT).show()
                     }
@@ -194,7 +183,6 @@ class AddAddressActivity : AppCompatActivity() {
             house_number = binding.etHouseNo.text.toString(),
             road_name = binding.etRoadArea.text.toString(),
             type = selectedRadioButton.text.toString()
-
         )
 
         addAddressApi(id, addAddressApi)
@@ -202,34 +190,33 @@ class AddAddressActivity : AppCompatActivity() {
 
     private fun addAddressApi(id: Int, addAddressApi: AddAddressApi) {
         RetrofitInstance.apiService.addAddress(id, addAddressApi).enqueue(object : Callback<AddAddressApi?> {
-                override fun onResponse(
-                    call: Call<AddAddressApi?>,
-                    response: Response<AddAddressApi?>
-                ) {
-                    if (response.isSuccessful && response.body() != null) {
-                        Toast.makeText(
-                            this@AddAddressActivity,
-                            "Address added successfully",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                        finish()
-                    } else {
-                        Toast.makeText(
-                            this@AddAddressActivity,
-                            "Error saving address",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
-                }
-
-                override fun onFailure(call: Call<AddAddressApi?>, t: Throwable) {
+            override fun onResponse(
+                call: Call<AddAddressApi?>,
+                response: Response<AddAddressApi?>
+            ) {
+                if (response.isSuccessful && response.body() != null) {
                     Toast.makeText(
                         this@AddAddressActivity,
-                        "Failed to save address, please try again later",
+                        "Address added successfully",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    finish()
+                } else {
+                    Toast.makeText(
+                        this@AddAddressActivity,
+                        "Error saving address",
                         Toast.LENGTH_SHORT
                     ).show()
                 }
-            })
-    }
+            }
 
+            override fun onFailure(call: Call<AddAddressApi?>, t: Throwable) {
+                Toast.makeText(
+                    this@AddAddressActivity,
+                    "Failed to save address, please try again later",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        })
+    }
 }
