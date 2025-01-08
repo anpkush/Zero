@@ -1,7 +1,10 @@
 package com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.servicesInterface
 
 import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.modelClass.AddAddressApi
+import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.modelClass.BookingRequest
+import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.modelClass.BookingResponse
 import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.modelClass.CartApi
+import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.modelClass.CartQtyUpdate
 import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.modelClass.CartViewApi
 import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.modelClass.CustomerReview
 import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.modelClass.DeleteApi
@@ -15,7 +18,7 @@ import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.al
 import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.modelClass.OtpRequest
 import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.modelClass.OtpVerificationResponse
 import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.modelClass.ResendOtp
-import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.modelClass.SavedAddressesApi
+import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.modelClass.SavedAddressApi
 import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.modelClass.ServiceMenuData
 import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.modelClass.SubCatData
 import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.modelClass.SubMenuListData
@@ -57,7 +60,7 @@ interface ServicesInterface {
     fun addAddress(@Path("id") id: Int, @Body addAddressApi: AddAddressApi): Call<AddAddressApi>
 
     @GET("saved-addresses/{id}")
-    fun savedAddresses(@Path("id") id: Int): Call<SavedAddressesApi>
+    fun savedAddresses(@Path("id") id: Int): Call<SavedAddressApi>
 
     @DELETE("address/{id}")
     fun deleteAddress(@Path("id") id: Int): Call<DeleteApi>
@@ -79,6 +82,28 @@ interface ServicesInterface {
 
     @GET("cart/{id}")
     fun cartViewApi(@Path("id") id: Int): Call<CartViewApi>
+
+    @DELETE("cart/delete/{userId}/{itemId}")
+    fun deleteCartItem(
+        @Path("userId") userId: Int,
+        @Path("itemId") itemId: Int
+    ): Call<Map<String, Any>>
+
+    @DELETE("Item/delete/{userId}/{subMenuId}")
+    fun deleteItem(
+        @Path("userId") userId: Int,
+        @Path("subMenuId") subMenuId: Int
+    ): Call<Map<String, Any>>
+
+
+    @POST("Booking/{id}")
+    fun createBooking(@Path("userId") userId: Int,
+        @Body bookingRequest: BookingRequest
+    ): Call<BookingResponse>
+
+    @PUT("item/update/{userId}/{itemId}")
+    fun updateCartQty( @Body cartQtyUpdate: Int) : Call<CartQtyUpdate>
+
 
 
 }

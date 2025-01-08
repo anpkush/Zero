@@ -7,11 +7,11 @@ import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.ui.activity.UpdateAddressActivity
 import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.databinding.AddressViewBinding
-import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.modelClass.SavedAddressesApi
+import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.modelClass.SavedAddressApi
 
 
 class SavedAddressesAdapter(
-    private val addressList: List<SavedAddressesApi.Data>,
+    private val addressList: List<SavedAddressApi.Addresse>,
     private val mListener: ItemClickListener
 ) : RecyclerView.Adapter<SavedAddressesAdapter.AddressViewHolder>() {
 
@@ -19,7 +19,7 @@ class SavedAddressesAdapter(
 
     inner class AddressViewHolder(val binding: AddressViewBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(data: SavedAddressesApi.Data, position: Int) {
+        fun bind(data: SavedAddressApi.Addresse, position: Int) {
             binding.tvUserName.text = data.name
             binding.tvUserMobileNo.text = data.mobile_number
             binding.workLabel.text = data.type

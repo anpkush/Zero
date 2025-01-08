@@ -12,7 +12,6 @@ import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority
 import com.google.android.gms.tasks.CancellationTokenSource
-import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.R
 import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.databinding.ActivityUpdateAddressBinding
 import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.modelClass.EditAddresses
 import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.retrofitClient.RetrofitInstance
@@ -41,10 +40,12 @@ class UpdateAddressActivity : AppCompatActivity() {
         val storedName = sharedPref.getString("name", "")
         val storedMobile = sharedPref.getString("mobile", "")
         val storedEmail = sharedPref.getString("email", "")
+        val storedAddressType = sharedPref.getString("addressType", "")
 
         val intentName = intent.getStringExtra("name") ?: storedName
         val intentMobile = intent.getStringExtra("mobileNo") ?: storedMobile
         val intentEmail = intent.getStringExtra("email") ?: storedEmail
+        val intentAddressType = intent.getStringExtra("addressType") ?: storedAddressType
 
         binding.etFullName.setText(intentName)
         binding.etMobileNumber.setText(intentMobile)
@@ -55,21 +56,26 @@ class UpdateAddressActivity : AppCompatActivity() {
         binding.etState.setText(intent.getStringExtra("state"))
         binding.etPincode.setText(intent.getStringExtra("pincode"))
 
+        when (intentAddressType) {
+            "Home" -> binding.rbHome.isChecked = true
+            "Work" -> binding.rbWork.isChecked = true
+        }
+
         binding.tvMyLocation.setOnClickListener {
             getCurrentLocation()
         }
 
         binding.btUpdateAddress.setOnClickListener {
-            val updatedType = when (binding.rdAddressType.checkedRadioButtonId) {
-                R.id.rbHome -> "Home"
-                R.id.rbWork -> "Work"
-                else -> "Other"
+            val updatedType = when {
+                binding.rbHome.isChecked -> "Home"
+                binding.rbWork.isChecked -> "Work"
+                else -> storedAddressType
             }
 
             val editedAddress = EditAddresses(
                 mobile_number = binding.etMobileNumber.text.toString(),
                 name = binding.etFullName.text.toString(),
-                type = updatedType,
+                type = updatedType.toString(),
                 house_number = binding.etHouseNo.text.toString(),
                 city = binding.etCity.text.toString(),
                 pincode = binding.etPincode.text.toString(),
@@ -83,9 +89,23 @@ class UpdateAddressActivity : AppCompatActivity() {
     }
 
     private fun getCurrentLocation() {
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
-            ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION), 100)
+        if (ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED &&
+            ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(
+                    Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.ACCESS_COARSE_LOCATION
+                ),
+                100
+            )
             return
         }
 
@@ -98,14 +118,20 @@ class UpdateAddressActivity : AppCompatActivity() {
                     val location = task.result
                     if (location != null) {
                         val geoCoder = Geocoder(this, Locale.getDefault())
-                        val addresses = geoCoder.getFromLocation(location.latitude, location.longitude, 1)
+                        val addresses =
+                            geoCoder.getFromLocation(location.latitude, location.longitude, 1)
                         if (!addresses.isNullOrEmpty()) {
                             val address = addresses[0]
                             binding.etState.setText(address.adminArea ?: "")
                             binding.etCity.setText(address.locality ?: "")
                             binding.etPincode.setText(address.postalCode ?: "")
                             binding.etHouseNo.setText(address.featureName ?: "")
-                            binding.etRoadArea.setText(listOfNotNull(address.subLocality, address.thoroughfare).joinToString(", "))
+                            binding.etRoadArea.setText(
+                                listOfNotNull(
+                                    address.subLocality,
+                                    address.thoroughfare
+                                ).joinToString(", ")
+                            )
                         } else {
                             showToast("Unable to get address")
                         }
@@ -126,13 +152,19 @@ class UpdateAddressActivity : AppCompatActivity() {
                     response: Response<EditAddresses?>
                 ) {
                     if (response.isSuccessful) {
-                        showToast("Updated Successfully")
                         with(sharedPref.edit()) {
                             putString("name", editAddress.name)
                             putString("mobile", editAddress.mobile_number)
                             putString("email", editAddress.email)
+                            putString("house_number", editAddress.house_number)
+                            putString("road_name", editAddress.road_name)
+                            putString("city", editAddress.city)
+                            putString("state", editAddress.state)
+                            putString("pincode", editAddress.pincode)
+                            putString("addressType", editAddress.type)
                             apply()
                         }
+                        showToast("Updated Successfully")
                         finish()
                     } else {
                         showToast("Edit Failed: ${response.message()}")

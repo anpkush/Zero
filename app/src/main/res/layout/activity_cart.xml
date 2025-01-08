@@ -41,6 +41,7 @@
             android:layout_margin="10dp"
             android:background="@drawable/shape_edittext"
             android:text="Placed Order"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

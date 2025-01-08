@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.adapter.ItemClickListener
 import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.adapter.SavedAddressesAdapter
 import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.databinding.ActivityAddressBinding
-import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.modelClass.SavedAddressesApi
+import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.modelClass.SavedAddressApi
 import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.retrofitClient.RetrofitInstance
 import retrofit2.Call
 import retrofit2.Callback
@@ -41,40 +41,43 @@ class AddressActivity : AppCompatActivity(), ItemClickListener {
     private fun getSavedAddressesApi() {
         val userId = getSharedPreferences("MyPrefs", MODE_PRIVATE).getInt("id", 0)
 
-        RetrofitInstance.apiService.savedAddresses(userId)
-            .enqueue(object : Callback<SavedAddressesApi?> {
-                override fun onResponse(
-                    call: Call<SavedAddressesApi?>,
-                    response: Response<SavedAddressesApi?>
-                ) {
-                    if (response.isSuccessful && response.body()?.data != null) {
-                        val savedAddresses = response.body()?.data ?: emptyList()
-                        if (savedAddresses.isNotEmpty()) {
-                            binding.rvSavedAddress.apply {
-                                adapter =
-                                    SavedAddressesAdapter(savedAddresses, this@AddressActivity)
-                                layoutManager = LinearLayoutManager(this@AddressActivity)
-                            }
-                        } else {
-                            Toast.makeText(
-                                this@AddressActivity,
-                                "No addresses available",
-                                Toast.LENGTH_SHORT
-                            ).show()
+        RetrofitInstance.apiService.savedAddresses(userId).enqueue(object : Callback<SavedAddressApi>{
+            override fun onResponse(
+                call: Call<SavedAddressApi?>,
+                response: Response<SavedAddressApi?>
+            ) {
+                if (response.isSuccessful && response.body()?.addresses != null) {
+                    val savedAddresses = response.body()?.addresses ?: emptyList()
+                    if (savedAddresses.isNotEmpty()) {
+                        binding.rvSavedAddress.apply {
+                            adapter =
+                                SavedAddressesAdapter(savedAddresses, this@AddressActivity)
+                            layoutManager = LinearLayoutManager(this@AddressActivity)
                         }
-                    } else {
+                    }else {
                         Toast.makeText(
                             this@AddressActivity,
-                            "Failed to fetch addresses",
+                            "No addresses available",
                             Toast.LENGTH_SHORT
                         ).show()
                     }
+                } else {
+                    Toast.makeText(
+                        this@AddressActivity,
+                        "Failed to fetch addresses",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
+            }
 
-                override fun onFailure(call: Call<SavedAddressesApi?>, t: Throwable) {
-                    Toast.makeText(this@AddressActivity, t.message, Toast.LENGTH_SHORT).show()
-                }
-            })
+            override fun onFailure(
+                call: Call<SavedAddressApi?>,
+                t: Throwable
+            ) {
+                Toast.makeText(this@AddressActivity, t.message, Toast.LENGTH_SHORT).show()
+            }
+
+        })
     }
 
     override fun onResume() {

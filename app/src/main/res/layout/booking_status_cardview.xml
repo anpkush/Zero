@@ -116,11 +116,11 @@
                 android:text="Completed"
                 android:textStyle="bold"
                 android:textColor="@color/green"
-                app:layout_constraintEnd_toStartOf="@id/btCancel"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvDate"
                 app:layout_constraintBottom_toBottomOf="parent"/>
 
-            <Button
+            <!--<Button
                 android:id="@+id/btCancel"
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
@@ -131,7 +131,7 @@
                 android:textColor="@color/white"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tvDate" />
+                app:layout_constraintTop_toBottomOf="@id/tvDate" />-->
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

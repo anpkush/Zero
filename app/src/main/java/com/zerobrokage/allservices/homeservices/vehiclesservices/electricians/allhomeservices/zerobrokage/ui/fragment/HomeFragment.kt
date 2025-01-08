@@ -4,6 +4,7 @@ import BottomSheetServicesFragment
 import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Application
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Geocoder
 import android.location.LocationManager
@@ -32,6 +33,7 @@ import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.al
 import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.databinding.FragmentHomeBinding
 import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.modelClass.SubCatData
 import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.retrofitClient.RetrofitInstance
+import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.ui.activity.CartActivity
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -65,16 +67,14 @@ class HomeFragment : Fragment(), ItemClickListener {
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
 
-        // Handle location
         requestLocationPermission()
 
-        // Display saved address from SharedPreferences
         val savedAddress = getAddressFromSharedPreferences()
         binding.tvLocation.text = savedAddress ?: "Fetching location..."
 
         binding.ivCart.setOnClickListener {
-            Toast.makeText(context, "Add Cart Pending", Toast.LENGTH_SHORT).show()
-            Toast.makeText(context, "User ID: $id", Toast.LENGTH_SHORT).show()
+            val intent = Intent(context, CartActivity::class.java)
+            startActivity(intent)
         }
 
         // Set up image slider
@@ -117,7 +117,6 @@ class HomeFragment : Fragment(), ItemClickListener {
                                 val address = addresses[0].getAddressLine(0)
                                 binding.tvLocation.text = address ?: "Unable to get address"
 
-                                // Save the address in SharedPreferences
                                 saveAddressInSharedPreferences(address)
                             } else {
                                 binding.tvLocation.text = "Unable to get address"

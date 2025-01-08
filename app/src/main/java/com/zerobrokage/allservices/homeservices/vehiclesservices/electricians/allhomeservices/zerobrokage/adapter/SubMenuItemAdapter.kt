@@ -1,6 +1,7 @@
 package com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.adapter
 
 import android.content.Context
+import android.graphics.Color
 import android.os.Build
 import android.text.Html
 import android.view.LayoutInflater
@@ -8,20 +9,19 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.databinding.BookingItemviewBinding
 import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.databinding.CustomDialogboxBinding
 import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.modelClass.CartApi
 import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.modelClass.SubmenusData
 import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.retrofitClient.RetrofitInstance
 import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.ui.fragment.ItemClickListener
-import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.ui.fragment.ViewCartBottomFragment
 import retrofit2.Call
-import android.content.SharedPreferences
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
+import retrofit2.Callback
+import retrofit2.Response
 
 class SubMenuItemAdapter(
     private var submenus: List<SubmenusData>,
@@ -31,8 +31,7 @@ class SubMenuItemAdapter(
 ) : RecyclerView.Adapter<SubMenuItemAdapter.MySubMenuViewHolder>() {
 
     private val cartItems: MutableMap<Int, Int> = mutableMapOf()
-    private val sharedPreferences: SharedPreferences =
-        context.getSharedPreferences("CartPrefs", Context.MODE_PRIVATE)
+    private val sharedPreferences = context.getSharedPreferences("CartPrefs", Context.MODE_PRIVATE)
 
     init {
         loadCartDataFromSharedPreferences()
@@ -56,6 +55,13 @@ class SubMenuItemAdapter(
     fun addToCart(id: Int, number: Int) {
         cartItems[id] = number
         saveCartDataToSharedPreferences()
+        notifyDataSetChanged()
+    }
+
+    fun removeFromCart(id: Int) {
+        cartItems.remove(id)
+        saveCartDataToSharedPreferences()
+        notifyDataSetChanged()
     }
 
     private fun saveCartDataToSharedPreferences() {
@@ -85,23 +91,32 @@ class SubMenuItemAdapter(
 
         private var number = 1
         private var isAddedToCart = false
+        private lateinit var data: SubmenusData
 
         fun bind(data: SubmenusData) {
+            this.data = data
+            isAddedToCart = adapter.cartItems.containsKey(data.id)
+            number = adapter.cartItems[data.id] ?: 1
             binding.tvTrendingService.text = data.name
             binding.tvLocationName.text = data.city
             binding.tvTrendingDetails.text = data.description
-
             Glide.with(binding.ivTrendingCategory.context).load(data.image).into(binding.ivTrendingCategory)
-
-            binding.tvViewDetails.setOnClickListener {
-                alertDialog(data)
-            }
-
             updateUI()
+
+            binding.btAddCart.setOnClickListener {
+                if (!isAddedToCart) {
+                    number = 1
+                    addCartApi(userId, CartApi(sub_menu_id = data.id.toString(), qty = number))
+                    adapter.addToCart(data.id, number)
+                    updateUI()
+                }
+            }
 
             binding.buttonPlus.setOnClickListener {
                 if (number < 10) {
                     number++
+                    addCartApi(userId, CartApi(sub_menu_id = data.id.toString(), qty = number))
+                    adapter.addToCart(data.id, number)
                     updateUI()
                 } else {
                     Toast.makeText(context, "Maximum quantity reached!", Toast.LENGTH_SHORT).show()
@@ -111,50 +126,54 @@ class SubMenuItemAdapter(
             binding.buttonMinus.setOnClickListener {
                 if (number > 1) {
                     number--
-                    updateUI()
+                    addCartApi(userId, CartApi(sub_menu_id = data.id.toString(), qty = number))
+                    adapter.addToCart(data.id, number)
+                } else {
+                    adapter.removeFromCart(data.id)
+                    removeCartApi(userId, data.id)
                 }
+                updateUI()
             }
 
-            binding.btAddCart.setOnClickListener {
-                if (!isAddedToCart && number > 0) {
-                    val cartApi = CartApi(sub_menu_id = data.id.toString(), qty = number)
-                    addCartApi(userId, cartApi)
-                    adapter.addToCart(data.id, number)
-                    showViewCartBottomFragment()
-                    isAddedToCart = true
-                    updateUI()
-                } else if (isAddedToCart) {
-                    Toast.makeText(context, "Item already added to cart", Toast.LENGTH_SHORT).show()
-                } else {
-                    Toast.makeText(context, "Quantity must be greater than 0!", Toast.LENGTH_SHORT).show()
-                }
+            binding.tvViewDetails.setOnClickListener {
+                alertDialog(data)
             }
         }
 
-        private fun showViewCartBottomFragment() {
-            val fragment = ViewCartBottomFragment.newInstance(adapter.cartItems)
-            (context as? FragmentActivity)?.supportFragmentManager?.let {
-                fragment.show(it, "ViewCartBottomFragment")
-            }
+        private fun removeCartApi(userId: Int, subMenuId: Int) {
+            RetrofitInstance.apiService.deleteItem(userId, subMenuId)
+                .enqueue(object : Callback<Map<String, Any>> {
+                    override fun onResponse(call: Call<Map<String, Any>>, response: Response<Map<String, Any>>) {
+                        if (response.isSuccessful) {
+                            Toast.makeText(context, "Item removed from cart successfully!", Toast.LENGTH_SHORT).show()
+                        } else {
+                            Toast.makeText(context, "Failed to remove item from cart: ${response.message()}", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+
+                    override fun onFailure(call: Call<Map<String, Any>>, t: Throwable) {
+                        Toast.makeText(context, "Error: ${t.message}", Toast.LENGTH_SHORT).show()
+                    }
+                })
         }
 
         private fun updateUI() {
             binding.textViewNumber.text = number.toString()
+            isAddedToCart = adapter.cartItems.containsKey(data.id)
 
             if (isAddedToCart) {
-                binding.buttonPlus.isEnabled = false
-                binding.buttonMinus.isEnabled = false
-                binding.btAddCart.isEnabled = false
-                binding.btAddCart.text = "Remove"
+                binding.btAddCart.visibility = View.GONE
+                binding.counterLayout.visibility = View.VISIBLE
             } else {
-                binding.btAddCart.isEnabled = true
+                binding.btAddCart.visibility = View.VISIBLE
+                binding.counterLayout.visibility = View.GONE
             }
         }
 
         private fun addCartApi(userId: Int, cartApi: CartApi) {
             RetrofitInstance.apiService.addToCart(userId, cartApi)
-                .enqueue(object : retrofit2.Callback<CartApi> {
-                    override fun onResponse(call: Call<CartApi>, response: retrofit2.Response<CartApi>) {
+                .enqueue(object : Callback<CartApi> {
+                    override fun onResponse(call: Call<CartApi>, response: Response<CartApi>) {
                         if (response.isSuccessful) {
                             Toast.makeText(context, "Item added to cart successfully!", Toast.LENGTH_SHORT).show()
                         } else {
@@ -170,21 +189,17 @@ class SubMenuItemAdapter(
 
         private fun alertDialog(data: SubmenusData) {
             val builder = AlertDialog.Builder(context)
-            val binding = CustomDialogboxBinding.inflate(LayoutInflater.from(context))
-            builder.setView(binding.root)
-
+            val dialogBinding = CustomDialogboxBinding.inflate(LayoutInflater.from(context))
+            builder.setView(dialogBinding.root)
             val alertDialog = builder.create()
-
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                binding.tvAllDetails.text = Html.fromHtml(data.details, Html.FROM_HTML_MODE_COMPACT)
+                dialogBinding.tvAllDetails.text = Html.fromHtml(data.details, Html.FROM_HTML_MODE_COMPACT)
             } else {
-                binding.tvAllDetails.text = Html.fromHtml(data.details)
+                dialogBinding.tvAllDetails.text = Html.fromHtml(data.details)
             }
-
-            binding.ivClose.setOnClickListener {
+            dialogBinding.ivClose.setOnClickListener {
                 alertDialog.dismiss()
             }
-
             alertDialog.show()
         }
     }
