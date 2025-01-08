@@ -7,7 +7,6 @@ import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.databinding.CartItemViewBinding
-import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.modelClass.CartQtyUpdate
 import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.modelClass.CartViewApi
 import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.retrofitClient.RetrofitInstance
 import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.ui.fragment.ItemClickListener
@@ -51,7 +50,7 @@ class CartItemViewAdapter(
                     if (item.qty > 1) {
                         item.qty--
                         textViewNumber.text = item.qty.toString()
-                       // updateQuantityOnServer(userId,item.id, item.qty)
+                        //updateQuantityOnServer(userId,item.id, item.qty)
                     } else {
                         Toast.makeText(context, "Minimum quantity is 1!", Toast.LENGTH_SHORT).show()
                     }
@@ -110,24 +109,19 @@ class CartItemViewAdapter(
             })
     }
 
-    /*private fun updateQuantityOnServer(userId: Int, cartItemId: Int, newQty: Int) {
-        // Create the request body object
-        val cartQtyUpdate = CartQtyUpdate(newQty)
-
-        // Make the Retrofit call
-        RetrofitInstance.apiService.updateCartQty(cartQtyUpdate).enqueue(object : Callback<CartQtyUpdate> {
-            override fun onResponse(call: Call<CartQtyUpdate>, response: Response<CartQtyUpdate>) {
-                if (response.isSuccessful) {
+    /*private fun updateQuantityOnServer(userId: Int,cartItemId: Int, newQty: Int) {
+        RetrofitInstance.apiService.updateCartQty(userId, cartItemId, newQty).enqueue(object : Callback<Map<String, Any>> {
+            override fun onResponse(call: Call<Map<String, Any>>, response: Response<Map<String, Any>>) {
+                if (response.isSuccessful && response.body()?.get("success") == true) {
                     Toast.makeText(context, "Quantity updated", Toast.LENGTH_SHORT).show()
                 } else {
                     Toast.makeText(context, "Failed to update quantity", Toast.LENGTH_SHORT).show()
                 }
             }
 
-            override fun onFailure(call: Call<CartQtyUpdate>, t: Throwable) {
+            override fun onFailure(call: Call<Map<String, Any>>, t: Throwable) {
                 Toast.makeText(context, "Error: ${t.message}", Toast.LENGTH_SHORT).show()
             }
         })
     }*/
-
 }
