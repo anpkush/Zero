@@ -19,6 +19,7 @@ import retrofit2.Response
 class SubMenuActivity : AppCompatActivity(), ItemClickListener {
     private lateinit var binding: ActivitySubMenuBinding
     private lateinit var sharedPref: SharedPreferences
+    private lateinit var myAdapter: SubMenuItemAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,9 +27,7 @@ class SubMenuActivity : AppCompatActivity(), ItemClickListener {
         setContentView(binding.root)
 
         sharedPref = getSharedPreferences("MyPrefs", MODE_PRIVATE)
-
         val userId = getSharedPreferences("MyPrefs", MODE_PRIVATE).getInt("id", 0)
-
 
         val menuID = intent.getIntExtra("id", 0)
         val name = intent.getStringExtra("name") ?: "Unknown Service"
@@ -36,8 +35,8 @@ class SubMenuActivity : AppCompatActivity(), ItemClickListener {
         binding.toolbar.ivBack.setOnClickListener {
             onBackPressedDispatcher.onBackPressed()
         }
-        binding.toolbar.ivCart.visibility = View.VISIBLE
 
+        binding.toolbar.ivCart.visibility = View.VISIBLE
         binding.toolbar.ivCart.setOnClickListener {
             val intent = Intent(this, CartActivity::class.java)
             startActivity(intent)
@@ -55,9 +54,7 @@ class SubMenuActivity : AppCompatActivity(), ItemClickListener {
                 ) {
                     if (response.isSuccessful && response.body() != null) {
                         val subMenuList = response.body()?.submenus_data ?: emptyList()
-                        val myAdapter = SubMenuItemAdapter(
-                            subMenuList, this@SubMenuActivity, this@SubMenuActivity, userId
-                        )
+                        myAdapter = SubMenuItemAdapter(subMenuList, this@SubMenuActivity, this@SubMenuActivity, userId)
                         if (subMenuList.isNotEmpty()) {
                             binding.toolbar.tvTitle.text = name
                             binding.rvServicesSubMenuItem.apply {
@@ -90,5 +87,6 @@ class SubMenuActivity : AppCompatActivity(), ItemClickListener {
     }
 
     override fun onItemClick(id: Int, name: String, icon: String) {
+
     }
 }

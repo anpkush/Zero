@@ -4,6 +4,7 @@ import BottomSheetServicesFragment
 import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Application
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Geocoder
 import android.location.LocationManager
@@ -30,9 +31,9 @@ import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.al
 import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.adapter.ServicesAdapter
 import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.adapter.TrendingAdapter
 import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.databinding.FragmentHomeBinding
-import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.modelClass.CustomerReview
 import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.modelClass.SubCatData
 import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.retrofitClient.RetrofitInstance
+import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.ui.activity.CartActivity
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -66,27 +67,21 @@ class HomeFragment : Fragment(), ItemClickListener {
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
 
-        // Handle location
         requestLocationPermission()
 
+        val savedAddress = getAddressFromSharedPreferences()
+        binding.tvLocation.text = savedAddress ?: "Fetching location..."
+
         binding.ivCart.setOnClickListener {
-            Toast.makeText(context, "Add Cart Pending", Toast.LENGTH_SHORT).show()
-            Toast.makeText(context, "User ID: $id", Toast.LENGTH_SHORT).show()
+            val intent = Intent(context, CartActivity::class.java)
+            startActivity(intent)
         }
-        /*binding.ivCart.setOnClickListener {
-            val intent = Intent(context,CartActivity::class.java)
-            context?.startActivity(intent)
-            Toast.makeText(, "", Toast.LENGTH_SHORT).show()
-        }*/
 
         // Set up image slider
         imageSlider()
 
         // API Calls for All Services
         getApiData()
-
-        // API calls for Customer Review
-       // customerReview()
 
         return view
     }
@@ -121,6 +116,8 @@ class HomeFragment : Fragment(), ItemClickListener {
                             if (addresses?.isNotEmpty() == true) {
                                 val address = addresses[0].getAddressLine(0)
                                 binding.tvLocation.text = address ?: "Unable to get address"
+
+                                saveAddressInSharedPreferences(address)
                             } else {
                                 binding.tvLocation.text = "Unable to get address"
                             }
@@ -145,6 +142,18 @@ class HomeFragment : Fragment(), ItemClickListener {
         val locationManager = requireContext().getSystemService(Application.LOCATION_SERVICE) as LocationManager
         return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) ||
                 locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
+    }
+
+    private fun saveAddressInSharedPreferences(address: String) {
+        val sharedPreferences = requireContext().getSharedPreferences("UserPreferences", Application.MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        editor.putString("UserAddress", address)
+        editor.apply()
+    }
+
+    private fun getAddressFromSharedPreferences(): String? {
+        val sharedPreferences = requireContext().getSharedPreferences("UserPreferences", Application.MODE_PRIVATE)
+        return sharedPreferences.getString("UserAddress", null)
     }
 
     private fun imageSlider() {
@@ -182,34 +191,6 @@ class HomeFragment : Fragment(), ItemClickListener {
             }
         })
     }
-
-    /*private fun customerReview() {
-        RetrofitInstance.apiService.getCustomerReview()
-            .enqueue(object : Callback<CustomerReview?> {
-                override fun onResponse(
-                    call: Call<CustomerReview?>,
-                    response: Response<CustomerReview?>
-                ) {
-                    if (_binding != null) {
-                        val customerReviewList = response.body()?.data ?: emptyList()
-                        binding.rvCustomerReview.apply {
-                            adapter = CustomerReviewAdapter(customerReviewList)
-                            layoutManager =
-                                LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-                        }
-                    } else {
-                        Toast.makeText(context, "View is not available", Toast.LENGTH_SHORT).show()
-                    }
-                }
-
-                override fun onFailure(call: Call<CustomerReview?>, t: Throwable) {
-                    if (isAdded) {
-                        Toast.makeText(context, t.message, Toast.LENGTH_SHORT).show()
-                    }
-                }
-            })
-    }*/
-
 
     override fun onDestroyView() {
         super.onDestroyView()

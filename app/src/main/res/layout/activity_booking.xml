@@ -14,198 +14,222 @@
         <include
             android:id="@+id/toolbar"
             layout="@layout/toolbar_header"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <include
-            android:id="@+id/ivNameCard"
-            layout="@layout/booking_card"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+        <EditText
+            android:id="@+id/etFullName"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_margin="30dp"
+            android:background="@drawable/shape_edittext"
+            android:hint="Full Name (Required)*"
+            android:inputType="textPersonName"
+            android:padding="10dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
-        <ScrollView
-            android:id="@+id/scrollView"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            app:layout_constraintBottom_toBottomOf="parent"
+        <EditText
+            android:id="@+id/etMobileNumber"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="30dp"
+            android:layout_marginVertical="10dp"
+            android:background="@drawable/shape_edittext"
+            android:hint="Phone number (Required)*"
+            android:inputType="phone"
+            android:maxLength="10"
+            android:padding="10dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="?actionBarSize"
-            app:layout_constraintTop_toBottomOf="@id/ivNameCard">
+            app:layout_constraintTop_toBottomOf="@id/etFullName" />
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/clLayout"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_margin="30dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/ivNameCard">
+        <EditText
+            android:id="@+id/etEmailId"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="30dp"
+            android:layout_marginVertical="10dp"
+            android:background="@drawable/shape_edittext"
+            android:hint="Email Id (Required)*"
+            android:padding="10dp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/etMobileNumber" />
 
-                <TextView
-                    android:id="@+id/tvLocation"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Select Location"
-                    android:textStyle="bold"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+        <EditText
+            android:id="@+id/etPincode"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="30dp"
+            android:layout_marginVertical="10dp"
+            android:background="@drawable/shape_edittext"
+            android:hint="Pincode (Required)*"
+            android:inputType="number"
+            android:padding="10dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/etEmailId" />
 
-                <TextView
-                    android:id="@+id/btLocation"
-                    android:layout_width="wrap_content"
-                    android:layout_height="50dp"
-                    android:layout_marginTop="8dp"
-                    android:background="@color/cadet_blue"
-                    android:clickable="true"
-                    android:drawableStart="@drawable/ic_locat"
-                    android:drawablePadding="5dp"
-                    android:focusable="true"
-                    android:gravity="center"
-                    android:padding="13dp"
-                    android:hint="My Loaction"
-                    android:textSize="18dp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tvLocation" />
+        <TextView
+            android:id="@+id/tvMyLocation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="30dp"
+            android:layout_marginVertical="10dp"
+            android:background="@drawable/shape_edittext"
+            android:backgroundTint="@color/cadet_blue"
+            android:drawableStart="@drawable/ic_location"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="Use my location"
+            android:textColor="@android:color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/etPincode"
+            app:layout_constraintTop_toBottomOf="@id/etEmailId" />
 
-                <TextView
-                    android:id="@+id/currentLocation"
-                    android:layout_width="wrap_content"
-                    android:layout_height="50dp"
-                    android:layout_marginTop="10dp"
-                    android:background="@color/cadet_blue"
-                    android:clickable="true"
-                    android:drawableEnd="@drawable/ic_location"
-                    android:drawablePadding="5dp"
-                    android:focusable="true"
-                    android:hint="Saved Location"
-                    android:padding="13dp"
-                    android:textSize="18sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tvLocation" />
+        <EditText
+            android:id="@+id/etState"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="30dp"
+            android:layout_marginVertical="10dp"
+            android:background="@drawable/shape_edittext"
+            android:hint="State (Required)*"
+            android:inputType="text"
+            android:padding="10dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvMyLocation" />
 
+        <EditText
+            android:id="@+id/etCity"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="30dp"
+            android:layout_marginVertical="10dp"
+            android:background="@drawable/shape_edittext"
+            android:hint="City (Required)*"
+            android:inputType="text"
+            android:padding="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/etState"
+            app:layout_constraintTop_toBottomOf="@id/tvMyLocation" />
 
-                <TextView
-                    android:id="@+id/tvAdd"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:text="Enter Your Address"
-                    android:textStyle="bold"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/btLocation" />
+        <EditText
+            android:id="@+id/etHouseNo"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="30dp"
+            android:layout_marginVertical="10dp"
+            android:background="@drawable/shape_edittext"
+            android:hint="House No., Building Name (Required)*"
+            android:inputType="text"
+            android:padding="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/etCity" />
 
-                <EditText
-                    android:id="@+id/etAddress"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_marginTop="10dp"
-                    android:background="@drawable/shape_edittext"
-                    android:drawableEnd="@drawable/ic_location"
-                    android:hint="ADD ADDRESS"
-                    android:padding="15dp"
-                    android:paddingStart="15dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tvAdd" />
-
-
-                <TextView
-                    android:id="@+id/tvDate"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="40dp"
-                    android:layout_marginTop="20dp"
-                    android:text="Select Date"
-                    android:textStyle="bold"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/etAddress" />
-
-                <EditText
-                    android:id="@+id/rvDate"
-                    android:layout_width="wrap_content"
-                    android:layout_height="50dp"
-                    android:layout_marginTop="8dp"
-                    android:background="@drawable/shape_edittext"
-                    android:drawableEnd="@drawable/ic_calendar"
-                    android:drawablePadding="5dp"
-                    android:gravity="center"
-                    android:hint="DD/MM/YYYY"
-                    android:inputType="none"
-                    android:padding="5dp"
-                    android:focusable="false"
-                    android:focusableInTouchMode="false"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tvDate" />
-
-                <TextView
-                    android:id="@+id/tvTime"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginEnd="50dp"
-                    android:text="Select Time"
-                    android:textStyle="bold"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/etAddress" />
-
-                <EditText
-                    android:id="@+id/rvTime"
-                    android:layout_width="wrap_content"
-                    android:layout_height="50dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginEnd="20dp"
-                    android:background="@drawable/shape_edittext"
-                    android:drawableEnd="@drawable/ic_clock"
-                    android:drawablePadding="5dp"
-                    android:gravity="center"
-                    android:hint="HH:MM AM"
-                    android:padding="5dp"
-                    android:focusable="false"
-                    android:focusableInTouchMode="false"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tvTime" />
-
-                <EditText
-                    android:id="@+id/etComment"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="30dp"
-                    android:background="@drawable/shape_edittext"
-                    android:hint="Any Comment"
-                    android:padding="15dp"
-                    android:paddingStart="15dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/rvDate" />
+        <EditText
+            android:id="@+id/etRoadArea"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="30dp"
+            android:layout_marginVertical="10dp"
+            android:background="@drawable/shape_edittext"
+            android:hint="Road name, Area, Colony (Required)*"
+            android:inputType="text"
+            android:padding="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/etHouseNo" />
 
 
+        <TextView
+            android:id="@+id/tvDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="40dp"
+            android:layout_marginTop="20dp"
+            android:text="Select Date"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/etRoadArea" />
 
+        <EditText
+            android:id="@+id/rvDate"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_marginHorizontal="30dp"
+            android:layout_marginVertical="10dp"
+            android:background="@drawable/shape_edittext"
+            android:drawableEnd="@drawable/ic_calendar"
+            android:drawablePadding="5dp"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:gravity="center"
+            android:hint="DD/MM/YYYY"
+            android:inputType="none"
+            android:padding="5dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvDate" />
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:id="@+id/tvTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="50dp"
+            android:text="Select Time"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/etRoadArea" />
 
+        <EditText
+            android:id="@+id/rvTime"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_marginHorizontal="30dp"
+            android:layout_marginVertical="10dp"
+            android:background="@drawable/shape_edittext"
+            android:drawableEnd="@drawable/ic_clock"
+            android:drawablePadding="5dp"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:gravity="center"
+            android:hint="HH:MM AM"
+            android:padding="5dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvTime" />
 
-
-        </ScrollView>
-        <Button
-            android:id="@+id/btSubmit"
+        <EditText
+            android:id="@+id/etComment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="30dp"
+            android:layout_marginVertical="10dp"
             android:background="@drawable/shape_edittext"
-            android:text="Submit"
-            android:layout_marginStart="30dp"
-            android:layout_marginEnd="30dp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:hint="Any Comment"
+            android:padding="15dp"
+            android:paddingStart="15dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/scrollView" />
+            app:layout_constraintTop_toBottomOf="@id/rvDate" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</layout>
+
+    <Button
+        android:id="@+id/btSubmit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:background="@drawable/shape_edittext"
+        android:text="Submit"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/etComment" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+    </layout>

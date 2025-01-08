@@ -23,7 +23,7 @@ class EditProfileActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         sharedPref = getSharedPreferences("MyPrefs", MODE_PRIVATE)
-        val id = intent.getIntExtra("id", 0)
+        val userId = sharedPref.getInt("id", 0)
 
         loadProfileData()
 
@@ -34,23 +34,17 @@ class EditProfileActivity : AppCompatActivity() {
         binding.toolbar.tvTitle.text = "My Account"
 
         binding.etDate.setOnClickListener {
-
             showDatePicker()
         }
 
         binding.btUpdate.setOnClickListener {
-            binding.btUpdate.setOnClickListener {
-                if (validateFields()) {
-                    editProfileData(id)
-                    finish()
-                }
+            if (validateFields()) {
+                editProfileData(userId)
             }
-
         }
     }
 
     private fun validateFields(): Boolean {
-
         val name = binding.etName.text.toString().trim()
         val mobileNumber = binding.etMobileNumber.text.toString().trim()
         val dob = binding.etDate.text.toString().trim()
@@ -73,7 +67,6 @@ class EditProfileActivity : AppCompatActivity() {
             return false
         }
         return true
-
     }
 
     private fun loadProfileData() {
@@ -87,6 +80,7 @@ class EditProfileActivity : AppCompatActivity() {
         binding.etMobileNumber.setText(mobileNumber)
         binding.etDate.setText(dob)
         binding.etEmail.setText(email)
+
         when (gender) {
             "Male" -> binding.rbMale.isChecked = true
             "Female" -> binding.rbFemale.isChecked = true
@@ -131,7 +125,6 @@ class EditProfileActivity : AppCompatActivity() {
 
         val editProfile = EditProfile(dob, email, gender, mobileNumber, name)
 
-
         RetrofitInstance.apiService.updateProfile(id, editProfile)
             .enqueue(object : Callback<EditProfile> {
                 override fun onResponse(call: Call<EditProfile>, response: Response<EditProfile>) {
@@ -142,7 +135,7 @@ class EditProfileActivity : AppCompatActivity() {
                             Toast.LENGTH_SHORT
                         ).show()
                         saveProfileToSharedPrefs(editProfile)
-
+                        finish()
                     } else {
                         Toast.makeText(
                             this@EditProfileActivity,
@@ -162,12 +155,13 @@ class EditProfileActivity : AppCompatActivity() {
             })
     }
 
-
     private fun saveProfileToSharedPrefs(profile: EditProfile) {
         with(sharedPref.edit()) {
             putString("name", profile.name)
             putString("mobile_number", profile.mobile_number)
-
+            putString("dob", profile.dob)
+            putString("email", profile.email)
+            putString("gender", profile.gender)
             apply()
         }
     }
