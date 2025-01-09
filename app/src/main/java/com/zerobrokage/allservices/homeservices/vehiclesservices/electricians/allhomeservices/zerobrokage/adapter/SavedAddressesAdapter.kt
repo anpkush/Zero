@@ -22,7 +22,7 @@ class SavedAddressesAdapter(
     private val mListener: ItemClickListener,
     private val context: Context,
     private val userId: Int,
-    private val cartEmptyCallback: (Boolean) -> Unit
+    private val EmptyCallback: (Boolean) -> Unit
 ) : RecyclerView.Adapter<SavedAddressesAdapter.AddressViewHolder>() {
 
 
@@ -62,28 +62,28 @@ class SavedAddressesAdapter(
         }
 
         private fun deleteAddress(userId: Int, addressId: Int, position: Int) {
-            RetrofitInstance.apiService.deleteAddress(userId).enqueue(object : Callback<DeleteApi> {
+            RetrofitInstance.apiService.deleteAddress(userId, addressId).enqueue(object : Callback<Map<String, Any>> {
                 override fun onResponse(
-                    call: Call<DeleteApi>,
-                    response: Response<DeleteApi>
+                    call: Call<Map<String, Any>>,
+                    response: Response<Map<String, Any>>
                 ) {
-                    if (response.isSuccessful) {
+                    if (response.isSuccessful && response.body()?.get("success") == true) {
                         addressList.removeAt(position)
                         notifyItemRemoved(position)
                         notifyItemRangeChanged(position, addressList.size)
                         Toast.makeText(context, "Address removed successfully", Toast.LENGTH_SHORT).show()
-
-                        cartEmptyCallback(addressList.isNotEmpty())
+                        EmptyCallback(addressList.isNotEmpty())
                     } else {
                         Toast.makeText(context, "Failed to delete address", Toast.LENGTH_SHORT).show()
                     }
                 }
 
-                override fun onFailure(call: Call<DeleteApi>, t: Throwable) {
+                override fun onFailure(call: Call<Map<String, Any>>, t: Throwable) {
                     Toast.makeText(context, "Error: ${t.message}", Toast.LENGTH_SHORT).show()
                 }
             })
         }
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AddressViewHolder {

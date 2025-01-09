@@ -8,6 +8,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.databinding.CartItemViewBinding
 import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.modelClass.CartViewApi
+import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.modelClass.ItemUpdateRequest
+import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.modelClass.ItemUpdateResponse
 import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.retrofitClient.RetrofitInstance
 import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.ui.fragment.ItemClickListener
 import retrofit2.Call
@@ -42,10 +44,9 @@ class CartItemViewAdapter(
                         item.qty++
                         textViewNumber.text = item.qty.toString()
                         buttonMinus.isEnabled = true
-                       // updateQuantityOnServer(userId, item.id, item.qty)
+                        updateQuantityOnServer(userId, item.id, item.qty)
                     } else {
-                        Toast.makeText(context, "Maximum quantity reached!", Toast.LENGTH_SHORT)
-                            .show()
+                        Toast.makeText(context, "Maximum quantity reached!", Toast.LENGTH_SHORT).show()
                     }
                 }
 
@@ -54,13 +55,10 @@ class CartItemViewAdapter(
                         item.qty--
                         textViewNumber.text = item.qty.toString()
                         buttonMinus.isEnabled = item.qty > 1
-                        //updateQuantityOnServer(userId, item.id, item.qty)
+                        updateQuantityOnServer(userId, item.id, item.qty)
                     }
                 }
 
-                ivRemove.setOnClickListener {
-                    deleteItem(item.id, adapterPosition)
-                }
             }
         }
     }
@@ -110,24 +108,29 @@ class CartItemViewAdapter(
             })
     }
 
-    /*private fun updateQuantityOnServer(userId: Int, cartItemId: Int, newQty: Int) {
-        RetrofitInstance.apiService.updateCartQty(userId, cartItemId, newQty)
-            .enqueue(object : Callback<Map<String, Any>> {
+    private fun updateQuantityOnServer(enquiriesId: Int, subMenuId: Int, adjustment: Int) {
+        val request = ItemUpdateRequest(adjustment = adjustment.toString())
+
+        RetrofitInstance.apiService.updateCartItem(enquiriesId, subMenuId, request)
+            .enqueue(object : Callback<ItemUpdateResponse> {
                 override fun onResponse(
-                    call: Call<Map<String, Any>>,
-                    response: Response<Map<String, Any>>
+                    call: Call<ItemUpdateResponse>,
+                    response: Response<ItemUpdateResponse>
                 ) {
-                    if (response.isSuccessful && response.body()?.get("success") == true) {
-                        Toast.makeText(context, "Quantity updated", Toast.LENGTH_SHORT).show()
+                    if (response.isSuccessful && response.body()?.success == true) {
+                        Toast.makeText(context, "Quantity updated successfully", Toast.LENGTH_SHORT).show()
+                        val updatedCartItem = response.body()?.data?.cart_item?.id
+                        println("Updated Item: $updatedCartItem")
                     } else {
-                        Toast.makeText(context, "Failed to update quantity", Toast.LENGTH_SHORT)
-                            .show()
+                        Toast.makeText(context, "Failed to update quantity", Toast.LENGTH_SHORT).show()
+                        println("Error: ${response.body()?.message ?: "Unknown error"}")
                     }
                 }
 
-                override fun onFailure(call: Call<Map<String, Any>>, t: Throwable) {
+                override fun onFailure(call: Call<ItemUpdateResponse>, t: Throwable) {
                     Toast.makeText(context, "Error: ${t.message}", Toast.LENGTH_SHORT).show()
                 }
             })
-    }*/
+    }
+
 }

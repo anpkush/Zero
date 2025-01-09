@@ -13,6 +13,8 @@ import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.al
 import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.modelClass.EditProfile
 import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.modelClass.FAQsData
 import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.modelClass.GetCartAPI
+import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.modelClass.ItemUpdateRequest
+import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.modelClass.ItemUpdateResponse
 import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.modelClass.LoginRequest
 import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.modelClass.LoginResponse
 import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.modelClass.OtpRequest
@@ -62,8 +64,11 @@ interface ServicesInterface {
     @GET("saved-addresses/{id}")
     fun savedAddresses(@Path("id") id: Int): Call<SavedAddressApi>
 
-    @DELETE("address/{id}")
-    fun deleteAddress(@Path("id") id: Int): Call<DeleteApi>
+    @DELETE("address/{userId}/{addressId}")
+    fun deleteAddress(
+        @Path("userId") userId: Int,
+        @Path("addressId") addressId: Int
+    ): Call<Map<String, Any>>
 
     @POST("device-id")
     fun deviceId(@Body deviceID: DeviceID): Call<DeviceID>
@@ -101,8 +106,12 @@ interface ServicesInterface {
         @Body bookingRequest: BookingRequest
     ): Call<BookingResponse>
 
-    @PUT("item/update/{userId}/{itemId}")
-    fun updateCartQty( @Body cartQtyUpdate: Int) : Call<CartQtyUpdate>
+    @POST("item/update/{enquiriesId}/{subMenuId}")
+    fun updateCartItem(
+        @Path("enquiriesId") enquiriesId: Int,
+        @Path("subMenuId") subMenuId: Int,
+        @Body request: ItemUpdateRequest
+    ): Call<ItemUpdateResponse>
 
 
 
