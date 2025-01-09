@@ -39,7 +39,13 @@ class CartActivity : AppCompatActivity(), ItemClickListener {
         binding.toolbar.ivBack.setOnClickListener { finish() }
         binding.toolbar.tvTitle.text = "Cart"
 
-        cartAdapter = CartItemViewAdapter(mutableListOf(), this, this, userId)
+        cartAdapter = CartItemViewAdapter(
+            mutableListOf(),
+            this,
+            this,
+            userId,
+            ::updatePlaceOrderButton
+        )
         binding.rvGetItem.apply {
             adapter = cartAdapter
             layoutManager = LinearLayoutManager(this@CartActivity)
@@ -52,23 +58,29 @@ class CartActivity : AppCompatActivity(), ItemClickListener {
                 if (response.isSuccessful && response.body()?.data != null) {
                     val cartItems = response.body()?.data ?: emptyList()
                     cartAdapter.updateData(cartItems)
-                    enablePlaceButton()
+                    updatePlaceOrderButton(cartItems.isNotEmpty())
                 } else {
+                    updatePlaceOrderButton(false)
                     Toast.makeText(this@CartActivity, "Cart is empty", Toast.LENGTH_SHORT).show()
                 }
             }
 
             override fun onFailure(call: Call<CartViewApi>, t: Throwable) {
+                updatePlaceOrderButton(false)
                 Toast.makeText(this@CartActivity, "Error: ${t.message}", Toast.LENGTH_SHORT).show()
             }
         })
     }
 
-    private fun enablePlaceButton() {
-        binding.btPlace.visibility = View.VISIBLE
-        binding.btPlace.setOnClickListener {
-            val intent = Intent(this, BookingActivity::class.java)
-            startActivity(intent)
+    private fun updatePlaceOrderButton(enable: Boolean) {
+        binding.btPlace.visibility = if (enable) View.VISIBLE else View.GONE
+        if (enable) {
+            binding.btPlace.setOnClickListener {
+                val intent = Intent(this, BookingActivity::class.java)
+                startActivity(intent)
+            }
+        } else {
+            binding.btPlace.setOnClickListener(null)
         }
     }
 

@@ -34,14 +34,13 @@ class AddressActivity : AppCompatActivity(), ItemClickListener {
             startActivity(intent)
         }
 
-        //Saved Addresses Api
         getSavedAddressesApi()
     }
 
     private fun getSavedAddressesApi() {
         val userId = getSharedPreferences("MyPrefs", MODE_PRIVATE).getInt("id", 0)
 
-        RetrofitInstance.apiService.savedAddresses(userId).enqueue(object : Callback<SavedAddressApi>{
+        RetrofitInstance.apiService.savedAddresses(userId).enqueue(object : Callback<SavedAddressApi> {
             override fun onResponse(
                 call: Call<SavedAddressApi?>,
                 response: Response<SavedAddressApi?>
@@ -50,33 +49,28 @@ class AddressActivity : AppCompatActivity(), ItemClickListener {
                     val savedAddresses = response.body()?.addresses ?: emptyList()
                     if (savedAddresses.isNotEmpty()) {
                         binding.rvSavedAddress.apply {
-                            adapter =
-                                SavedAddressesAdapter(savedAddresses, this@AddressActivity)
+                            adapter = SavedAddressesAdapter(
+                                savedAddresses.toMutableList(),
+                                this@AddressActivity,
+                                this@AddressActivity,userId
+                            ) { isNotEmpty ->
+                                if (!isNotEmpty) {
+                                    Toast.makeText(this@AddressActivity, "No addresses available", Toast.LENGTH_SHORT).show()
+                                }
+                            }
                             layoutManager = LinearLayoutManager(this@AddressActivity)
                         }
-                    }else {
-                        Toast.makeText(
-                            this@AddressActivity,
-                            "No addresses available",
-                            Toast.LENGTH_SHORT
-                        ).show()
+                    } else {
+                        Toast.makeText(this@AddressActivity, "No addresses available", Toast.LENGTH_SHORT).show()
                     }
                 } else {
-                    Toast.makeText(
-                        this@AddressActivity,
-                        "Failed to fetch addresses",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    Toast.makeText(this@AddressActivity, "Failed to fetch addresses", Toast.LENGTH_SHORT).show()
                 }
             }
 
-            override fun onFailure(
-                call: Call<SavedAddressApi?>,
-                t: Throwable
-            ) {
+            override fun onFailure(call: Call<SavedAddressApi?>, t: Throwable) {
                 Toast.makeText(this@AddressActivity, t.message, Toast.LENGTH_SHORT).show()
             }
-
         })
     }
 
@@ -86,8 +80,6 @@ class AddressActivity : AppCompatActivity(), ItemClickListener {
     }
 
     override fun onItemClick(id: Int, name: String) {
-
+        Toast.makeText(this, "Clicked on $name", Toast.LENGTH_SHORT).show()
     }
 }
-
-

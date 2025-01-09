@@ -4,7 +4,7 @@ data class CartQtyUpdate(
     val adjustment: Int
 )
 
-data class CartViewApi(
+data class CartItemViewApi(
     val success: Boolean,
     val data: Data,
     val message: String
