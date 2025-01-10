@@ -1,7 +1,6 @@
 package com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.adapter
 
 import android.content.Context
-import android.graphics.Color
 import android.os.Build
 import android.text.Html
 import android.view.LayoutInflater
@@ -38,7 +37,8 @@ class SubMenuItemAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MySubMenuViewHolder {
-        val binding = BookingItemviewBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding =
+            BookingItemviewBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return MySubMenuViewHolder(binding, context, this, userId)
     }
 
@@ -100,7 +100,8 @@ class SubMenuItemAdapter(
             binding.tvTrendingService.text = data.name
             binding.tvLocationName.text = data.city
             binding.tvTrendingDetails.text = data.description
-            Glide.with(binding.ivTrendingCategory.context).load(data.image).into(binding.ivTrendingCategory)
+            Glide.with(binding.ivTrendingCategory.context).load(data.image)
+                .into(binding.ivTrendingCategory)
             updateUI()
 
             binding.btAddCart.setOnClickListener {
@@ -115,7 +116,7 @@ class SubMenuItemAdapter(
             binding.buttonPlus.setOnClickListener {
                 if (number < 10) {
                     number++
-                    addCartApi(userId, CartApi(sub_menu_id = data.id.toString(), qty = number))
+                    addCartApi(userId, CartApi(sub_menu_id = data.id.toString(), qty = 1))
                     adapter.addToCart(data.id, number)
                     updateUI()
                 } else {
@@ -126,14 +127,16 @@ class SubMenuItemAdapter(
             binding.buttonMinus.setOnClickListener {
                 if (number > 1) {
                     number--
-                    addCartApi(userId, CartApi(sub_menu_id = data.id.toString(), qty = number))
+                    addCartApi(userId, CartApi(sub_menu_id = data.id.toString(), qty = -1))
                     adapter.addToCart(data.id, number)
-                } else {
+                } else if (number == 1) {
+                    number = 0
                     adapter.removeFromCart(data.id)
                     removeCartApi(userId, data.id)
                 }
                 updateUI()
             }
+
 
             binding.tvViewDetails.setOnClickListener {
                 alertDialog(data)
@@ -143,11 +146,22 @@ class SubMenuItemAdapter(
         private fun removeCartApi(userId: Int, subMenuId: Int) {
             RetrofitInstance.apiService.deleteItem(userId, subMenuId)
                 .enqueue(object : Callback<Map<String, Any>> {
-                    override fun onResponse(call: Call<Map<String, Any>>, response: Response<Map<String, Any>>) {
+                    override fun onResponse(
+                        call: Call<Map<String, Any>>,
+                        response: Response<Map<String, Any>>
+                    ) {
                         if (response.isSuccessful) {
-                            Toast.makeText(context, "Item removed from cart successfully!", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(
+                                context,
+                                "Item removed from cart successfully!",
+                                Toast.LENGTH_SHORT
+                            ).show()
                         } else {
-                            Toast.makeText(context, "Failed to remove item from cart: ${response.message()}", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(
+                                context,
+                                "Failed to remove item from cart: ${response.message()}",
+                                Toast.LENGTH_SHORT
+                            ).show()
                         }
                     }
 
@@ -159,7 +173,7 @@ class SubMenuItemAdapter(
 
         private fun updateUI() {
             binding.textViewNumber.text = number.toString()
-            isAddedToCart = adapter.cartItems.containsKey(data.id)
+            isAddedToCart = adapter.cartItems.containsKey(data.id) && number > 0
 
             if (isAddedToCart) {
                 binding.btAddCart.visibility = View.GONE
@@ -175,9 +189,17 @@ class SubMenuItemAdapter(
                 .enqueue(object : Callback<CartApi> {
                     override fun onResponse(call: Call<CartApi>, response: Response<CartApi>) {
                         if (response.isSuccessful) {
-                            Toast.makeText(context, "Item added to cart successfully!", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(
+                                context,
+                                "Item added to cart successfully!",
+                                Toast.LENGTH_SHORT
+                            ).show()
                         } else {
-                            Toast.makeText(context, "Failed to add item to cart: ${response.message()}", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(
+                                context,
+                                "Failed to add item to cart: ${response.message()}",
+                                Toast.LENGTH_SHORT
+                            ).show()
                         }
                     }
 
@@ -193,7 +215,8 @@ class SubMenuItemAdapter(
             builder.setView(dialogBinding.root)
             val alertDialog = builder.create()
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                dialogBinding.tvAllDetails.text = Html.fromHtml(data.details, Html.FROM_HTML_MODE_COMPACT)
+                dialogBinding.tvAllDetails.text =
+                    Html.fromHtml(data.details, Html.FROM_HTML_MODE_COMPACT)
             } else {
                 dialogBinding.tvAllDetails.text = Html.fromHtml(data.details)
             }
