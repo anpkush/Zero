@@ -152,12 +152,12 @@ class OtpActivity : AppCompatActivity() {
                                 Toast.makeText(this@OtpActivity, "Verified", Toast.LENGTH_SHORT).show()
                                 val intent = Intent(this@OtpActivity, HomeActivity::class.java)
                                 sharedPref.edit().putInt("id", it.id).apply()
-                               // Toast.makeText(this@OtpActivity, "${it.id}", Toast.LENGTH_SHORT).show()
                                 startActivity(intent)
                                 finish()
                             } else {
                                 Toast.makeText(this@OtpActivity, it.message, Toast.LENGTH_SHORT).show()
                             }
+                            finish()
                         }
                     } else {
                         Toast.makeText(this@OtpActivity, "Verification failed. Please try again.", Toast.LENGTH_SHORT).show()

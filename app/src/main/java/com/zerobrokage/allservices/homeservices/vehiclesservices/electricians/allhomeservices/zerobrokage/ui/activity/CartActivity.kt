@@ -8,10 +8,10 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.adapter.CartItemViewAdapter
+import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.adapter.ItemClickListener
 import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.databinding.ActivityCartBinding
 import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.modelClass.CartViewApi
 import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.retrofitClient.RetrofitInstance
-import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.ui.fragment.ItemClickListener
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -22,6 +22,7 @@ class CartActivity : AppCompatActivity(), ItemClickListener {
     private lateinit var sharedPreferences: SharedPreferences
     private lateinit var cartAdapter: CartItemViewAdapter
     private var userId: Int = 0
+    private var cartItems: ArrayList<CartViewApi.Data> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,6 +34,16 @@ class CartActivity : AppCompatActivity(), ItemClickListener {
 
         setupUI()
         getCartItems()
+
+        binding.btPlace.setOnClickListener {
+            if (cartItems.isNotEmpty()) {
+                val intent = Intent(this, BookingActivity::class.java)
+               // intent.putParcelableArrayListExtra("cartItems", cartItems)
+                startActivity(intent)
+            } else {
+                Toast.makeText(this, "Cart is empty", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     private fun setupUI() {
@@ -44,8 +55,9 @@ class CartActivity : AppCompatActivity(), ItemClickListener {
             this,
             this,
             userId,
-            ::updatePlaceOrderButton
+            ::updateCartBadge
         )
+
         binding.rvGetItem.apply {
             adapter = cartAdapter
             layoutManager = LinearLayoutManager(this@CartActivity)
@@ -55,41 +67,43 @@ class CartActivity : AppCompatActivity(), ItemClickListener {
     private fun getCartItems() {
         RetrofitInstance.apiService.cartViewApi(userId).enqueue(object : Callback<CartViewApi> {
             override fun onResponse(call: Call<CartViewApi>, response: Response<CartViewApi>) {
-                if (response.isSuccessful && response.body()?.data != null) {
-                    val cartItems = response.body()?.data ?: emptyList()
+                if (response.isSuccessful) {
+                    val data = response.body()?.data ?: emptyList()
+                    cartItems.clear()
+                    cartItems.addAll(data)
                     cartAdapter.updateData(cartItems)
-                    updatePlaceOrderButton(cartItems.isNotEmpty())
+                    updateCartBadge(cartItems.size)
+                    toggleEmptyCartView(cartItems.isEmpty())
                 } else {
-                    updatePlaceOrderButton(false)
-                    Toast.makeText(this@CartActivity, "Cart is empty", Toast.LENGTH_SHORT).show()
+                    showErrorAndClearCart("Cart is empty")
                 }
             }
 
             override fun onFailure(call: Call<CartViewApi>, t: Throwable) {
-                updatePlaceOrderButton(false)
-                Toast.makeText(this@CartActivity, "Error: ${t.message}", Toast.LENGTH_SHORT).show()
+                showErrorAndClearCart(t.localizedMessage)
             }
         })
     }
 
-    private fun updatePlaceOrderButton(enable: Boolean) {
-        binding.btPlace.visibility = if (enable) View.VISIBLE else View.GONE
-        if (enable) {
-            binding.btPlace.setOnClickListener {
-                val intent = Intent(this, BookingActivity::class.java)
-                startActivity(intent)
-            }
-        } else {
-            binding.btPlace.setOnClickListener(null)
-        }
+    private fun showErrorAndClearCart(message: String) {
+        cartItems.clear()
+        cartAdapter.updateData(cartItems)
+        updateCartBadge(0)
+        toggleEmptyCartView(true)
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 
-    override fun onResume() {
-        super.onResume()
-        getCartItems()
+    private fun toggleEmptyCartView(isEmpty: Boolean) {
+        binding.ivCartEmpty.visibility = if (isEmpty) View.VISIBLE else View.GONE
+        binding.rvGetItem.visibility = if (isEmpty) View.GONE else View.VISIBLE
     }
 
-    override fun onItemClick(id: Int, name: String, icon: String) {
+    private fun updateCartBadge(count: Int) {
+        binding.btPlace.isEnabled = count > 0
+        binding.btPlace.alpha = if (count > 0) 1.0f else 0.5f
+    }
+
+    override fun onItemClick(id: Int, name: String) {
         Toast.makeText(this, "Clicked on $name", Toast.LENGTH_SHORT).show()
     }
 }

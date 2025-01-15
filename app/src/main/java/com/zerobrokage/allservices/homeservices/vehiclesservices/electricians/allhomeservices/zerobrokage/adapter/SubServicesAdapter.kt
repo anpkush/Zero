@@ -6,18 +6,18 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.databinding.ServicesAllItemviewBinding
-import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.modelClass.Data
+import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.modelClass.ServiceData
 import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.ui.activity.SubMenuActivity
 import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.ui.fragment.ServicesFragment
 
 class SubServicesAdapter(
-    private val serviceMenuData: List<Data>,
+    private val serviceMenuData: List<ServiceData>,
     private val mListener: ServicesFragment
 ) : RecyclerView.Adapter<SubServicesAdapter.MyViewHolder>() {
 
     class MyViewHolder(private var binding: ServicesAllItemviewBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(menuData: Data) {
+        fun bind(menuData: ServiceData) {
             binding.tvAllMenuService.text = menuData.name
             Glide.with(binding.ivAllMenuServices.context)
                 .load(menuData.icon)

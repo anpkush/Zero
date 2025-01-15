@@ -16,11 +16,7 @@ import retrofit2.Response
 class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
     private lateinit var sharedPref: SharedPreferences
-
-
-    private fun updateUIWithUserData() {
-        retrieveUserData()
-    }
+    private var isRequestInProgress = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,10 +24,8 @@ class LoginActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         sharedPref = getSharedPreferences("MyPrefs", MODE_PRIVATE)
-        val userId = sharedPref.getInt("id", 0)
 
         retrieveUserData()
-
 
         binding.btGetOtp.setOnClickListener {
             val name = binding.etName.text.toString().trim()
@@ -39,22 +33,18 @@ class LoginActivity : AppCompatActivity() {
             val countryCode = binding.countryPeaker.selectedCountryCodeWithPlus
 
             if (validateInputs(name, mobileNo, countryCode)) {
-                getOtp(countryCode, mobileNo, name, userId)
-                sharedPref.edit().apply {
-                    putString("name", name)
-                    putString("mobile_number", mobileNo)
-                    putInt("userId",userId)
-                    apply()
+                if (!isRequestInProgress) {
+                    getOtp(countryCode, mobileNo, name)
+                    isRequestInProgress = true
+                    binding.btGetOtp.isEnabled = false
                 }
             }
         }
     }
 
-
     private fun retrieveUserData() {
         val mobileNumber = sharedPref.getString("mobile_number", "")
         val name = sharedPref.getString("name", "")
-
 
         binding.etMobileNumber.setText(mobileNumber)
         binding.etName.setText(name)
@@ -76,12 +66,14 @@ class LoginActivity : AppCompatActivity() {
         return true
     }
 
-    private fun getOtp(countryCode: String, mobileNo: String, name: String, id: Int) {
+    private fun getOtp(countryCode: String, mobileNo: String, name: String) {
+        val userId = sharedPref.getInt("id", 0)
+
         sharedPref.edit().apply {
             putString("name", name)
             putString("mobile_number", mobileNo)
             putString("country_code", countryCode)
-            putInt("id", id)
+            putInt("id", userId)
             apply()
         }
 
@@ -96,16 +88,15 @@ class LoginActivity : AppCompatActivity() {
                         Toast.makeText(this@LoginActivity, "Otp Sent", Toast.LENGTH_SHORT).show()
 
                         val bundle = Bundle().apply {
-                            putString("name", name)  // Pass the name to OtpActivity
+                            putString("name", name)
                             putString("mobile_number", mobileNo)
                             putString("countryCode", countryCode)
-                            putInt("id", id)
+                            putInt("id", userId)
                         }
                         val intent = Intent(this@LoginActivity, OtpActivity::class.java).apply {
                             putExtras(bundle)
                         }
                         startActivity(intent)
-                        finish()
                     } else {
                         Toast.makeText(
                             this@LoginActivity,
@@ -124,6 +115,8 @@ class LoginActivity : AppCompatActivity() {
                 }
             })
     }
-
-
+    private fun resetButtonState() {
+        isRequestInProgress = false
+        binding.btGetOtp.isEnabled = true
+    }
 }
