@@ -4,6 +4,7 @@ import BottomSheetServicesFragment
 import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Application
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Geocoder
@@ -61,7 +62,7 @@ class HomeFragment : Fragment(), ItemClickListener {
             }
         }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val view = binding.root
 
@@ -145,7 +146,7 @@ class HomeFragment : Fragment(), ItemClickListener {
     }
 
     private fun saveAddressInSharedPreferences(address: String) {
-        val sharedPreferences = requireContext().getSharedPreferences("UserPreferences", Application.MODE_PRIVATE)
+        val sharedPreferences = requireContext().getSharedPreferences("UserPreferences", Context.MODE_PRIVATE)
         val editor = sharedPreferences.edit()
         editor.putString("UserAddress", address)
         editor.apply()

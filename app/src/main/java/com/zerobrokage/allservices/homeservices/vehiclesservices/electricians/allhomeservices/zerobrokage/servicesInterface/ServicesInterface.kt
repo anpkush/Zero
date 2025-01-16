@@ -1,13 +1,10 @@
 package com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.servicesInterface
 
 import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.modelClass.AddAddressApi
-import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.modelClass.BookingRequest
-import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.modelClass.BookingResponse
+import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.modelClass.BookingListApi
 import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.modelClass.CartApi
-import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.modelClass.CartQtyUpdate
 import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.modelClass.CartViewApi
 import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.modelClass.CustomerReview
-import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.modelClass.DeleteApi
 import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.modelClass.DeviceID
 import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.modelClass.EditAddresses
 import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.modelClass.EditProfile
@@ -101,10 +98,10 @@ interface ServicesInterface {
     ): Call<Map<String, Any>>
 
 
-    @POST("Booking/{id}")
+   /* @POST("Booking/{id}")
     fun createBooking(@Path("userId") userId: Int,
         @Body bookingRequest: BookingRequest
-    ): Call<BookingResponse>
+    ): Call<BookingResponse>*/
 
     @POST("item/update/{enquiriesId}/{subMenuId}")
     fun updateCartItem(
@@ -112,6 +109,10 @@ interface ServicesInterface {
         @Path("subMenuId") subMenuId: Int,
         @Body request: ItemUpdateRequest
     ): Call<ItemUpdateResponse>
+
+
+    @GET("enquiries/{enquiries_id}/bookings")
+    fun getBookingList(@Path("enquiries_id") userId: Int): Call<BookingListApi>
 
 
 

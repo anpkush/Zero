@@ -6,10 +6,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.adapter.ItemClickListener
 import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.databinding.MenuCardItemviewBinding
-import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.modelClass.Data
+import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.modelClass.ServiceData
 
 class BottomMenuAdapter(
-    private val serviceMenuData: List<Data>,
+    private val serviceMenuData: List<ServiceData>,
     private val mListener: ItemClickListener
 ) : RecyclerView.Adapter<BottomMenuAdapter.MenuViewHolder>() {
 
@@ -31,7 +31,7 @@ class BottomMenuAdapter(
     class MenuViewHolder(private val binding: MenuCardItemviewBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(menuData: Data) {
+        fun bind(menuData: ServiceData) {
             binding.tvMenuService.text = menuData.name
             Glide.with(binding.ivMenuServices.context)
                 .load(menuData.icon)

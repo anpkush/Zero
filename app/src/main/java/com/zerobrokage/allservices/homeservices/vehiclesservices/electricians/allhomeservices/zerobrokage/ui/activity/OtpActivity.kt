@@ -30,10 +30,15 @@ class OtpActivity : AppCompatActivity() {
 
         sharedPref = getSharedPreferences("MyPrefs", MODE_PRIVATE)
 
-        val bundle = intent.extras
-        mobileNumber = bundle?.getString("mobile_number")
-        countryCode = bundle?.getString("countryCode")
-        name = bundle?.getString("name")
+        mobileNumber = intent.extras?.getString("mobile_number")
+        countryCode = intent.extras?.getString("countryCode")
+        name = intent.extras?.getString("companyName")
+
+        if (mobileNumber == null || countryCode == null) {
+            Toast.makeText(this, "Invalid data. Please try again.", Toast.LENGTH_SHORT).show()
+            finish()
+            return
+        }
 
         binding.tvChangeNumber.text = "$countryCode $mobileNumber"
 
@@ -147,12 +152,12 @@ class OtpActivity : AppCompatActivity() {
                                 Toast.makeText(this@OtpActivity, "Verified", Toast.LENGTH_SHORT).show()
                                 val intent = Intent(this@OtpActivity, HomeActivity::class.java)
                                 sharedPref.edit().putInt("id", it.id).apply()
-                               // Toast.makeText(this@OtpActivity, "${it.id}", Toast.LENGTH_SHORT).show()
                                 startActivity(intent)
                                 finish()
                             } else {
                                 Toast.makeText(this@OtpActivity, it.message, Toast.LENGTH_SHORT).show()
                             }
+                            finish()
                         }
                     } else {
                         Toast.makeText(this@OtpActivity, "Verification failed. Please try again.", Toast.LENGTH_SHORT).show()

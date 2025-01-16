@@ -3,138 +3,121 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-
     </data>
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cdUserProfile"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp"
+        android:layout_margin="10dp"
         android:padding="15dp"
         app:cardCornerRadius="15dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:cardElevation="10dp">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="10dp">
 
             <ImageView
-                android:id="@+id/ivProfile"
+                android:id="@+id/ivServicesPic"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
-                android:layout_margin="10dp"
-                android:elevation="30dp"
+                android:layout_marginTop="3dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_gravity="center"
+                android:background="@drawable/round_shape"
+                android:clipToOutline="true"
                 android:scaleType="centerCrop"
-                android:src="@drawable/electrician"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:src="@drawable/homepage" />
 
-            <TextView
-                android:id="@+id/tvServiceName"
-                android:layout_width="wrap_content"
+            <!-- Service Details Column -->
+            <LinearLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:padding="2dp"
-                android:text="Installation"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/ivProfile"
-                app:layout_constraintTop_toTopOf="parent" />
-
-
-
-
-            <TextView
-                android:id="@+id/tvDateandtime"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:layout_marginStart="10dp"
-                android:layout_marginEnd="2dp"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:singleLine="true"
-                android:text="Date &amp; Time:-"
-                android:textStyle="bold"
-                app:layout_constraintStart_toEndOf="@id/ivProfile"
-                app:layout_constraintTop_toBottomOf="@id/tvServiceName" />
+                android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/tvDate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="5dp"
-                android:text="14-Dec-2024"
-                app:layout_constraintStart_toEndOf="@id/tvDateandtime"
-                app:layout_constraintTop_toBottomOf="@id/tvServiceName" />
+                <!-- Service Name -->
+                <TextView
+                    android:id="@+id/tvServiceName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Installation"
+                    android:padding="2dp"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/royal_blue" />
 
-            <TextView
-                android:id="@+id/tvTime"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="5dp"
-                android:text="12:20 Am"
-                android:layout_marginStart="5dp"
-                app:layout_constraintStart_toEndOf="@id/tvDate"
-                app:layout_constraintTop_toBottomOf="@id/tvServiceName"/>
+                <!-- Date and Time -->
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="5dp">
 
-            <TextView
-                android:id="@+id/qty"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Qty:"
-                android:padding="5dp"
-                android:layout_margin="10dp"
-                android:textStyle="bold"
-                app:layout_constraintStart_toEndOf="@id/ivProfile"
-                app:layout_constraintTop_toBottomOf="@id/tvDateandtime"/>
+                    <TextView
+                        android:id="@+id/tvDateandtime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/purple_monester"
+                        android:text="Date &amp; Time:"
+                        android:textStyle="bold"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/tvDate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="14-Dec-2024"
+                        android:layout_marginStart="5dp"
+                        android:textSize="14sp" />
 
 
-            <TextView
-                android:id="@+id/qtyCount"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="2"
-                android:padding="5dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginStart="38dp"
-                android:textStyle="bold"
-                app:layout_constraintStart_toEndOf="@id/ivProfile"
-                app:layout_constraintTop_toBottomOf="@id/tvDateandtime"/>
+                </LinearLayout>
 
-            <TextView
-                android:id="@+id/status"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:layout_marginEnd="20dp"
-                android:background="@drawable/custome_status_bg"
-                android:padding="5dp"
-                android:text="Completed"
-                android:textStyle="bold"
-                android:textColor="@color/green"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tvDate"
-                app:layout_constraintBottom_toBottomOf="parent"/>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="5dp">
 
-            <!--<Button
-                android:id="@+id/btCancel"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:layout_marginEnd="5dp"
-                android:layout_marginBottom="5dp"
-                android:text="Status"
-                android:background="@drawable/shape_edittext"
-                android:textColor="@color/white"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tvDate" />-->
+                    <TextView
+                        android:id="@+id/qty"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Qty:"
+                        android:textColor="@color/orcid"
+                        android:textStyle="bold"
+                        android:textSize="14sp" />
 
+                    <TextView
+                        android:id="@+id/qtyCount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="2"
+                        android:textSize="14sp"
+                        android:layout_marginStart="5dp" />
+                </LinearLayout>
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                <TextView
+                    android:id="@+id/status"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/custome_status_bg"
+                    android:padding="5dp"
+                    android:text="Completed"
+                    android:textStyle="bold"
+                    android:textColor="@color/green"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+        </LinearLayout>
 
     </androidx.cardview.widget.CardView>
+
 </layout>

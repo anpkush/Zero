@@ -1,17 +1,44 @@
 package com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.adapter
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.databinding.BookingStatusCardviewBinding
-import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.modelClass.SubCatItemData
+import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.modelClass.BookingListApi
 
-class BookingAdapter(private val subCatList: List<SubCatItemData>) : RecyclerView.Adapter<BookingAdapter.MyViewHolder>() {
+class BookingAdapter(private var bookingList: List<BookingListApi.Data.Booking>) :
+    RecyclerView.Adapter<BookingAdapter.MyViewHolder>() {
+
     class MyViewHolder(private val binding: BookingStatusCardviewBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(currentItem: SubCatItemData) {
 
+        @SuppressLint("SetTextI18n")
+        fun bind(currentBooking: BookingListApi.Data.Booking) {
+            val subMenu = currentBooking
+            if (subMenu != null) {
+                binding.tvServiceName.text = subMenu.service_name
+                Glide.with(binding.root.context)
+                    .load(subMenu.service_image)
+                    .into(binding.ivServicesPic)
+            } else {
+                binding.tvServiceName.text = "Service not available"
+                binding.ivServicesPic.setImageResource(android.R.color.transparent)
+            }
+
+            binding.qtyCount.text = currentBooking.qty.toString()
+            binding.status.text = currentBooking.status
+            binding.tvDate.text = "${currentBooking.booking_date} || ${currentBooking.booking_time}"
+            // binding.tvTime.text = currentBooking.booking_time
+
+            when (currentBooking.status) {
+                "pending" -> binding.status.setTextColor(binding.root.context.getColor(android.R.color.holo_red_light))
+                "complete" -> binding.status.setTextColor(binding.root.context.getColor(android.R.color.holo_green_dark))
+                else -> binding.status.setTextColor(binding.root.context.getColor(android.R.color.holo_blue_dark))
+            }
         }
     }
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val binding = BookingStatusCardviewBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -19,10 +46,16 @@ class BookingAdapter(private val subCatList: List<SubCatItemData>) : RecyclerVie
     }
 
     override fun getItemCount(): Int {
-        return 5
+        return bookingList.size
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        holder.bind(subCatList[position])
+        val booking = bookingList[position]
+        holder.bind(booking)
+    }
+
+    fun updateData(newList: List<BookingListApi.Data.Booking>) {
+        bookingList = newList
+        notifyDataSetChanged()
     }
 }
