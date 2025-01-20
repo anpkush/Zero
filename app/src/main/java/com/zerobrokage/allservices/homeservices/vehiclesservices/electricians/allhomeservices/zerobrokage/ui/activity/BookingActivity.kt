@@ -13,6 +13,7 @@ import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.al
 import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.modelClass.BookingRequest
 import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.modelClass.BookingResponse
 import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.modelClass.CartData
+import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.R
 import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.retrofitClient.RetrofitInstance
 import retrofit2.Call
 import retrofit2.Callback
@@ -43,7 +44,8 @@ class BookingActivity : AppCompatActivity() {
         binding.rvTime.setOnClickListener { showTimePicker() }
 
         binding.btSubmit.setOnClickListener {
-            validateAndSubmitBooking() }
+            validateAndSubmitBooking()
+        }
     }
 
     private fun validateAndSubmitBooking() {
@@ -72,25 +74,24 @@ class BookingActivity : AppCompatActivity() {
             email = email,
             mobile_number = mobileNumber
         )
+        binding.btSubmit.isEnabled = false
 
-    
-        RetrofitInstance.apiService.createBooking(userId,bookingRequest).enqueue(object : Callback<BookingRequest?> {
+        RetrofitInstance.apiService.createBooking(userId, bookingRequest).enqueue(object : Callback<BookingRequest?> {
             override fun onResponse(
                 call: Call<BookingRequest?>,
                 response: Response<BookingRequest?>
             ) {
-                if (response.isSuccessful){
-                    Toast.makeText(this@BookingActivity, "Done", Toast.LENGTH_SHORT).show()
+                if (response.isSuccessful) {
                     showSuccessDialog()
+                } else {
+                    showFailureDialog("Failed to create booking. Please try again.")
                 }
-                else{
-                    Toast.makeText(this@BookingActivity, "Failed", Toast.LENGTH_SHORT).show()
-
-                }
+                binding.btSubmit.isEnabled = true
             }
 
             override fun onFailure(call: Call<BookingRequest?>, t: Throwable) {
-                Toast.makeText(this@BookingActivity, "${t.message}", Toast.LENGTH_SHORT).show()
+                showFailureDialog(t.message ?: "Unknown error occurred.")
+                binding.btSubmit.isEnabled = true
             }
         })
     }
@@ -105,12 +106,34 @@ class BookingActivity : AppCompatActivity() {
             finish()
         }
 
+
+        dialogBinding.ivDone.setImageResource(R.drawable.done)
+        dialogBinding.tvCong.text = "Congratulations"
+        dialogBinding.done.text = "Your booking has been completed successfully!"
+
+        dialog.show()
+    }
+
+    private fun showFailureDialog(errorMessage: String) {
+        val dialogBinding = CustomeDoneDialogBinding.inflate(layoutInflater)
+        val dialog = AlertDialog.Builder(this).setView(dialogBinding.root).create()
+
+        dialogBinding.ivClose.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialogBinding.ivDone.setImageResource(R.drawable.fail)
+        dialogBinding.tvCong.text = "Booking Failed"
+        dialogBinding.done.text = "Your booking has been not completed"
+
         dialog.show()
     }
 
     private fun showDatePicker() {
         val calendar = Calendar.getInstance()
-        DatePickerDialog(
+        val today = calendar.timeInMillis
+
+        val datePickerDialog = DatePickerDialog(
             this,
             { _, year, month, day ->
                 binding.rvDate.setText(String.format("%04d-%02d-%02d", year, month + 1, day))
@@ -118,9 +141,12 @@ class BookingActivity : AppCompatActivity() {
             calendar.get(Calendar.YEAR),
             calendar.get(Calendar.MONTH),
             calendar.get(Calendar.DAY_OF_MONTH)
-        ).show()
-    }
+        )
 
+        datePickerDialog.datePicker.minDate = today
+
+        datePickerDialog.show()
+    }
 
     private fun showTimePicker() {
         val calendar = Calendar.getInstance()
@@ -136,5 +162,4 @@ class BookingActivity : AppCompatActivity() {
             true
         ).show()
     }
-
 }

@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.databinding.BookingStatusCardviewBinding
 import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.modelClass.Booking
-import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.modelClass.BookingListApi
 
 class BookingAdapter(private var bookingList: List<Booking>) :
     RecyclerView.Adapter<BookingAdapter.MyViewHolder>() {
@@ -16,21 +15,14 @@ class BookingAdapter(private var bookingList: List<Booking>) :
 
         @SuppressLint("SetTextI18n")
         fun bind(currentBooking: Booking) {
-            val subMenu = currentBooking
-            if (subMenu != null) {
-                binding.tvServiceName.text = subMenu.service_name
-                Glide.with(binding.root.context)
-                    .load(subMenu.service_image)
-                    .into(binding.ivServicesPic)
-            } else {
-                binding.tvServiceName.text = "Service not available"
-                binding.ivServicesPic.setImageResource(android.R.color.transparent)
-            }
+            binding.tvServiceName.text = currentBooking.service_name
+            Glide.with(binding.root.context)
+                .load(currentBooking.service_image)
+                .into(binding.ivServicesPic)
 
             binding.qtyCount.text = currentBooking.qty.toString()
             binding.status.text = currentBooking.status
             binding.tvDate.text = "${currentBooking.booking_date} || ${currentBooking.booking_time}"
-
 
             when (currentBooking.status) {
                 "pending" -> binding.status.setTextColor(binding.root.context.getColor(android.R.color.holo_red_light))
@@ -39,7 +31,6 @@ class BookingAdapter(private var bookingList: List<Booking>) :
             }
         }
     }
-
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val binding = BookingStatusCardviewBinding.inflate(LayoutInflater.from(parent.context), parent, false)

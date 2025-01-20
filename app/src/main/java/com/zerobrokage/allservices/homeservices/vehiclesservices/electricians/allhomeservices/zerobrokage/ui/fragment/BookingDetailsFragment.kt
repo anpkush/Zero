@@ -1,15 +1,14 @@
 package com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.ui.fragment
 
-import android.app.Application
+import android.annotation.SuppressLint
 import android.content.Context
-import android.content.Context.MODE_PRIVATE
 import android.content.SharedPreferences
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.adapter.BookingAdapter
 import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.databinding.FragmentDetailsBookingBinding
@@ -24,6 +23,7 @@ class BookingDetailsFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var sharedPref: SharedPreferences
 
+    @SuppressLint("SetTextI18n")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -33,9 +33,8 @@ class BookingDetailsFragment : Fragment() {
 
         binding.tvBooking.text = "Booking List"
 
-
-        sharedPref = requireContext().getSharedPreferences("MyPrefs", MODE_PRIVATE)
-        val userId = requireContext().getSharedPreferences("MyPrefs", MODE_PRIVATE).getInt("id", 0)
+        sharedPref = requireContext().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
+        val userId = sharedPref.getInt("id", 0)
 
         if (userId != 0) {
             getBookingList(userId)
@@ -53,7 +52,8 @@ class BookingDetailsFragment : Fragment() {
                     val bookingData = response.body()?.data?.bookings ?: emptyList()
 
                     binding.rvbooking.layoutManager = LinearLayoutManager(context)
-                    binding.rvbooking.adapter = BookingAdapter(bookingData)
+                    val adapter = BookingAdapter(bookingData)
+                    binding.rvbooking.adapter = adapter
                 } else {
                     Toast.makeText(context, "Failed to fetch data", Toast.LENGTH_SHORT).show()
                 }

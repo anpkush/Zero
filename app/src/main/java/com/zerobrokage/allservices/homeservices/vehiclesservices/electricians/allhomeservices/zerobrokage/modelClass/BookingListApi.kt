@@ -1,7 +1,5 @@
 package com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.modelClass
 
-import android.os.Parcelable
-import kotlinx.parcelize.Parcelize
 
 data class BookingListApi(
     val success: Boolean,
@@ -14,7 +12,7 @@ data class Data(
 data class Booking(
     val id: Int,
     val enquiries_id: Int,
-    val sub_menu_id: List<Int>,
+    val sub_menu_id: Int,
     val service_name: String,
     val service_description: String,
     val service_image: String,
