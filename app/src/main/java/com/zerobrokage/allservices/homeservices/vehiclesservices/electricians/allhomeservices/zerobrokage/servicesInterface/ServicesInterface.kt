@@ -1,7 +1,10 @@
 package com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.servicesInterface
 
 import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.modelClass.AddAddressApi
+import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.modelClass.Booking
 import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.modelClass.BookingListApi
+import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.modelClass.BookingRequest
+import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.modelClass.BookingResponse
 import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.modelClass.CartApi
 import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.modelClass.CartViewApi
 import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.modelClass.CustomerReview
@@ -100,10 +103,11 @@ interface ServicesInterface {
     ): Call<Map<String, Any>>
 
 
-   /* @POST("Booking/{id}")
-    fun createBooking(@Path("userId") userId: Int,
+    @POST("booking-list/{userId}")
+    fun createBooking(
+        @Path("userId") userId: Int,
         @Body bookingRequest: BookingRequest
-    ): Call<BookingResponse>*/
+    ): Call<BookingRequest>
 
     @POST("item/update/{enquiriesId}/{subMenuId}")
     fun updateCartItem(

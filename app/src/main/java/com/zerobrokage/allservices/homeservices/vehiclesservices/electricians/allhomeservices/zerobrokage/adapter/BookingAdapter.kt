@@ -6,15 +6,16 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.databinding.BookingStatusCardviewBinding
+import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.modelClass.Booking
 import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.modelClass.BookingListApi
 
-class BookingAdapter(private var bookingList: List<BookingListApi.Data.Booking>) :
+class BookingAdapter(private var bookingList: List<Booking>) :
     RecyclerView.Adapter<BookingAdapter.MyViewHolder>() {
 
     class MyViewHolder(private val binding: BookingStatusCardviewBinding) : RecyclerView.ViewHolder(binding.root) {
 
         @SuppressLint("SetTextI18n")
-        fun bind(currentBooking: BookingListApi.Data.Booking) {
+        fun bind(currentBooking: Booking) {
             val subMenu = currentBooking
             if (subMenu != null) {
                 binding.tvServiceName.text = subMenu.service_name
@@ -29,7 +30,7 @@ class BookingAdapter(private var bookingList: List<BookingListApi.Data.Booking>)
             binding.qtyCount.text = currentBooking.qty.toString()
             binding.status.text = currentBooking.status
             binding.tvDate.text = "${currentBooking.booking_date} || ${currentBooking.booking_time}"
-            // binding.tvTime.text = currentBooking.booking_time
+
 
             when (currentBooking.status) {
                 "pending" -> binding.status.setTextColor(binding.root.context.getColor(android.R.color.holo_red_light))
@@ -54,7 +55,7 @@ class BookingAdapter(private var bookingList: List<BookingListApi.Data.Booking>)
         holder.bind(booking)
     }
 
-    fun updateData(newList: List<BookingListApi.Data.Booking>) {
+    fun updateData(newList: List<Booking>) {
         bookingList = newList
         notifyDataSetChanged()
     }
