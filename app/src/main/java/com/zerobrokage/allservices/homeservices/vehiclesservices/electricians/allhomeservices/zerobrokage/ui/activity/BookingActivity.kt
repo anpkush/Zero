@@ -27,7 +27,7 @@ class BookingActivity : AppCompatActivity() {
         sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE)
         userId = sharedPreferences.getInt("id", 0)
 
-       // cartItems = intent.getParcelableArrayListExtra("cartItems") ?: ArrayList()
+       cartItems = intent.getParcelableArrayListExtra("cartItems") ?: ArrayList()
 
         binding.toolbar.ivBack.setOnClickListener { finish() }
         binding.toolbar.tvTitle.text = "Booking Details"
@@ -35,10 +35,10 @@ class BookingActivity : AppCompatActivity() {
         binding.rvDate.setOnClickListener { showDatePicker() }
         binding.rvTime.setOnClickListener { showTimePicker() }
 
-       // binding.btSubmit.setOnClickListener { validateAndSubmitBooking() }
+        binding.btSubmit.setOnClickListener { validateAndSubmitBooking() }
     }
 
-    /*private fun validateAndSubmitBooking() {
+    private fun validateAndSubmitBooking() {
         val bookingDate = binding.rvDate.text.toString()
         val bookingTime = binding.rvTime.text.toString()
         val fullName = binding.etFullName.text.toString()
@@ -79,7 +79,7 @@ class BookingActivity : AppCompatActivity() {
                 Toast.makeText(this@BookingActivity, "Error: ${t.localizedMessage}", Toast.LENGTH_SHORT).show()
             }
         })
-    }*/
+    }
 
     private fun showSuccessDialog() {
         val dialogBinding = CustomeDoneDialogBinding.inflate(layoutInflater)
