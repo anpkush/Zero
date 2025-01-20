@@ -3,8 +3,6 @@ package com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.a
 
 import android.content.Context
 import android.content.Intent
-import android.net.ConnectivityManager
-import android.net.NetworkCapabilities
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -12,7 +10,8 @@ import android.provider.Settings.Secure
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.databinding.ActivitySplashScreenBinding
-import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.modelClass.DeviceID
+import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.modelClass.DeviceIdRequest
+import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.modelClass.DeviceIdResponse
 import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.retrofitClient.RetrofitInstance
 import retrofit2.Call
 import retrofit2.Callback
@@ -55,23 +54,28 @@ class SplashScreenActivity : AppCompatActivity() {
         finish()
     }
 
-    private fun sendDeviceIdToServer(deviceId: String?) {
-        if (deviceId != null) {
-            val apiService = RetrofitInstance.apiService
-            val deviceID = DeviceID(deviceId)
-            val call = apiService.deviceId(deviceID)
-            call.enqueue(object : Callback<DeviceID> {
-                override fun onResponse(call: Call<DeviceID>, response: Response<DeviceID>) {
+    private fun sendDeviceIdToServer(device_id: String?) {
+        if (device_id != null) {
+            val deviceIdRequest = DeviceIdRequest(device_id)
 
+            RetrofitInstance.apiService.deviceId(deviceIdRequest).enqueue(object : Callback<DeviceIdResponse> {
+                override fun onResponse(call: Call<DeviceIdResponse>, response: Response<DeviceIdResponse>) {
+                    if (response.isSuccessful) {
+
+                    } else {
+                        Toast.makeText(this@SplashScreenActivity, "Failed to process device ID", Toast.LENGTH_SHORT).show()
+                    }
                 }
 
-                override fun onFailure(call: Call<DeviceID>, t: Throwable) {
-                    Toast.makeText(this@SplashScreenActivity, "", Toast.LENGTH_SHORT).show()
+                override fun onFailure(call: Call<DeviceIdResponse>, t: Throwable) {
+                    Toast.makeText(this@SplashScreenActivity, "Network error: ${t.message}", Toast.LENGTH_SHORT).show()
                 }
             })
         } else {
             Toast.makeText(this, "Device ID is not available", Toast.LENGTH_SHORT).show()
         }
     }
+
+
 }
 

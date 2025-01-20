@@ -7,6 +7,7 @@
     import androidx.recyclerview.widget.RecyclerView
     import com.bumptech.glide.Glide
     import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.databinding.CartItemViewBinding
+    import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.modelClass.CartData
     import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.modelClass.CartViewApi
     import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.modelClass.ItemUpdateRequest
     import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.modelClass.ItemUpdateResponse
@@ -17,7 +18,7 @@
     import retrofit2.Response
 
     class CartItemViewAdapter(
-        private var cartItems: MutableList<CartViewApi.Data>,
+        private var cartItems: MutableList<CartData>,
         private val context: Context,
         private val mListener: CartActivity,
         private val userId: Int,
@@ -27,7 +28,7 @@
         inner class CartItemViewHolder(private val binding: CartItemViewBinding) :
             RecyclerView.ViewHolder(binding.root) {
 
-            fun bind(item: CartViewApi.Data, position: Int) {
+            fun bind(item: CartData, position: Int) {
                 Glide.with(binding.ivItemImage.context).load(item.image).into(binding.ivItemImage)
                 binding.tvServiceName.text = item.name
                 binding.tvDetails.text = item.description
@@ -69,13 +70,13 @@
             val cartItem = cartItems[position]
             holder.bind(cartItem, position)
             holder.itemView.setOnClickListener {
-                mListener.onItemClick(cartItem.id, cartItem.name)
+                mListener.onItemClick(cartItem.id, cartItem.name,cartItem.image)
             }
         }
 
         override fun getItemCount(): Int = cartItems.size
 
-        fun updateData(newCartItems: List<CartViewApi.Data>) {
+        fun updateData(newCartItems: List<CartData>) {
             cartItems.clear()
             cartItems.addAll(newCartItems)
             notifyDataSetChanged()

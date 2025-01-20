@@ -6,10 +6,17 @@ import android.app.TimePickerDialog
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.databinding.ActivityBookingBinding
 import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.databinding.CustomeDoneDialogBinding
-import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.modelClass.CartViewApi
+import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.modelClass.BookingRequest
+import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.modelClass.BookingResponse
+import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.modelClass.CartData
+import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.retrofitClient.RetrofitInstance
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.util.*
 
 class BookingActivity : AppCompatActivity() {
@@ -17,7 +24,7 @@ class BookingActivity : AppCompatActivity() {
     private lateinit var binding: ActivityBookingBinding
     private lateinit var sharedPreferences: SharedPreferences
     private var userId: Int = 0
-    private lateinit var cartItems: ArrayList<CartViewApi.Data>
+    private lateinit var cartItems: ArrayList<CartData>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,7 +34,7 @@ class BookingActivity : AppCompatActivity() {
         sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE)
         userId = sharedPreferences.getInt("id", 0)
 
-       // cartItems = intent.getParcelableArrayListExtra("cartItems") ?: ArrayList()
+        cartItems = intent.getParcelableArrayListExtra("cartItems") ?: ArrayList()
 
         binding.toolbar.ivBack.setOnClickListener { finish() }
         binding.toolbar.tvTitle.text = "Booking Details"
@@ -35,10 +42,11 @@ class BookingActivity : AppCompatActivity() {
         binding.rvDate.setOnClickListener { showDatePicker() }
         binding.rvTime.setOnClickListener { showTimePicker() }
 
-       // binding.btSubmit.setOnClickListener { validateAndSubmitBooking() }
+        binding.btSubmit.setOnClickListener {
+            validateAndSubmitBooking() }
     }
 
-    /*private fun validateAndSubmitBooking() {
+    private fun validateAndSubmitBooking() {
         val bookingDate = binding.rvDate.text.toString()
         val bookingTime = binding.rvTime.text.toString()
         val fullName = binding.etFullName.text.toString()
@@ -65,21 +73,27 @@ class BookingActivity : AppCompatActivity() {
             mobile_number = mobileNumber
         )
 
-        RetrofitInstance.apiService.createBooking(userId, bookingRequest).enqueue(object :
-            Callback<BookingResponse> {
-            override fun onResponse(call: Call<BookingResponse>, response: Response<BookingResponse>) {
-                if (response.isSuccessful && response.body()?.success == true) {
+    
+        RetrofitInstance.apiService.createBooking(userId,bookingRequest).enqueue(object : Callback<BookingRequest?> {
+            override fun onResponse(
+                call: Call<BookingRequest?>,
+                response: Response<BookingRequest?>
+            ) {
+                if (response.isSuccessful){
+                    Toast.makeText(this@BookingActivity, "Done", Toast.LENGTH_SHORT).show()
                     showSuccessDialog()
-                } else {
-                    Toast.makeText(this@BookingActivity, "Booking failed: ${response.message()}", Toast.LENGTH_SHORT).show()
+                }
+                else{
+                    Toast.makeText(this@BookingActivity, "Failed", Toast.LENGTH_SHORT).show()
+
                 }
             }
 
-            override fun onFailure(call: Call<BookingResponse>, t: Throwable) {
-                Toast.makeText(this@BookingActivity, "Error: ${t.localizedMessage}", Toast.LENGTH_SHORT).show()
+            override fun onFailure(call: Call<BookingRequest?>, t: Throwable) {
+                Toast.makeText(this@BookingActivity, "${t.message}", Toast.LENGTH_SHORT).show()
             }
         })
-    }*/
+    }
 
     private fun showSuccessDialog() {
         val dialogBinding = CustomeDoneDialogBinding.inflate(layoutInflater)
@@ -99,7 +113,7 @@ class BookingActivity : AppCompatActivity() {
         DatePickerDialog(
             this,
             { _, year, month, day ->
-                binding.rvDate.setText(String.format("%02d/%02d/%d", day, month + 1, year))
+                binding.rvDate.setText(String.format("%04d-%02d-%02d", year, month + 1, day))
             },
             calendar.get(Calendar.YEAR),
             calendar.get(Calendar.MONTH),
@@ -107,19 +121,20 @@ class BookingActivity : AppCompatActivity() {
         ).show()
     }
 
+
     private fun showTimePicker() {
         val calendar = Calendar.getInstance()
         TimePickerDialog(
             this,
             { _, hour, minute ->
-                val amPm = if (hour >= 12) "PM" else "AM"
                 binding.rvTime.setText(
-                    String.format("%02d:%02d %s", if (hour % 12 == 0) 12 else hour % 12, minute, amPm)
+                    String.format("%02d:%02d", hour, minute)
                 )
             },
             calendar.get(Calendar.HOUR_OF_DAY),
             calendar.get(Calendar.MINUTE),
-            false
+            true
         ).show()
     }
+
 }

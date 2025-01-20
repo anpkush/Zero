@@ -8,10 +8,11 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.adapter.CartItemViewAdapter
-import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.adapter.ItemClickListener
 import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.databinding.ActivityCartBinding
+import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.modelClass.CartData
 import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.modelClass.CartViewApi
 import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.retrofitClient.RetrofitInstance
+import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.ui.fragment.ItemClickListener
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -22,7 +23,7 @@ class CartActivity : AppCompatActivity(), ItemClickListener {
     private lateinit var sharedPreferences: SharedPreferences
     private lateinit var cartAdapter: CartItemViewAdapter
     private var userId: Int = 0
-    private var cartItems: ArrayList<CartViewApi.Data> = ArrayList()
+    private val cartItems = mutableListOf<CartData>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,11 +38,12 @@ class CartActivity : AppCompatActivity(), ItemClickListener {
 
         binding.btPlace.setOnClickListener {
             if (cartItems.isNotEmpty()) {
-                val intent = Intent(this, BookingActivity::class.java)
-               // intent.putParcelableArrayListExtra("cartItems", cartItems)
+                val intent = Intent(this, BookingActivity::class.java).apply {
+                    putParcelableArrayListExtra("cartItems", ArrayList(cartItems))
+                }
                 startActivity(intent)
             } else {
-                Toast.makeText(this, "Cart is empty", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Cart is empty, please add items to place an order.", Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -103,7 +105,9 @@ class CartActivity : AppCompatActivity(), ItemClickListener {
         binding.btPlace.alpha = if (count > 0) 1.0f else 0.5f
     }
 
-    override fun onItemClick(id: Int, name: String) {
-        Toast.makeText(this, "Clicked on $name", Toast.LENGTH_SHORT).show()
+    override fun onItemClick(id: Int, name: String, icon: String) {
+
     }
+
+
 }
