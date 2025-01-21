@@ -31,7 +31,7 @@ class CartActivity : AppCompatActivity(), ItemClickListener {
         setContentView(binding.root)
 
         sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE)
-        userId = sharedPreferences.getInt("id", 0)
+        userId = sharedPreferences.getInt("userId", 0)
 
         setupUI()
         getCartItems()
@@ -42,6 +42,7 @@ class CartActivity : AppCompatActivity(), ItemClickListener {
                     putParcelableArrayListExtra("cartItems", ArrayList(cartItems))
                 }
                 startActivity(intent)
+                finish()
             } else {
                 Toast.makeText(this, "Cart is empty, please add items to place an order.", Toast.LENGTH_SHORT).show()
             }

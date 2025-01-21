@@ -10,6 +10,6 @@ data class OtpVerificationResponse(
     val message: String,
     val id: Int,
     val name: String,
-    val countryCode: String,
-    val mobileNumber: String
+    val country_code: Int,
+    val mobile_number: String
 )

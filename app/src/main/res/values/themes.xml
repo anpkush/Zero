@@ -2,7 +2,6 @@
     <style name="Base.Theme.ZeroBrokage" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="colorPrimary">@color/new_cadet_blue</item>
         <item name="android:statusBarColor">@color/new_cadet_blue</item>
-
     </style>
 
 </resources>

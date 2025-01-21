@@ -33,8 +33,10 @@ class BookingDetailsFragment : Fragment() {
 
         binding.tvBooking.text = "Booking List"
 
+
+
         sharedPref = requireContext().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
-        val userId = sharedPref.getInt("id", 0)
+        val userId = sharedPref.getInt("userId", 0)
 
         if (userId != 0) {
             getBookingList(userId)

@@ -9,11 +9,10 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.databinding.ActivityBookingBinding
+import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.R
 import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.databinding.CustomeDoneDialogBinding
 import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.modelClass.BookingRequest
-import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.modelClass.BookingResponse
 import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.modelClass.CartData
-import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.R
 import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.retrofitClient.RetrofitInstance
 import retrofit2.Call
 import retrofit2.Callback
@@ -33,7 +32,7 @@ class BookingActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE)
-        userId = sharedPreferences.getInt("id", 0)
+        userId = sharedPreferences.getInt("userId", 0)
 
         cartItems = intent.getParcelableArrayListExtra("cartItems") ?: ArrayList()
 
@@ -61,7 +60,7 @@ class BookingActivity : AppCompatActivity() {
             return
         }
 
-        val subMenuIds = cartItems.map { it.id }
+        val subMenuIds = cartItems.map { it.sub_menu_id }
         val totalQty = cartItems.sumOf { it.qty }
 
         val bookingRequest = BookingRequest(
@@ -98,18 +97,16 @@ class BookingActivity : AppCompatActivity() {
 
     private fun showSuccessDialog() {
         val dialogBinding = CustomeDoneDialogBinding.inflate(layoutInflater)
-        val dialog = AlertDialog.Builder(this).setView(dialogBinding.root).create()
+        val dialog = AlertDialog.Builder(this).setView(dialogBinding.root).setCancelable(false).create()
 
-        dialogBinding.ivClose.setOnClickListener {
+        dialogBinding.btOk.setOnClickListener {
             dialog.dismiss()
-            startActivity(Intent(this, HomeActivity::class.java))
-            finish()
+            navigateToHome()
         }
-
 
         dialogBinding.ivDone.setImageResource(R.drawable.done)
         dialogBinding.tvCong.text = "Congratulations"
-        dialogBinding.done.text = "Your booking has been completed successfully!"
+        dialogBinding.tvMessage.text = "Your booking has been completed successfully!"
 
         dialog.show()
     }
@@ -118,15 +115,22 @@ class BookingActivity : AppCompatActivity() {
         val dialogBinding = CustomeDoneDialogBinding.inflate(layoutInflater)
         val dialog = AlertDialog.Builder(this).setView(dialogBinding.root).create()
 
-        dialogBinding.ivClose.setOnClickListener {
+        dialogBinding.btOk.setOnClickListener {
             dialog.dismiss()
         }
 
         dialogBinding.ivDone.setImageResource(R.drawable.fail)
-        dialogBinding.tvCong.text = "Booking Failed"
-        dialogBinding.done.text = "Your booking has been not completed"
+        dialogBinding.tvCong.text = "Failed !"
+        dialogBinding.tvMessage.text = errorMessage
 
         dialog.show()
+    }
+
+    private fun navigateToHome() {
+        val intent = Intent(this, HomeActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
+        startActivity(intent)
+        finish()
     }
 
     private fun showDatePicker() {

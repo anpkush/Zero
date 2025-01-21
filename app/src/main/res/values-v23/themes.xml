@@ -6,10 +6,5 @@
         <item name="android:windowLightStatusBar">?attr/isLightTheme</item>
     </style>
 
-    <style name="DialogAnimation">
-        <item name="android:windowEnterAnimation">@anim/slider_in_bottom</item>
-        <item name="android:windowExitAnimation">@anim/slider_out_bottom</item>
-
-    </style>
 
 </resources>
