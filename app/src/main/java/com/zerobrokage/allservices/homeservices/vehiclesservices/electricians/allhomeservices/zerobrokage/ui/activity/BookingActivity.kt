@@ -61,7 +61,7 @@ class BookingActivity : AppCompatActivity() {
             return
         }
 
-        val subMenuIds = cartItems.map { it.id }
+        val subMenuIds = cartItems.map { it.sub_menu_id }
         val totalQty = cartItems.sumOf { it.qty }
 
         val bookingRequest = BookingRequest(

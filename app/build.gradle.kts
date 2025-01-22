@@ -12,8 +12,8 @@ android {
         applicationId = "com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage"
         minSdk = 24
         targetSdk = 34
-        versionCode = 8
-        versionName = "1.8"
+        versionCode = 9
+        versionName = "1.9"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled = true
@@ -87,22 +87,8 @@ dependencies {
     // Logging interceptor
     implementation(libs.logging.interceptor)
 
-    // Play services location (for version management, check if needed)
-    implementation(libs.play.services.location.v2101)
-    implementation("androidx.appcompat:appcompat:1.7.0")
-    implementation("com.google.android.material:material:1.12.0")
-    implementation("androidx.activity:activity:1.9.3")
-    implementation("androidx.constraintlayout:constraintlayout:2.2.0")
-    implementation("androidx.test.ext:junit-ktx:1.2.1")
-    implementation("androidx.test:monitor:1.7.2")
-    androidTestImplementation("junit:junit:4.12")
 
-    //Firebase
 
-    implementation(platform("com.google.firebase:firebase-bom:33.7.0"))
-    implementation("com.google.firebase:firebase-crashlytics")
-    implementation("com.google.firebase:firebase-analytics")
-    implementation("com.google.firebase:firebase-perf")
-    implementation("com.google.firebase:firebase-perf:21.0.3")
+
 }
 
