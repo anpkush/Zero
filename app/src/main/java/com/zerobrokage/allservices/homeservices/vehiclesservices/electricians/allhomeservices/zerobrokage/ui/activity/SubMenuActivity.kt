@@ -39,6 +39,7 @@ class SubMenuActivity : AppCompatActivity(), ItemClickListener {
         binding.toolbar.ivCart.visibility = View.VISIBLE
         binding.toolbar.ivCart.setOnClickListener {
             val intent = Intent(this, CartActivity::class.java)
+
             startActivity(intent)
         }
 
