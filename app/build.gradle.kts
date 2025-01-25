@@ -2,6 +2,8 @@ plugins {
     alias(libs.plugins.android.application)
     id("org.jetbrains.kotlin.android")
     id ("kotlin-parcelize")
+    alias(libs.plugins.google.gms.google.services)
+    alias(libs.plugins.google.firebase.crashlytics)
 }
 
 android {
@@ -86,8 +88,7 @@ dependencies {
 
     // Logging interceptor
     implementation(libs.logging.interceptor)
-
-
+    implementation(libs.firebase.crashlytics)
 
 
 }

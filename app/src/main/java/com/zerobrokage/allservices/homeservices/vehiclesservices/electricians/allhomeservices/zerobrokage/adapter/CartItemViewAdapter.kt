@@ -8,7 +8,6 @@
     import com.bumptech.glide.Glide
     import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.databinding.CartItemViewBinding
     import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.modelClass.CartData
-    import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.modelClass.CartViewApi
     import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.modelClass.ItemUpdateRequest
     import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.modelClass.ItemUpdateResponse
     import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.retrofitClient.RetrofitInstance
@@ -32,10 +31,9 @@
                 Glide.with(binding.ivItemImage.context).load(item.image).into(binding.ivItemImage)
                 binding.tvServiceName.text = item.name
                 binding.tvDetails.text = item.description
-                binding.textViewNumber.text = item.qty.toString()
-                binding.buttonMinus.isEnabled = item.qty > 1
+                binding.textViewNumber.text = "Qty:- ${item.qty.toString()}"
 
-                binding.buttonPlus.setOnClickListener {
+                /*binding.buttonPlus.setOnClickListener {
                     if (item.qty < 10) {
                         item.qty++
                         binding.textViewNumber.text = item.qty.toString()
@@ -53,7 +51,7 @@
                         binding.buttonMinus.isEnabled = item.qty > 1
                         updateQuantityOnServer(userId, item.id, item.qty)
                     }
-                }
+                }*/
 
                 binding.ivRemove.setOnClickListener {
                     deleteItem(item.id, position)

@@ -1,5 +1,5 @@
 [versions]
-agp = "8.5.2"
+agp = "8.8.0"
 androidPluginAnnotationV9 = "1.0.0"
 androidSdk = "10.0.2"
 androidSdkVersion = "9.5.0"
@@ -30,6 +30,9 @@ playServicesLocationVersion = "21.0.1"
 pluginAnnotationV9 = "0.11.0"
 pluginMarkerviewV9 = "0.6.0"
 retrofit = "2.9.0"
+firebaseCrashlytics = "19.4.0"
+googleGmsGoogleServices = "4.4.2"
+googleFirebaseCrashlytics = "3.0.2"
 
 [libraries]
 android-plugin-annotation-v9 = { module = "org.maplibre.gl:android-plugin-annotation-v9", version.ref = "androidPluginAnnotationV9" }
@@ -64,8 +67,11 @@ plugin-annotation-v9 = { module = "org.maplibre.gl:plugin-annotation-v9", versio
 plugin-markerview-v9 = { module = "org.maplibre.gl:plugin-markerview-v9", version.ref = "pluginMarkerviewV9" }
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
 view-pinview = { module = "com.chaos.view:pinview", version.ref = "pinviewVersion" }
+firebase-crashlytics = { group = "com.google.firebase", name = "firebase-crashlytics", version.ref = "firebaseCrashlytics" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+google-gms-google-services = { id = "com.google.gms.google-services", version.ref = "googleGmsGoogleServices" }
+google-firebase-crashlytics = { id = "com.google.firebase.crashlytics", version.ref = "googleFirebaseCrashlytics" }
 
