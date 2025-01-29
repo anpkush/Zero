@@ -1,3 +1,25 @@
 <resources>
     <dimen name="fab_margin">16dp</dimen>
+
+        <!-- Font Sizes -->
+        <dimen name="font_size_extra_small">10sp</dimen>
+        <dimen name="font_size_small">12sp</dimen>
+        <dimen name="font_size_default">14sp</dimen>
+        <dimen name="font_size_large">16sp</dimen>
+        <dimen name="font_size_extra_large">18sp</dimen>
+
+        <!-- Padding Sizes -->
+        <dimen name="padding_extra_small">5dp</dimen>
+        <dimen name="padding_small">10dp</dimen>
+        <dimen name="padding_default">15dp</dimen>
+        <dimen name="padding_large">20dp</dimen>
+        <dimen name="padding_extra_large">25dp</dimen>
+
+        <!-- Radius Sizes -->
+        <dimen name="radius_small">5dp</dimen>
+        <dimen name="radius_default">10dp</dimen>
+        <dimen name="radius_large">15dp</dimen>
+        <dimen name="radius_extra_large">20dp</dimen>
+
+
 </resources>

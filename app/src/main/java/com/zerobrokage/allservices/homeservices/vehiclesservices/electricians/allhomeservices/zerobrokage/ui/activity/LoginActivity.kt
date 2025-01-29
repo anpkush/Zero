@@ -87,6 +87,13 @@ class LoginActivity : AppCompatActivity() {
                     if (response.isSuccessful) {
                         Toast.makeText(this@LoginActivity, "Otp Sent", Toast.LENGTH_SHORT).show()
 
+                        sharedPref.edit().apply {
+                            putString("name", name)
+                            putString("mobile_number", mobileNo)
+                            putInt("id", userId)
+                            apply()
+                        }
+
                         val bundle = Bundle().apply {
                             putString("name", name)
                             putString("mobile_number", mobileNo)
@@ -97,6 +104,7 @@ class LoginActivity : AppCompatActivity() {
                             putExtras(bundle)
                         }
                         startActivity(intent)
+                        finish()
                     } else {
                         Toast.makeText(
                             this@LoginActivity,

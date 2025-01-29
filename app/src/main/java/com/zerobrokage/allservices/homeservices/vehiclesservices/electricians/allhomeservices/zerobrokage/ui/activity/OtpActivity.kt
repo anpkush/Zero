@@ -152,6 +152,7 @@ class OtpActivity : AppCompatActivity() {
                                 Toast.makeText(this@OtpActivity, "Verified", Toast.LENGTH_SHORT).show()
                                 val intent = Intent(this@OtpActivity, HomeActivity::class.java)
                                 sharedPref.edit().putInt("id", it.id).apply()
+                                sharedPref.edit().putString("name", it.name).apply()
                                 startActivity(intent)
                                 finish()
                             } else {

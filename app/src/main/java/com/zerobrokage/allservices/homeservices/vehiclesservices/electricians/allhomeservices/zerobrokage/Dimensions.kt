@@ -1,36 +1,55 @@
 package com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage
 
-/*
+import android.content.Context
+
 object Dimensions {
-    val fontSizeOverSmall: Double
-        get() = if (Get.context?.width ?: 0 >= 1300) 10.0 else 8.0
-    val fontSizeExtraSmall: Double
-        get() = if (Get.context?.width ?: 0 >= 1300) 12.0 else 10.0
-    val fontSizeSmall: Double
-        get() = if (Get.context?.width ?: 0 >= 1300) 14.0 else 12.0
-    val fontSizeDefault: Double
-        get() = if (Get.context?.width ?: 0 >= 1300) 16.0 else 14.0
-    val fontSizeLarge: Double
-        get() = if (Get.context?.width ?: 0 >= 1300) 18.0 else 16.0
-    val fontSizeExtraLarge: Double
-        get() = if (Get.context?.width ?: 0 >= 1300) 20.0 else 18.0
-    val fontSizeOverLarge: Double
-        get() = if (Get.context?.width ?: 0 >= 1300) 26.0 else 24.0
 
-    const val paddingSizeExtraSmall = 5.0
-    const val paddingSizeSmall = 10.0
-    const val paddingSizeDefault = 15.0
-    const val paddingSizeLarge = 20.0
-    const val paddingSizeExtraLarge = 25.0
-    const val paddingSizeExtremeLarge = 30.0
+    fun fontSizeOverSmall(context: Context): Float {
+        return if (context.resources.displayMetrics.widthPixels >= 1300) 10f else 8f
+    }
 
-    const val radiusSmall = 5.0
-    const val radiusDefault = 10.0
-    const val radiusLarge = 15.0
-    const val radiusExtraLarge = 20.0
+    fun fontSizeExtraSmall(context: Context): Float {
+        return if (context.resources.displayMetrics.widthPixels >= 1300) 12f else 10f
+    }
 
-    const val webMaxWidth = 1170.0
+    fun fontSizeSmall(context: Context): Float {
+        return if (context.resources.displayMetrics.widthPixels >= 1300) 14f else 12f
+    }
+
+    fun fontSizeDefault(context: Context): Float {
+        return if (context.resources.displayMetrics.widthPixels >= 1300) 16f else 14f
+    }
+
+    fun fontSizeLarge(context: Context): Float {
+        return if (context.resources.displayMetrics.widthPixels >= 1300) 18f else 16f
+    }
+
+    fun fontSizeExtraLarge(context: Context): Float {
+        return if (context.resources.displayMetrics.widthPixels >= 1300) 20f else 18f
+    }
+
+    fun fontSizeOverLarge(context: Context): Float {
+        return if (context.resources.displayMetrics.widthPixels >= 1300) 26f else 24f
+    }
+
+    // Static padding sizes
+    const val paddingSizeExtraSmall = 5f
+    const val paddingSizeSmall = 10f
+    const val paddingSizeDefault = 15f
+    const val paddingSizeLarge = 20f
+    const val paddingSizeExtraLarge = 25f
+    const val paddingSizeExtremeLarge = 30f
+
+    // Static radius sizes
+    const val radiusSmall = 5f
+    const val radiusDefault = 10f
+    const val radiusLarge = 15f
+    const val radiusExtraLarge = 20f
+
+    // Static constants
+    const val webMaxWidth = 1170f
     const val messageInputLength = 250
 }
 
-*/
+
+

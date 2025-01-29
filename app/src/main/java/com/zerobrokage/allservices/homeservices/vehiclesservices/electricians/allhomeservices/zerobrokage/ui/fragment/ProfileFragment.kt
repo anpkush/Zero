@@ -34,6 +34,8 @@ class ProfileFragment : Fragment() {
         _binding = FragmentProfileBinding.inflate(inflater, container, false)
         val view = binding.root
 
+        sharedPref = requireContext().getSharedPreferences("MyPrefs", MODE_PRIVATE)
+
         val name = sharedPref?.getString("name", "")
         val mobileNo = sharedPref?.getString("mobile_number", "")
         val userId = sharedPref?.getInt("userId", 0)
