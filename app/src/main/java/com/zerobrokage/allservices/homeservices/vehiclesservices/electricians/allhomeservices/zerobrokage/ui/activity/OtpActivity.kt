@@ -18,7 +18,7 @@ import retrofit2.Response
 class OtpActivity : AppCompatActivity() {
     private lateinit var binding: ActivityOtpBinding
     private lateinit var sharedPref: SharedPreferences
-    private var mobileNumber: String? = null
+    private var mobile_number: String? = null
     private var countryCode: String? = null
     private var name: String? = null
     private lateinit var countDownTimer: CountDownTimer
@@ -30,21 +30,21 @@ class OtpActivity : AppCompatActivity() {
 
         sharedPref = getSharedPreferences("MyPrefs", MODE_PRIVATE)
 
-        mobileNumber = intent.extras?.getString("mobile_number")
+        mobile_number = intent.extras?.getString("mobile_number")
         countryCode = intent.extras?.getString("countryCode")
-        name = intent.extras?.getString("companyName")
+        name = intent.extras?.getString("name")
 
-        if (mobileNumber == null || countryCode == null) {
+        if (mobile_number == null || countryCode == null) {
             Toast.makeText(this, "Invalid data. Please try again.", Toast.LENGTH_SHORT).show()
             finish()
             return
         }
 
-        binding.tvChangeNumber.text = "$countryCode $mobileNumber"
+        binding.tvChangeNumber.text = "$countryCode $mobile_number"
 
         binding.ivEditNumber.setOnClickListener {
             val intent = Intent(this, LoginActivity::class.java).apply {
-                putExtra("mobile_number", mobileNumber)
+                putExtra("mobile_number", mobile_number)
                 putExtra("name", name)
             }
             startActivity(intent)
@@ -54,8 +54,8 @@ class OtpActivity : AppCompatActivity() {
         binding.btVerify.setOnClickListener {
             val enteredOtp = binding.pinView.text.toString().trim()
             if (enteredOtp.isNotEmpty()) {
-                if (mobileNumber != null) {
-                    verifyOtp(mobileNumber!!, enteredOtp)
+                if (mobile_number != null) {
+                    verifyOtp(mobile_number!!, enteredOtp)
                 } else {
                     Toast.makeText(this, "Mobile number is missing", Toast.LENGTH_SHORT).show()
                 }
@@ -72,8 +72,8 @@ class OtpActivity : AppCompatActivity() {
     }
 
     private fun resendOtp() {
-        if (mobileNumber != null && countryCode != null) {
-            val resendOtp = ResendOtp(country_code = countryCode!!, mobile_number = mobileNumber!!)
+        if (mobile_number != null && countryCode != null) {
+            val resendOtp = ResendOtp(country_code = countryCode!!, mobile_number = mobile_number!!)
 
             RetrofitInstance.apiService.postResendOtp(resendOtp)
                 .enqueue(object : Callback<ResendOtp?> {
@@ -144,15 +144,14 @@ class OtpActivity : AppCompatActivity() {
                                 sharedPref.edit().putBoolean("isLoggedIn", true).apply()
 
                                 sharedPref.edit().apply {
-                                    putString("mobile_number", mobileNumber)
+                                    putString("mobileNumber", mobileNumber)
                                     putString("name", name)
+                                    putInt("userId", it.id)
                                     apply()
                                 }
 
                                 Toast.makeText(this@OtpActivity, "Verified", Toast.LENGTH_SHORT).show()
                                 val intent = Intent(this@OtpActivity, HomeActivity::class.java)
-                                sharedPref.edit().putInt("id", it.id).apply()
-                                sharedPref.edit().putString("name", it.name).apply()
                                 startActivity(intent)
                                 finish()
                             } else {

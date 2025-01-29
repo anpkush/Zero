@@ -7,6 +7,11 @@ data class LoginRequest(
 )
 
 data class LoginResponse(
-    val status: String,
-    val message: String
+    val success: Boolean,
+    val message: String,
+    val otp: String,
+    val name: String,
+    val country_code: String,
+    val mobile_number: String,
+    val api_response: String
 )

@@ -19,8 +19,7 @@ class ProfileFragment : Fragment() {
 
     private var _binding: FragmentProfileBinding? = null
     private val binding get() = _binding!!
-
-    private var sharedPref: SharedPreferences? = null
+    private  var sharedPref: SharedPreferences?= null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,10 +33,8 @@ class ProfileFragment : Fragment() {
         _binding = FragmentProfileBinding.inflate(inflater, container, false)
         val view = binding.root
 
-        sharedPref = requireContext().getSharedPreferences("MyPrefs", MODE_PRIVATE)
-
-        val name = sharedPref?.getString("name", "")
-        val mobileNo = sharedPref?.getString("mobile_number", "")
+        val name = sharedPref?.getString("name","")
+        val mobile_number = sharedPref?.getString("mobile_number","")
         val userId = sharedPref?.getInt("userId", 0)
 
 
@@ -46,8 +43,9 @@ class ProfileFragment : Fragment() {
 
         binding.tvEditProfile.setOnClickListener {
             val intent = Intent(requireContext(), EditProfileActivity::class.java).apply {
+
                 putExtra("name", name)
-                putExtra("mobileNo", mobileNo)
+                putExtra("mobile_number", mobile_number)
                 putExtra("userId", userId)
             }
             startActivity(intent)
