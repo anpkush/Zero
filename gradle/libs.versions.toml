@@ -34,6 +34,8 @@ firebaseCrashlytics = "19.4.0"
 googleGmsGoogleServices = "4.4.2"
 googleFirebaseCrashlytics = "3.0.2"
 firebaseAnalytics = "22.2.0"
+junitJunit = "4.12"
+testng = "6.9.6"
 
 [libraries]
 android-plugin-annotation-v9 = { module = "org.maplibre.gl:android-plugin-annotation-v9", version.ref = "androidPluginAnnotationV9" }
@@ -70,6 +72,8 @@ retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit
 view-pinview = { module = "com.chaos.view:pinview", version.ref = "pinviewVersion" }
 firebase-crashlytics = { group = "com.google.firebase", name = "firebase-crashlytics", version.ref = "firebaseCrashlytics" }
 firebase-analytics = { group = "com.google.firebase", name = "firebase-analytics", version.ref = "firebaseAnalytics" }
+junit-junit = { group = "junit", name = "junit", version.ref = "junitJunit" }
+testng = { group = "org.testng", name = "testng", version.ref = "testng" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
