@@ -129,12 +129,13 @@ class SubMenuItemAdapter(
                     number--
                     addCartApi(userId, CartApi(sub_menu_id = data.id.toString(), qty = -1))
                     adapter.addToCart(data.id, number)
+                    updateUI()
                 } else if (number == 1) {
                     number = 0
                     adapter.removeFromCart(data.id)
                     removeCartApi(userId, data.id)
                 }
-                updateUI()
+
             }
 
 

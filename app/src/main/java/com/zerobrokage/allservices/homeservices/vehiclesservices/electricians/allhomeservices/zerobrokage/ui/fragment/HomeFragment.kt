@@ -78,10 +78,8 @@ class HomeFragment : Fragment(), ItemClickListener {
             startActivity(intent)
         }
 
-        // Set up image slider
         imageSlider()
 
-        // API Calls for All Services
         getApiData()
 
         return view
@@ -159,10 +157,11 @@ class HomeFragment : Fragment(), ItemClickListener {
 
     private fun imageSlider() {
         val imageList = arrayListOf(
-            SlideModel(R.drawable.acservice, "AC Services"),
-            SlideModel(R.drawable.vehiclesss, "Vehicle Services"),
-            SlideModel(R.drawable.electrician, "Electrician Services"),
-            SlideModel(R.drawable.plumber, "Plumber Services")
+            SlideModel(R.drawable.homerepair),
+            SlideModel(R.drawable.homeinterior),
+            SlideModel(R.drawable.homepacker),
+            SlideModel(R.drawable.renovation),
+            SlideModel(R.drawable.clinic),
         )
         binding.imageSlider.setImageList(imageList, ScaleTypes.FIT)
     }
@@ -177,7 +176,7 @@ class HomeFragment : Fragment(), ItemClickListener {
                         layoutManager = GridLayoutManager(context, 3)
                         adapter = myAdapter
                     }
-                    val myTrendingAdapter = fragmentManager?.let { TrendingAdapter(subCatList, this@HomeFragment) }
+                    val myTrendingAdapter = parentFragmentManager?.let { TrendingAdapter(subCatList, this@HomeFragment) }
                     binding.rvTrendingCat.apply {
                         adapter = myTrendingAdapter
                         layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
