@@ -1,7 +1,15 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Custom base theme inheriting from Material3 DayNight NoActionBar theme -->
     <style name="Base.Theme.ZeroBrokage" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="colorPrimary">@color/new_cadet_blue</item>
+
         <item name="android:statusBarColor">@color/new_cadet_blue</item>
+
+        <item name="android:windowLightStatusBar" tools:targetApi="lollipop">?attr/isLightTheme</item>
+
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+
     </style>
 
 </resources>

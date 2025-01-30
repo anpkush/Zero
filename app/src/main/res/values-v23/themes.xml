@@ -2,9 +2,11 @@
 
     <style name="Theme.ZeroBrokage" parent="Base.Theme.ZeroBrokage">
         <item name="android:navigationBarColor">@android:color/transparent</item>
-        <item name="android:statusBarColor">@color/white</item>
-        <item name="android:windowLightStatusBar">?attr/isLightTheme</item>
-    </style>
 
+        <item name="android:statusBarColor">@color/white</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="lollipop">?attr/isLightTheme</item>
+
+
+    </style>
 
 </resources>

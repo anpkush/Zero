@@ -13,14 +13,14 @@ class BookingDetailsActivity : AppCompatActivity() {
         binding = ActivityBookingDetailsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val bookingId = intent.getIntExtra("currentBookingId", 0)
+        //val bookingId = intent.getIntExtra("currentBookingId", 0)
         val servicesName = intent.getStringExtra("bookingServicesName") ?: "Service Name"
         val qty = intent.getIntExtra("bookingServicesQty", 0)
         val serviceImage = intent.getStringExtra("bookingServicesImage")
         val customerName = intent.getStringExtra("bookingCustomerName") ?: "Customer Name"
         val customerAddress = intent.getStringExtra("bookingCustomerAdd") ?: "Address Not Available"
         val customerNumber = intent.getStringExtra("bookingCustomerMobileNumber") ?: "Phone Not Available"
-        val bookingStatus = intent.getStringExtra("bookingStatus") ?: "Status Not Available"
+       // val bookingStatus = intent.getStringExtra("bookingStatus") ?: "Status Not Available"
 
         binding.toolbar.ivBack.setOnClickListener {
             onBackPressedDispatcher.onBackPressed()
