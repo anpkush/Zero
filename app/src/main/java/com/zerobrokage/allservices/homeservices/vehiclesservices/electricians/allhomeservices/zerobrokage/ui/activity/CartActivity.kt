@@ -40,6 +40,7 @@ class CartActivity : AppCompatActivity(), ItemClickListener {
             if (cartItems.isNotEmpty()) {
                 val intent = Intent(this, BookingActivity::class.java).apply {
                     putParcelableArrayListExtra("cartItems", ArrayList(cartItems))
+                    intent.putExtra("userId",userId)
                 }
                 startActivity(intent)
                 finish()

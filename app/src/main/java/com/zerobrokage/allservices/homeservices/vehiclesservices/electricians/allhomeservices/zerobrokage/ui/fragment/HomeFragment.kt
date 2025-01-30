@@ -1,3 +1,4 @@
+
 package com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.ui.fragment
 
 import BottomSheetServicesFragment
@@ -56,8 +57,7 @@ class HomeFragment : Fragment(), ItemClickListener {
                 }
 
                 else -> {
-                    Toast.makeText(context, "Location permission is required", Toast.LENGTH_SHORT)
-                        .show()
+                    Toast.makeText(context, "Location permission is required", Toast.LENGTH_SHORT).show()
                 }
             }
         }
@@ -103,6 +103,8 @@ class HomeFragment : Fragment(), ItemClickListener {
             }
 
             fusedLocationClient.getCurrentLocation(Priority.PRIORITY_BALANCED_POWER_ACCURACY, CancellationTokenSource().token).addOnCompleteListener { task ->
+                if (_binding == null) return@addOnCompleteListener // Ensure binding is not null
+
                 if (task.isSuccessful) {
                     val location = task.result
                     if (location != null) {
@@ -176,13 +178,13 @@ class HomeFragment : Fragment(), ItemClickListener {
                         layoutManager = GridLayoutManager(context, 3)
                         adapter = myAdapter
                     }
-                    val myTrendingAdapter = parentFragmentManager?.let { TrendingAdapter(subCatList, this@HomeFragment) }
+                   /* val myTrendingAdapter = parentFragmentManager?.let { TrendingAdapter(subCatList, this@HomeFragment) }
                     binding.rvTrendingCat.apply {
                         adapter = myTrendingAdapter
                         layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-                    }
+                    }*/
                 } else {
-                    Toast.makeText(context, "Server Issue", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "Server Issue or Data not available", Toast.LENGTH_SHORT).show()
                 }
             }
 
@@ -194,7 +196,7 @@ class HomeFragment : Fragment(), ItemClickListener {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        _binding = null
+        _binding = null // Set binding to null to prevent memory leaks
     }
 
     override fun onItemClick(id: Int, name: String) {
