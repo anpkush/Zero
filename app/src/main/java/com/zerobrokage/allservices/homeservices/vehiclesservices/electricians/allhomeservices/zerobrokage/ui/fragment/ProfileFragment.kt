@@ -34,7 +34,7 @@ class ProfileFragment : Fragment() {
         val view = binding.root
 
         val name = sharedPref?.getString("name","")
-        val mobile_number = sharedPref?.getString("mobile_number","")
+        val mobile_number = sharedPref?.getString("mobileNumber","")
         val userId = sharedPref?.getInt("userId", 0)
 
 
@@ -45,7 +45,7 @@ class ProfileFragment : Fragment() {
             val intent = Intent(requireContext(), EditProfileActivity::class.java).apply {
 
                 putExtra("name", name)
-                putExtra("mobile_number", mobile_number)
+                putExtra("mobileNumber", mobile_number)
                 putExtra("userId", userId)
             }
             startActivity(intent)
