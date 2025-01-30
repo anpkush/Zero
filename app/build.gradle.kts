@@ -90,7 +90,6 @@ dependencies {
     implementation(libs.logging.interceptor)
     implementation(libs.firebase.crashlytics)
     testImplementation(libs.junit.junit)
-    testImplementation(libs.testng)
 
 
 }
