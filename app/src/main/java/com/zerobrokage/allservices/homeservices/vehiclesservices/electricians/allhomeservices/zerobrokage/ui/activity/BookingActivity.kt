@@ -122,24 +122,24 @@ class BookingActivity : AppCompatActivity() {
     private fun showSuccessDialog() {
         val dialogBinding = CustomeDoneDialogBinding.inflate(layoutInflater)
         val dialog = AlertDialog.Builder(this@BookingActivity).setView(dialogBinding.root).create()
-        dialogBinding.ivClose.setOnClickListener {
+        dialogBinding.btOk.setOnClickListener {
             dialog.dismiss()
             startActivity(Intent(this@BookingActivity, HomeActivity::class.java))
             finish()
         }
         dialogBinding.ivDone.setImageResource(R.drawable.done)
         dialogBinding.tvCong.text = "Congratulations"
-        dialogBinding.done.text = "Your booking has been completed successfully!"
+        dialogBinding.tvMessage.text = "Your booking has been completed successfully!"
         dialog.show()
     }
 
     private fun showFailureDialog(errorMessage: String) {
         val dialogBinding = CustomeDoneDialogBinding.inflate(layoutInflater)
         val dialog = AlertDialog.Builder(this@BookingActivity).setView(dialogBinding.root).create()
-        dialogBinding.ivClose.setOnClickListener { dialog.dismiss() }
+        dialogBinding.btOk.setOnClickListener { dialog.dismiss() }
         dialogBinding.ivDone.setImageResource(R.drawable.fail)
         dialogBinding.tvCong.text = "Booking Failed"
-        dialogBinding.done.text = errorMessage
+        dialogBinding.tvMessage.text = errorMessage
         dialog.show()
     }
 
