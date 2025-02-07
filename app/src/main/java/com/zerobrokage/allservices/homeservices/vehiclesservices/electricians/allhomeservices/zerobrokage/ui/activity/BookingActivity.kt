@@ -28,15 +28,17 @@ import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.al
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.text.SimpleDateFormat
 import java.util.*
 
 class BookingActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityBookingBinding
-    private lateinit var sharedPreferences: SharedPreferences
-    private var userId: Int = 0
     private lateinit var cartItems: ArrayList<CartData>
+    private lateinit var sharedPref: SharedPreferences
     private lateinit var fusedLocationClient: FusedLocationProviderClient
+    private var selectedDate: String = ""
+    private var selectedTime: String = ""
 
     private val locationPermissionRequest =
         registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
@@ -54,8 +56,8 @@ class BookingActivity : AppCompatActivity() {
         binding = ActivityBookingBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE)
-        userId = sharedPreferences.getInt("id", 0)
+        sharedPref = getSharedPreferences("MyPrefs", MODE_PRIVATE)
+        val userId = sharedPref.getInt("userId", 0)
 
         cartItems = intent.getParcelableArrayListExtra("cartItems") ?: ArrayList()
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
@@ -65,7 +67,7 @@ class BookingActivity : AppCompatActivity() {
 
         binding.rvDate.setOnClickListener { showDatePicker() }
         binding.rvTime.setOnClickListener { showTimePicker() }
-        binding.btSubmit.setOnClickListener { validateAndSubmitBooking() }
+        binding.btSubmit.setOnClickListener { validateAndSubmitBooking(userId) }
         binding.tvMyLocation.setOnClickListener { requestLocationPermission() }
     }
 
@@ -78,9 +80,9 @@ class BookingActivity : AppCompatActivity() {
         )
     }
 
-    private fun validateAndSubmitBooking() {
-        val bookingDate = binding.rvDate.text.toString()
-        val bookingTime = binding.rvTime.text.toString()
+    private fun validateAndSubmitBooking(userId: Int?) {
+        val bookingDate = selectedDate
+        val bookingTime = selectedTime
         val fullName = binding.etFullName.text.toString()
         val email = binding.etEmailId.text.toString()
         val mobileNumber = binding.etMobileNumber.text.toString()
@@ -159,18 +161,11 @@ class BookingActivity : AppCompatActivity() {
                             val addresses = geocoder.getFromLocation(location.latitude, location.longitude, 1)
                             if (!addresses.isNullOrEmpty()) {
                                 val address = addresses[0]
-                                val state = address.adminArea
-                                val city = address.locality
-                                val pincode = address.postalCode
-                                val roadName = address.thoroughfare
-                                val buildingName = address.featureName
-                                val local = address.subLocality
-
-                                binding.etState.setText(state)
-                                binding.etCity.setText(city)
-                                binding.etPincode.setText(pincode)
-                                binding.etHouseNo.setText("$buildingName, $local")
-                                binding.etRoadArea.setText("$local, $city, $roadName")
+                                binding.etState.setText(address.adminArea)
+                                binding.etCity.setText(address.locality)
+                                binding.etPincode.setText(address.postalCode)
+                                binding.etHouseNo.setText("${address.featureName}, ${address.subLocality}")
+                                binding.etRoadArea.setText("${address.subLocality}, ${address.locality}, ${address.thoroughfare}")
                             } else {
                                 Toast.makeText(this, "Unable to Get Location", Toast.LENGTH_SHORT).show()
                             }
@@ -198,7 +193,8 @@ class BookingActivity : AppCompatActivity() {
     private fun showDatePicker() {
         val calendar = Calendar.getInstance()
         DatePickerDialog(this, { _, year, month, day ->
-            binding.rvDate.setText(String.format("%04d-%02d-%02d", year, month + 1, day))
+            selectedDate = String.format("%04d-%02d-%02d", year, month + 1, day)
+            binding.rvDate.setText(String.format("%02d/%02d/%04d", day, month + 1, year))
         }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).apply {
             datePicker.minDate = calendar.timeInMillis
             show()
@@ -208,7 +204,10 @@ class BookingActivity : AppCompatActivity() {
     private fun showTimePicker() {
         val calendar = Calendar.getInstance()
         TimePickerDialog(this, { _, hour, minute ->
-            binding.rvTime.setText(String.format("%02d:%02d", hour, minute))
-        }, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), true).show()
+            selectedTime = String.format("%02d:%02d", hour, minute)
+            val amPm = if (hour < 12) "AM" else "PM"
+            val hour12 = if (hour % 12 == 0) 12 else hour % 12
+            binding.rvTime.setText(String.format("%02d:%02d %s", hour12, minute, amPm))
+        }, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), false).show()
     }
 }

@@ -13,7 +13,6 @@ import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.al
 import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.modelClass.FAQsData
 import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.modelClass.GetCartAPI
 import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.modelClass.ItemUpdateRequest
-import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.modelClass.ItemUpdateResponse
 import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.modelClass.LoginRequest
 import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.modelClass.LoginResponse
 import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.modelClass.OtpRequest
@@ -104,23 +103,14 @@ interface ServicesInterface {
 
     @POST("booking-list/{userId}")
     fun createBooking(
-        @Path("userId") userId: Int,
+        @Path("userId") userId: Int?,
         @Body bookingRequest: BookingRequest
     ): Call<BookingRequest>
 
-    @POST("item/update/{enquiriesId}/{subMenuId}")
-    fun updateCartItem(
-        @Path("enquiriesId") enquiriesId: Int,
-        @Path("subMenuId") subMenuId: Int,
-        @Body request: ItemUpdateRequest
-    ): Call<ItemUpdateResponse>
-
-
-    @PATCH("cart/{userId}/{itemId}/update-quantity")
-    fun updateCart( @Path("enquiriesId") enquiriesId: Int,
-                    @Path("subMenuId") subMenuId: Int,
-                    @Body cartItemUpdate: CartItemUpdate
-    ): Call<CartItemResponse>
+    @PATCH("cart/{userId}/{subMenuId}/update-quantity")
+    fun updateItem(@Path("userId" )userId: Int,
+                   @Path("subMenuId") subMenuId : Int,
+                   @Body itemUpdateRequest: ItemUpdateRequest): Call<ItemUpdateRequest>
 
 
     @GET("enquiries/{enquiries_id}/bookings")
