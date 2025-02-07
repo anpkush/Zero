@@ -127,7 +127,7 @@ class OtpActivity : AppCompatActivity() {
 
     private fun verifyOtp(mobileNumber: String, otp: String) {
         binding.btVerify.isEnabled = false
-        val otpRequest = OtpRequest(mobile_number = mobileNumber, otp = otp)
+        val otpRequest = OtpRequest(mobile_number = mobileNumber, otp = otp, name = name.toString(), country_code = countryCode.toString())
 
         RetrofitInstance.apiService.postOtp(otpRequest)
             .enqueue(object : Callback<OtpVerificationResponse> {

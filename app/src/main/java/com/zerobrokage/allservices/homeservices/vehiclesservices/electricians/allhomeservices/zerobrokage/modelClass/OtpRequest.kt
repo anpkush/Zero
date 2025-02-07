@@ -2,7 +2,10 @@ package com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.a
 
 data class OtpRequest(
     val mobile_number: String,
-    val otp: String
+    val otp: String,
+    val name : String,
+    val country_code: String
+
 )
 
 data class OtpVerificationResponse(
@@ -10,6 +13,6 @@ data class OtpVerificationResponse(
     val message: String,
     val id: Int,
     val name: String,
-    val country_code: Int,
+    val country_code: String,
     val mobile_number: String
 )
