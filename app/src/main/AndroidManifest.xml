@@ -19,11 +19,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ZeroBrokage"
         tools:targetApi="31">
-
+        <activity
+            android:name=".ui.activity.BookingDetailsActivity"
+            android:exported="false" />
         <activity
             android:name=".ui.activity.UpdateAddressActivity"
             android:exported="false"
-            android:theme="@style/Base.Theme.ZeroBrokage"/>
+            android:theme="@style/Base.Theme.ZeroBrokage" />
         <activity
             android:name=".ui.activity.CartActivity"
             android:exported="false"

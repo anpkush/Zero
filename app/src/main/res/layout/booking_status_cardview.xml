@@ -2,8 +2,7 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <data>
-    </data>
+    <data></data>
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cdUserProfile"
@@ -24,66 +23,61 @@
                 android:id="@+id/ivServicesPic"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
-                android:layout_marginTop="3dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
                 android:layout_gravity="center"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="3dp"
+                android:layout_marginEnd="8dp"
                 android:background="@drawable/round_shape"
                 android:clipToOutline="true"
                 android:scaleType="centerCrop"
                 android:src="@drawable/homepage" />
 
-            <!-- Service Details Column -->
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:layout_marginStart="10dp"
+                android:layout_weight="1"
                 android:orientation="vertical">
 
-                <!-- Service Name -->
                 <TextView
                     android:id="@+id/tvServiceName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Installation"
                     android:padding="2dp"
+                    android:text="Installation"
+                    android:textColor="@color/royal_blue"
                     android:textSize="20sp"
-                    android:textStyle="bold"
-                    android:textColor="@color/royal_blue" />
+                    android:textStyle="bold" />
 
-                <!-- Date and Time -->
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="5dp">
+                    android:layout_marginTop="5dp"
+                    android:orientation="horizontal">
 
                     <TextView
                         android:id="@+id/tvDateandtime"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/purple_monester"
                         android:text="Date &amp; Time:"
-                        android:textStyle="bold"
-                        android:textSize="14sp" />
+                        android:textColor="@color/purple_monester"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/tvDate"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="14-Dec-2024"
                         android:layout_marginStart="5dp"
+                        android:text="14-Dec-2024"
                         android:textSize="14sp" />
-
-
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="5dp">
+                    android:layout_marginTop="5dp"
+                    android:orientation="horizontal">
 
                     <TextView
                         android:id="@+id/qty"
@@ -91,31 +85,45 @@
                         android:layout_height="wrap_content"
                         android:text="Qty:"
                         android:textColor="@color/orcid"
-                        android:textStyle="bold"
-                        android:textSize="14sp" />
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/qtyCount"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
                         android:text="2"
-                        android:textSize="14sp"
-                        android:layout_marginStart="5dp" />
+                        android:textSize="14sp" />
                 </LinearLayout>
 
-                <TextView
-                    android:id="@+id/status"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:background="@drawable/custome_status_bg"
-                    android:padding="5dp"
-                    android:text="Completed"
-                    android:textStyle="bold"
-                    android:textColor="@color/green"
-                    android:textSize="14sp" />
-            </LinearLayout>
+                    android:gravity="end"
+                    android:orientation="horizontal">
 
+                    <TextView
+                        android:id="@+id/status"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/custome_status_bg"
+                        android:padding="5dp"
+                        android:text="Completed"
+                        android:textColor="@color/green"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                    <Button
+                        android:id="@+id/btViewMore"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:background="@drawable/shape_edittext"
+                        android:text="View" />
+                </LinearLayout>
+            </LinearLayout>
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>

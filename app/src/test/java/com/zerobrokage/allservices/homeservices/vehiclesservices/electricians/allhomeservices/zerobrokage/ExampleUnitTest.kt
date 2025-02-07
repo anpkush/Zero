@@ -1,8 +1,8 @@
 package com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage
 
-import org.junit.Test
 
 import org.junit.Assert.*
+import org.junit.Test
 
 class ExampleUnitTest {
     @Test

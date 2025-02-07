@@ -27,7 +27,7 @@ class SubMenuActivity : AppCompatActivity(), ItemClickListener {
         setContentView(binding.root)
 
         sharedPref = getSharedPreferences("MyPrefs", MODE_PRIVATE)
-        val userId = getSharedPreferences("MyPrefs", MODE_PRIVATE).getInt("id", 0)
+        val userId = sharedPref.getInt("userId",0)
 
         val menuID = intent.getIntExtra("id", 0)
         val name = intent.getStringExtra("name") ?: "Unknown Service"
@@ -41,6 +41,7 @@ class SubMenuActivity : AppCompatActivity(), ItemClickListener {
             val intent = Intent(this, CartActivity::class.java)
 
             startActivity(intent)
+            finish()
         }
 
         getSubMenuApi(menuID, name, userId)

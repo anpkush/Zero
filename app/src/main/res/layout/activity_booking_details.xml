@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.activity.BookingDetailsActivity">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar_header"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvOrderId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Order Id - "
+        android:layout_margin="10dp"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <TextView
+        android:id="@+id/tvStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Complete"
+        android:padding="5dp"
+        android:background="@color/status_Color"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginVertical="5dp"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <View
+        android:id="@+id/orderDivider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginVertical="10dp"
+        android:background="@color/gray"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvOrderId" />
+
+
+    <TextView
+        android:id="@+id/tvServicesName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Services Name"
+        android:textSize="20dp"
+        android:layout_margin="10dp"
+        app:layout_constraintEnd_toStartOf="@id/ivServicesImage"
+        app:layout_constraintTop_toBottomOf="@id/orderDivider"
+        app:layout_constraintStart_toStartOf="parent"/>
+    
+    
+    <ImageView
+        android:id="@+id/ivServicesImage"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:src="@drawable/vehiclesss"
+        android:scaleType="centerCrop"
+        android:layout_margin="15dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/orderDivider"/>
+
+    <TextView
+        android:id="@+id/tvServiceQty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="2"
+        android:textSize="16sp"
+        app:layout_constraintTop_toBottomOf="@id/tvServicesName"
+        app:layout_constraintStart_toStartOf="@+id/tvServicesName"/>
+
+    <View
+        android:id="@+id/imgDivider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginVertical="10dp"
+        android:background="@color/gray"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ivServicesImage" />
+
+    <TextView
+        android:id="@+id/tvShopingDetails"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Shipping Details "
+        android:layout_margin="10dp"
+        app:layout_constraintTop_toBottomOf="@id/imgDivider"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <View
+        android:id="@+id/shopingDivider"
+        android:layout_width="match_parent"
+        android:layout_height="1.5dp"
+        android:layout_marginVertical="10dp"
+        android:background="@color/gray"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvShopingDetails" />
+
+    <TextView
+        android:id="@+id/tvCustomerName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Customer Name"
+        android:textSize="22dp"
+        android:layout_margin="10dp"
+        app:layout_constraintTop_toBottomOf="@id/shopingDivider"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <TextView
+        android:id="@+id/tvCustomerAdd"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:text="G 187, Noida Sector 63,Chotpur Noida Uttar Pradesh - 276203"
+        android:textSize="18sp"
+        android:layout_margin="10dp"
+        app:layout_constraintTop_toBottomOf="@id/tvCustomerName"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <TextView
+        android:id="@+id/tvCustomerNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Phone Number - 9838169960"
+        android:textSize="18sp"
+        android:layout_margin="10dp"
+        app:layout_constraintTop_toBottomOf="@id/tvCustomerAdd"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+
+    <View
+        android:id="@+id/shippingDivider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginVertical="10dp"
+        android:background="@color/gray"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvCustomerNumber" />
+
+    <!--<TextView
+        android:id="@+id/tvCall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Customer Care"
+        android:textSize="22dp"
+        android:layout_margin="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>-->
+
+</androidx.constraintlayout.widget.ConstraintLayout>

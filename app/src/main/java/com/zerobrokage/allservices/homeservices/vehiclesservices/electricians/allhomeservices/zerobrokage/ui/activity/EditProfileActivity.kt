@@ -23,7 +23,7 @@ class EditProfileActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         sharedPref = getSharedPreferences("MyPrefs", MODE_PRIVATE)
-        val userId = sharedPref.getInt("id", 0)
+        val userId = sharedPref.getInt("userId", 0)
 
         loadProfileData()
 
@@ -71,7 +71,7 @@ class EditProfileActivity : AppCompatActivity() {
 
     private fun loadProfileData() {
         val name = sharedPref.getString("name", "")
-        val mobileNumber = sharedPref.getString("mobile_number", "")
+        val mobileNumber = sharedPref.getString("mobileNumber", "")
         val dob = sharedPref.getString("dob", "")
         val email = sharedPref.getString("email", "")
         val gender = sharedPref.getString("gender", "")
@@ -129,6 +129,15 @@ class EditProfileActivity : AppCompatActivity() {
             .enqueue(object : Callback<EditProfile> {
                 override fun onResponse(call: Call<EditProfile>, response: Response<EditProfile>) {
                     if (response.isSuccessful) {
+
+                        sharedPref.edit().apply {
+                            putString("mobileNumber", mobileNumber)
+                            putString("name", name)
+                            putString("dob",dob)
+                            putString("email",email)
+                            putString("gender",gender)
+                            apply()
+                        }
                         Toast.makeText(
                             this@EditProfileActivity,
                             "Profile updated successfully!",
