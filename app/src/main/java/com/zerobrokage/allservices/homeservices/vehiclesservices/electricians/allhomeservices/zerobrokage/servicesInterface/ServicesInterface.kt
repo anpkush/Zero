@@ -23,6 +23,7 @@ import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.al
 import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.modelClass.SubCatData
 import com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.modelClass.SubMenuListData
 import retrofit2.Call
+import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
@@ -49,7 +50,7 @@ interface ServicesInterface {
     fun getSubMenuListData(@Path("id") id: Int): Call<SubMenuListData>
 
     @POST("send-otp")
-    fun postSendOtp(@Body loginRequest: LoginRequest): Call<LoginResponse>
+    suspend fun postSendOtp(@Body loginRequest: LoginRequest): Response<LoginResponse>
 
     @POST("verify-otp")
     fun postOtp(@Body otpRequest: OtpRequest): Call<OtpVerificationResponse>

@@ -7,7 +7,6 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 object RetrofitInstance {
-
     private const val BASE_URL = "https://zerobrokage.com/api/"
 
     private val loggingInterceptor = HttpLoggingInterceptor().apply {
@@ -25,6 +24,4 @@ object RetrofitInstance {
         .build()
 
     val apiService: ServicesInterface = retrofit.create(ServicesInterface::class.java)
-
-
 }
