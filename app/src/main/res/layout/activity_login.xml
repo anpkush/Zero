@@ -5,6 +5,10 @@
 
     <data>
 
+        <variable
+            name="viewModel"
+            type="com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage.viewmodel.LoginViewModel" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
