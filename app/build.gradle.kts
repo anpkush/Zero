@@ -14,8 +14,8 @@ android {
         applicationId = "com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage"
         minSdk = 24
         targetSdk = 34
-        versionCode = 11
-        versionName = "2.1"
+        versionCode = 14
+        versionName = "2.4"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled = true
