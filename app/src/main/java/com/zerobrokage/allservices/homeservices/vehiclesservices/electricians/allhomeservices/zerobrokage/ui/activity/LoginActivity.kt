@@ -35,10 +35,7 @@ class LoginActivity : AppCompatActivity() {
                     if (!isFinishing) {
                         val intent = Intent(this, OtpActivity::class.java)
                         intent.putExtra("mobileNumber", binding.etMobileNumber.text.toString())
-                        intent.putExtra(
-                            "countryCode",
-                            binding.countryPeaker.selectedCountryCodeWithPlus
-                        )
+                        intent.putExtra("countryCode", binding.countryPeaker.selectedCountryCodeWithPlus)
                         intent.putExtra("name", binding.etName.text.toString())
                         startActivity(intent)
                     }
