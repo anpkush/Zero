@@ -30,15 +30,10 @@ class OtpActivity : AppCompatActivity() {
 
         sharedPref = getSharedPreferences("MyPrefs", MODE_PRIVATE)
 
-        mobile_number = intent.extras?.getString("mobile_number")
+        mobile_number = intent.extras?.getString("mobileNumber")
         countryCode = intent.extras?.getString("countryCode")
         name = intent.extras?.getString("name")
 
-        if (mobile_number == null || countryCode == null) {
-            Toast.makeText(this, "Invalid data. Please try again.", Toast.LENGTH_SHORT).show()
-            finish()
-            return
-        }
 
         binding.tvChangeNumber.text = "$countryCode $mobile_number"
 
