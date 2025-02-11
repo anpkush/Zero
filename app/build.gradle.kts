@@ -14,8 +14,8 @@ android {
         applicationId = "com.zerobrokage.allservices.homeservices.vehiclesservices.electricians.allhomeservices.zerobrokage"
         minSdk = 24
         targetSdk = 34
-        versionCode = 11
-        versionName = "2.1"
+        versionCode = 14
+        versionName = "2.4"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled = true
@@ -90,6 +90,14 @@ dependencies {
     implementation(libs.logging.interceptor)
     implementation(libs.firebase.crashlytics)
     testImplementation(libs.junit.junit)
+
+
+    implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.2")
+    implementation ("androidx.lifecycle:lifecycle-livedata-ktx:2.5.2")
+    implementation ("androidx.databinding:databinding-runtime:7.2.1")
+    implementation ("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation ("com.squareup.okhttp3:logging-interceptor:4.9.3")
 
 
 }
