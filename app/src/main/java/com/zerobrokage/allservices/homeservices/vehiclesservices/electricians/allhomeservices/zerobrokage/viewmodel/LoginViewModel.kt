@@ -22,13 +22,14 @@ class LoginViewModel : ViewModel() {
         viewModelScope.launch {
             try {
                 val response = repository.postSendOtp(LoginRequest(countryCode, mobileNumber, name))
-                if (response.isSuccessful) {
+                if (response.isSuccessful && response.body() != null) {
                     _loginResponse.postValue(response.body())
                 } else {
-                    _error.postValue("Login failed: ${response.errorBody()?.string() ?: "Unknown error"}")  // **(CHANGED) Show API error**
+                    val errorMessage = response.errorBody()?.string() ?: "Unknown error"
+                    _error.postValue("Login failed: $errorMessage")
                 }
             } catch (e: Exception) {
-                _error.postValue("An error occurred: ${e.localizedMessage}")
+                _error.postValue("An error occurred: ${e.localizedMessage ?: "Unexpected error"}")
             }
         }
     }
