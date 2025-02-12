@@ -22,10 +22,9 @@ class LoginActivity : AppCompatActivity() {
             val countryCode = binding.countryPeaker.selectedCountryCodeWithPlus
             val name = binding.etName.text.toString()
 
-            /*if (validateInputs(name, number, countryCode)) {*/
             binding.btGetOtp.isEnabled = false
             viewModel.login(name, countryCode, number)
-            // }
+
         }
 
         viewModel.loginResponse.observe(this) {
@@ -38,6 +37,7 @@ class LoginActivity : AppCompatActivity() {
                         intent.putExtra("countryCode", binding.countryPeaker.selectedCountryCodeWithPlus)
                         intent.putExtra("name", binding.etName.text.toString())
                         startActivity(intent)
+                        finish()
                     }
                 } else {
                     Toast.makeText(this, "Login failed", Toast.LENGTH_SHORT).show()
