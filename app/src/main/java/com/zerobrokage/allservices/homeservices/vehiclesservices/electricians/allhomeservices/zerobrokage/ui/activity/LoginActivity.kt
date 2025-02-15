@@ -22,52 +22,49 @@ class LoginActivity : AppCompatActivity() {
             val countryCode = binding.countryPeaker.selectedCountryCodeWithPlus
             val name = binding.etName.text.toString()
 
-            binding.btGetOtp.isEnabled = false
-            viewModel.login(name, countryCode, number)
-
+            if (validateInputs(name, number, countryCode)) {
+              //  binding.btGetOtp.isEnabled = false
+                viewModel.login(name, countryCode, number)
+            } else {
+                Toast.makeText(this, "Something went wrong", Toast.LENGTH_SHORT).show()
+            }
         }
 
         viewModel.loginResponse.observe(this) {
             binding.btGetOtp.isEnabled = true
-            if (it != null) {
-                if (it.success == true) {
-                    if (!isFinishing) {
-                        val intent = Intent(this, OtpActivity::class.java)
-                        intent.putExtra("mobileNumber", binding.etMobileNumber.text.toString())
-                        intent.putExtra("countryCode", binding.countryPeaker.selectedCountryCodeWithPlus)
-                        intent.putExtra("name", binding.etName.text.toString())
-                        startActivity(intent)
-                        finish()
-                    }
-                } else {
-                    Toast.makeText(this, "Login failed", Toast.LENGTH_SHORT).show()
-                }
+            if (it?.success == true) {
+                val intent = Intent(this, OtpActivity::class.java)
+                intent.putExtra("mobileNumber", binding.etMobileNumber.text.toString())
+                intent.putExtra("countryCode", binding.countryPeaker.selectedCountryCodeWithPlus)
+                intent.putExtra("name", binding.etName.text.toString())
+                startActivity(intent)
+                finish()
+            } else {
+                Toast.makeText(this, "Login failed", Toast.LENGTH_SHORT).show()
             }
+
         }
     }
 
 
+    private fun validateInputs(name: String, number: String, countryCode: String): Boolean {
+        if (name.isEmpty()) {
+            Toast.makeText(this, "Please enter your name.", Toast.LENGTH_SHORT).show()
+            return false
+        }
+        if (number.isEmpty()) {
+            Toast.makeText(this, "Please enter a mobile number.", Toast.LENGTH_SHORT).show()
+            return false
+        }
+        if (number.length != 10 || !number.all { it.isDigit() }) {
+            Toast.makeText(this, "Please enter a valid mobile number.", Toast.LENGTH_SHORT).show()
+            return false
+        }
+        if (countryCode.isEmpty() || !countryCode.startsWith("+")) {
+            Toast.makeText(this, "Please select a valid country code.", Toast.LENGTH_SHORT).show()
+            return false
+        }
+        return true
+    }
+
 }
-
-
-/*private fun validateInputs(name: String, number: String, countryCode: String): Boolean {
-    if (name.isEmpty()) {
-        Toast.makeText(this, "Please enter your name.", Toast.LENGTH_SHORT).show()
-        return false
-    }
-    if (number.isEmpty()) {
-        Toast.makeText(this, "Please enter a mobile number.", Toast.LENGTH_SHORT).show()
-        return false
-    }
-    if (number.length != 10 || !number.all { it.isDigit() }) {
-        Toast.makeText(this, "Please enter a valid mobile number.", Toast.LENGTH_SHORT).show()
-        return false
-    }
-    if (countryCode.isEmpty() || !countryCode.startsWith("+")) {
-        Toast.makeText(this, "Please select a valid country code.", Toast.LENGTH_SHORT).show()
-        return false
-    }
-    return true
-}*/
-
-
