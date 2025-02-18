@@ -33,10 +33,11 @@ class LoginActivity : AppCompatActivity() {
         viewModel.loginResponse.observe(this) {
             binding.btGetOtp.isEnabled = true
             if (it?.success == true) {
-                val intent = Intent(this, OtpActivity::class.java)
-                intent.putExtra("mobileNumber", binding.etMobileNumber.text.toString())
-                intent.putExtra("countryCode", binding.countryPeaker.selectedCountryCodeWithPlus)
-                intent.putExtra("name", binding.etName.text.toString())
+                val intent = Intent(this, OtpActivity::class.java).apply {
+                    putExtra("mobileNumber", binding.etMobileNumber.text.toString())
+                    putExtra("countryCode", binding.countryPeaker.selectedCountryCodeWithPlus)
+                    putExtra("name", binding.etName.text.toString())
+                }
                 startActivity(intent)
                 finish()
             } else {
