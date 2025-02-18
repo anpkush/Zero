@@ -33,7 +33,7 @@ class ProfileFragment : Fragment() {
         _binding = FragmentProfileBinding.inflate(inflater, container, false)
         val view = binding.root
 
-        val name = sharedPref?.getString("name","")
+        val name = sharedPref?.getString("vendorName","")
         val mobile_number = sharedPref?.getString("mobileNumber","")
         val userId = sharedPref?.getInt("userId", 0)
 
